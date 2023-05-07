@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<customcontrol:CustomContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JellyFish.View.RegisterContentPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converter="clr-namespace:JellyFish.Converter"
+             xmlns:customcontrol="clr-namespace:JellyFish.Controls"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <converter:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter"></converter:FirstValidationErrorConverter>
+
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Padding="16,8" HorizontalOptions="Center" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Margin="30,30,30,30" Background="#512BD4" ZIndex="1" >
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="30,30,30,30" />
+                </Border.StrokeShape>
+            <ScrollView VerticalScrollBarVisibility="Default" HorizontalScrollBarVisibility="Default">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="REGISTER" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="White"/>
+                    <ScrollView HeightRequest="525" VerticalScrollBarVisibility="Always">
+                        <VerticalStackLayout Spacing="20">
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="Firstname..." Text="{Binding Firstname.Value,Mode=TwoWay}" 
+                                           IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="4" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Firstname.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Firstname.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding Firstname.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="Lastname..." Text="{Binding Lastname.Value,Mode=TwoWay}" 
+                                           IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="5" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Lastname.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Lastname.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding Lastname.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="E-Mail..." Text="{Binding Email.Value,Mode=TwoWay}" 
+                                           IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="1" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Email.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Email.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <Picker x:Name="picker"
+                                            Title="Prefix..." ItemDisplayBinding="{Binding PhonePrefix}" ItemsSource="{Binding Languages,Mode=TwoWay}">
+                                    </Picker>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="Phone..." Text="{Binding Phone.Value,Mode=TwoWay}" 
+                                           IsPassword="False" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="6" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Phone.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Phone.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding Phone.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="Password..." Text="{Binding Password.Value,Mode=TwoWay}" 
+                                           IsPassword="{Binding ShowPassword}" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="2" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Password.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding Password.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            <Frame Padding="10" BorderColor="Transparent" CornerRadius="15">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Path VerticalOptions="Center" HorizontalOptions="Center" Stroke="#512BD4" StrokeThickness="1" StrokeMiterLimit="10" HeightRequest="24" WidthRequest="24" Data="M18,2H6C4.895,2,4,2.895,4,4v16c0,1.105,0.895,2,2,2h12c1.105,0,2-0.895,2-2V4C20,2.895,19.105,2,18,2z M12,6 c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S10.3,6,12,6z M16.333,18H7.667C7.298,18,7,17.702,7,17.333V17c0-1.571,2.512-3,5-3 s5,1.429,5,3v0.333C17,17.702,16.702,18,16.333,18z"></Path>
+                                    <VerticalStackLayout>
+                                        <Entry Placeholder="Password repeat..." Text="{Binding PasswordRepeat.Value,Mode=TwoWay}" 
+                                           IsPassword="{Binding ShowPassword}" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
+                                           WidthRequest="200" MinimumWidthRequest="200">
+                                            <Entry.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="3" />
+                                            </Entry.Behaviors>
+                                            <Entry.Triggers>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding PasswordRepeat.IsValid,Mode=OneWayToSource}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="{x:Type Entry}" Binding="{Binding PasswordRepeat.IsValid,Mode=OneWayToSource}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Entry.Triggers>
+                                        </Entry>
+                                        <Label Text="{Binding PasswordRepeat.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
+                            </Frame>
+                            
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <Button Text="SIGN UP" HorizontalOptions="Center" BackgroundColor="White" TextColor="#512BD4" FontSize="Subtitle" FontAttributes="Bold"></Button>
+
+                    </HorizontalStackLayout>
+                    <ActivityIndicator Margin="0,0,0,0" Color="White" IsRunning="True" IsVisible="{Binding IsLoading}" HeightRequest="20" WidthRequest="20">
+                    </ActivityIndicator>
+
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End">
+                        <HorizontalStackLayout Spacing="5" >
+                            <Label Text="{Binding ApplicationVersionStr}" TextColor="White" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding CopyrightStr}" TextColor="White" FontAttributes="Bold"></Label>
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding CompanyStr}" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center"></Label>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+    </Grid>
+</customcontrol:CustomContentPage>

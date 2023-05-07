@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<cust:CustomContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JellyFish.View.VideoPlayerPage"
+             xmlns:cust="clr-namespace:JellyFish.Controls"
+             xmlns:converter="clr-namespace:JellyFish.Converter"
+             xmlns:vm="clr-namespace:JellyFish.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:JellyFish.Model"
+             Title="VideoPlayerPage"
+             NavigationPage.HasBackButton="False" 
+             NavigationPage.HasNavigationBar="False" 
+             BackButtonCommand="{Binding BackButtonCommand}">
+    <StackLayout VerticalOptions="Fill" HorizontalOptions="Fill">
+        <toolkit:MediaElement 
+                    ZIndex="0"
+                    x:Name="VideoPlayer"
+                    ShouldAutoPlay="False"
+                    ShouldShowPlaybackControls="True"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Source="{Binding VideoModel.VideoPathForUi,Mode=TwoWay}"></toolkit:MediaElement>
+    </StackLayout>
+</cust:CustomContentPage>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="JellyFish.View.SettingsSubPages.SettingsPageGeneric"
+             Title="{Binding PageTitle,Mode=OneWay}"
+             NavigationPage.HasBackButton="False">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="PropertyDescriptorDatatemplate">
+            <Border
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                Padding="5"
+                BackgroundColor="{StaticResource Primary}">
+                <Border.StrokeShape>
+                    <Rectangle></Rectangle>
+                </Border.StrokeShape>
+
+                <HorizontalStackLayout>
+                    <Label 
+                        Text="{Binding DisplayName,Mode=OneWay}" 
+                        HorizontalOptions="Start" 
+                        TextColor="White"></Label>
+                    <Entry 
+                        Margin="0,5,0,0"
+                        Text="{Binding Value,Mode=TwoWay}" 
+                        HorizontalOptions="EndAndExpand" 
+                        TextColor="White"
+                        IsReadOnly="{Binding IsReadOnly,Mode=OneWay}"></Entry>
+                </HorizontalStackLayout>
+            </Border>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <CollectionView
+            ItemsSource="{Binding PropertyValues,Mode=TwoWay}"
+            ItemTemplate="{StaticResource PropertyDescriptorDatatemplate}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout 
+                    Orientation="Vertical"
+                    ItemSpacing="5">
+
+                </LinearItemsLayout>
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+        <Button
+            BackgroundColor="{StaticResource Primary}"
+            Text="Save"
+            TextColor="White"
+            FontSize="12"
+            FontAttributes="Bold"></Button>
+    </VerticalStackLayout>
+</ContentPage>

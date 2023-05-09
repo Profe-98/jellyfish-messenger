@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mika\\source\\repos\\jellyfish\\SignalRTestClient\\SignalRTestClient.csproj": {}
+    "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mika\\source\\repos\\jellyfish\\SignalRTestClient\\SignalRTestClient.csproj": {
+    "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mika\\source\\repos\\jellyfish\\SignalRTestClient\\SignalRTestClient.csproj",
+        "projectUniqueName": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj",
         "projectName": "SignalRTestClient",
-        "projectPath": "C:\\Users\\Mika\\source\\repos\\jellyfish\\SignalRTestClient\\SignalRTestClient.csproj",
+        "projectPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj",
         "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mika\\source\\repos\\jellyfish\\SignalRTestClient\\obj\\",
+        "outputPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

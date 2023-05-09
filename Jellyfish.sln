@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRTestClient", "Signal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfish", "Jellyfish\Jellyfish.csproj", "{50894ABF-0BE6-4C44-BD6A-A001D2637C77}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JellyFishBackend", "..\..\RDBS\webapi\JellyFishBackend\JellyFishBackend.csproj", "{7F7DDA58-1C83-416F-9183-923D05831AA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7F7DDA58-1C83-416F-9183-923D05831AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7DDA58-1C83-416F-9183-923D05831AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7DDA58-1C83-416F-9183-923D05831AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7DDA58-1C83-416F-9183-923D05831AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

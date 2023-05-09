@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yFJfIL2tAl2JyGFb1klGC0ZLypMMrf07OhwXkLZJAJC6ol6COJd1Y+mAXxOUKR2cSBTDfrbhsq5JtGTflPm0sg==",
+  "dgSpecHash": "Q4xbGA3R/knrMUUlm1OFlvLGGYMG6ueC1IKu77FDxxLaiGCVIPutNz4rJuKREhJOZTX4tnD0Xwdlvesx2HfGOw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mika\\source\\repos\\jellyfish\\Jellyfish\\Jellyfish.csproj",
+  "projectFilePath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\Jellyfish.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mika\\.nuget\\packages\\camera.maui\\1.3.5\\camera.maui.1.3.5.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\communitytoolkit.maui\\5.1.0\\communitytoolkit.maui.5.1.0.nupkg.sha512",

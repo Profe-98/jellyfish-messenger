@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\Jellyfish.csproj": {}
+    "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {}
   },
   "projects": {
-    "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\Jellyfish.csproj": {
+    "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\Jellyfish.csproj",
+        "projectUniqueName": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
         "projectName": "Jellyfish",
-        "projectPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\Jellyfish.csproj",
+        "projectPath": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
         "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-        "outputPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\Jellyfish\\obj\\",
+        "outputPath": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\Jellyfish\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [

@@ -2240,11 +2240,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj",
+      "projectUniqueName": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\SignalRTestClient\\SignalRTestClient.csproj",
       "projectName": "SignalRTestClient",
-      "projectPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\SignalRTestClient.csproj",
+      "projectPath": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\SignalRTestClient\\SignalRTestClient.csproj",
       "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-      "outputPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\SignalRTestClient\\obj\\",
+      "outputPath": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\SignalRTestClient\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

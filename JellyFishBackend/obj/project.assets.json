@@ -455,6 +455,8 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj",
+      "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiFunction\\WebApiFunction.csproj",
       "Microsoft.AspNetCore.OpenApi >= 7.0.5",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -466,11 +468,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\JellyFishBackend\\JellyFishBackend.csproj",
+      "projectUniqueName": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
       "projectName": "JellyFishBackend",
-      "projectPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\JellyFishBackend\\JellyFishBackend.csproj",
+      "projectPath": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
       "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-      "outputPath": "F:\\Helix\\Jellyfish\\Jellyfish-Messenger-Application\\JellyFishBackend\\obj\\",
+      "outputPath": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\JellyFishBackend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -491,7 +493,14 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj": {
+              "projectPath": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj"
+            },
+            "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiFunction\\WebApiFunction.csproj": {
+              "projectPath": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiFunction\\WebApiFunction.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -535,5 +544,25 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Das Projekt \"C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiFunction\\WebApiFunction.csproj\" wurde nicht gefunden. Stellen Sie sicher, dass der Projektverweis gültig und die Projektdatei vorhanden ist.",
+      "libraryId": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiFunction\\WebApiFunction.csproj",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Das Projekt \"C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj\" wurde nicht gefunden. Stellen Sie sicher, dass der Projektverweis gültig und die Projektdatei vorhanden ist.",
+      "libraryId": "C:\\Users\\Mika\\source\\repos\\jellyfish-messenger\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

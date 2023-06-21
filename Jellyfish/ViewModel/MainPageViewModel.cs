@@ -17,41 +17,36 @@ using JellyFish.Handler.Data;
 using JellyFish.Data.SqlLite.Schema;
 using JellyFish.ApplicationSpecific;
 using JellyFish.Handler.Device.Vibrate;
-using JellyFish.Handler.Device.Permission;
 using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Device.Media.Contact;
+using CommunityToolkit.Mvvm.Messaging;
+using JellyFish.Controls;
+using JellyFish.Handler.Backend.Communication.SignalR;
 
 namespace JellyFish.ViewModel
 {
 
     public class MainPageViewModel : BaseViewModel
     {
+        private readonly ApplicationConfigHandler _applicationConfigHandler;
         private readonly NavigationService _navigationService;
-        private readonly PermissionHandler _permissionHandler;
-
+        private readonly SignalRClient _signalRClient;
         private readonly IServiceProvider _serviceProvider;
+        private readonly DeviceContactHandler _deviceContactHandler;
         public ChatsPageViewModel ChatsPageViewModel
         {
-            get
-            {
-                var data = (_serviceProvider != null ? _serviceProvider.GetService<ChatsPageViewModel>() : null);
-                return data;
-            }
+            get;
+            private set;
         }
         public StatusPageViewModel StatusPageViewModel
         {
-            get
-            {
-                var data = (_serviceProvider != null ? _serviceProvider.GetService<StatusPageViewModel>() : null);
-                return data;
-            }
+            get;
+            private set;
         }
         public CallsPageViewModel CallsPageViewModel
         {
-            get
-            {
-                var data = (_serviceProvider != null ? _serviceProvider.GetService<CallsPageViewModel>() : null);
-                return data;
-            }
+            get;
+            private set;
         }
 
         public ICommand BindingContextChangedCommand { get; private set; }
@@ -62,7 +57,6 @@ namespace JellyFish.ViewModel
         public ICommand ExpandSearchIsExpandedCommand { get; private set; }
         public ICommand CreateNewGroupCommand { get; private set; }
         public ICommand CreateNewChatCommand { get; private set; }
-        public ICommand CreateNewBroadcastCommand { get; private set; }
         public ICommand OpenSettingsPageCommand { get; private set; }
 
         public int CalcHeigtByItems { get; private set; }
@@ -107,12 +101,34 @@ namespace JellyFish.ViewModel
             }
             set
             {
+                if (value == null)
+                    return;
                 if (_selectedViewTemplate != null)
                     _selectedViewTemplate.IsSelected = false;
-                value.IsSelected = true;    
                 _selectedViewTemplate = value;
+                value.IsSelected = true;    
 
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedViewTemplate));
+                if(value.ContentViewModelType == typeof(ChatsPageViewModel))
+                {
+                    this.ChatsPageViewModel.SelectedView = true;
+                    this.StatusPageViewModel.SelectedView = false;
+                    this.CallsPageViewModel.SelectedView = false;
+                }
+                else if (value.ContentViewModelType == typeof(StatusPageViewModel))
+                {
+
+                    this.StatusPageViewModel.SelectedView = true;
+                    this.ChatsPageViewModel.SelectedView = false;
+                    this.CallsPageViewModel.SelectedView = false;
+                }
+                else if (value.ContentViewModelType == typeof(CallsPageViewModel))
+                {
+
+                    this.CallsPageViewModel.SelectedView = true;
+                    this.StatusPageViewModel.SelectedView = false;
+                    this.ChatsPageViewModel.SelectedView = false;
+                }
             }
         }
         public ViewTemplateModel[] ViewTemplates
@@ -122,11 +138,25 @@ namespace JellyFish.ViewModel
         }
         public ObservableCollection<MenuItemModel> MenuItems { get;private set; }
 
-        public MainPageViewModel(IServiceProvider serviceProvider,PermissionHandler permissionHandler,VibrateHandler vibrateHandler,SqlLiteDatabaseHandler<AbstractEntity> sqlLiteDatabaseHandler,NavigationService navigationService,ChatsPageViewModel chatsPageViewModel)
+        public MainPageViewModel(IServiceProvider serviceProvider,
+            VibrateHandler vibrateHandler,
+            SqlLiteDatabaseHandler<AbstractEntity> sqlLiteDatabaseHandler,
+            NavigationService navigationService,
+            ChatsPageViewModel chatsPageViewModel,
+            StatusPageViewModel statusPageViewModel,
+            CallsPageViewModel callsPageViewModel,
+            DeviceContactHandler deviceContactHandler,
+            ApplicationConfigHandler applicationConfigHandler,
+            SignalRClient signalRClient)
         {
+            _applicationConfigHandler = applicationConfigHandler;
+            _signalRClient = signalRClient; 
+            _deviceContactHandler = deviceContactHandler;
+            ChatsPageViewModel = chatsPageViewModel;
+            StatusPageViewModel = statusPageViewModel;
+            CallsPageViewModel = callsPageViewModel;
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
-            _permissionHandler = permissionHandler; 
             BindingContextChangedCommand = new RelayCommand<object>(BindingContextChangedAction);
             SwipeLeftCommand = new RelayCommand<object>(SwipeLeftAction);
             SwipeRightCommand = new RelayCommand<object>(SwipeRightAction);
@@ -136,7 +166,6 @@ namespace JellyFish.ViewModel
 
             BackButtonCommand = new RelayCommand(BackButtonAction);
             CreateNewGroupCommand = new RelayCommand(CreateNewGroupAction);
-            CreateNewBroadcastCommand = new RelayCommand(CreateNewBroadcastAction);
             OpenSettingsPageCommand = new RelayCommand(OpenSettingsPageAction);
             CreateNewChatCommand = new RelayCommand(CreateNewChatAction);
 
@@ -144,25 +173,58 @@ namespace JellyFish.ViewModel
             {
                 new MenuItemModel { Title = "New Chat", ExecCommand = CreateNewChatCommand },
                 new MenuItemModel { Title = "New Group", ExecCommand = CreateNewGroupCommand },
-                new MenuItemModel { Title = "New Broadcast", ExecCommand = CreateNewBroadcastCommand },
                 new MenuItemModel { Title = "Settings",ExecCommand = OpenSettingsPageCommand } };
             CalcHeigtByItems = MenuItems.Count * 45;
         }
+        
         private async void CreateNewChatAction()
         {
-                
-            var vmFromDi = _serviceProvider.GetService<ContactsPageViewModel>();    
-            await _navigationService.PushAsync(new ContactsPage(vmFromDi));
+            string queueName = this.GetType().Name + "_UserSelectionNewChat";
+            await _deviceContactHandler.OpenUserSelectionHandler(_navigationService,false, queueName);
+            ExpandSettingsMenuIsExpandedCommand.Execute(null); 
+            WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
+            {
+                if (m.Message != null)
+                {
+                    if (m.Message == queueName)
+                    {
+                        if (m.Args != null && m.Args.Length == 1)
+                        {
+                            UserSelectionPageViewModel response = (UserSelectionPageViewModel)m.Args[0];
+                            if (response != null)
+                            {
+                                //response.SelectedUserFriend
+                                //mit dem ausgewählten User einen neuen Chat starten
+                            }
+                        }
+                    }
+                }
+            });
         }
-        private void CreateNewGroupAction()
+        private async void CreateNewGroupAction()
         {
 
+            string queueName = this.GetType().Name + "_UserSelectionNewGroupChat";
+            await _deviceContactHandler.OpenUserSelectionHandler(_navigationService, true, queueName);
             ExpandSettingsMenuIsExpandedCommand.Execute(null);
-        }
-        private void CreateNewBroadcastAction()
-        {
-
-            ExpandSettingsMenuIsExpandedCommand.Execute(null);
+            WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
+            {
+                if (m.Message != null)
+                {
+                    if (m.Message == queueName)
+                    {
+                        if (m.Args != null && m.Args.Length == 1)
+                        {
+                            UserSelectionPageViewModel response = (UserSelectionPageViewModel)m.Args[0];
+                            if (response != null)
+                            {
+                                //response.MultiSelectedUsers;
+                                //response.MultiSelectedUsers und mit diesen ausgewählten Usern einen Gruppenchat starten
+                            }
+                        }
+                    }
+                }
+            });
         }
         private async void OpenSettingsPageAction()
         {
@@ -186,7 +248,7 @@ namespace JellyFish.ViewModel
             BlockBackSwitch = ExpandSettingsMenuIsExpanded;
             IsSearchExpanded = false;
         }
-        public void BackButtonAction()
+        public async void BackButtonAction()
         {
             if (BlockBackSwitch && !(ExpandSettingsMenuIsExpanded || IsSearchExpanded))
             {
@@ -197,6 +259,20 @@ namespace JellyFish.ViewModel
                 ExpandSettingsMenuIsExpanded = false;
                 IsSearchExpanded = false;
             }
+            else//Modal with question if user want to logout
+            {
+                BlockBackSwitch = true;
+                bool response = await NotificationHandler.DisplayAlert("Logout?", "Do you want to logout?","Yes","No");
+                if(response)
+                {
+                    BlockBackSwitch = false;
+                    _navigationService.CloseCurrentPage();
+                }
+                else
+                {
+                    BlockBackSwitch = false;
+                }
+            }
         }
         private int CalculateIndex(ViewTemplateModel selectedObjectOfList, ViewTemplateModel[] items)
         {
@@ -204,6 +280,8 @@ namespace JellyFish.ViewModel
 
             foreach (var item in items)
             {
+                if (item == null)
+                    continue;
                 if(selectedObjectOfList != null && item.Title == selectedObjectOfList.Title) 
                 {
                     return index;

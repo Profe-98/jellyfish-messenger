@@ -1,2 +1,2 @@
-AdbTarget=-s R58N35KW7DE
+AdbTarget=-s emulator-5554
 AdbOptions=

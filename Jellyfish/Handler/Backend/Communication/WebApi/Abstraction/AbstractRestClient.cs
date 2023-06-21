@@ -78,6 +78,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi.Abstraction
                     requ.AddHeader(item.Key, item.Value);
                 }
             }
+            requ.Timeout = 5000;
             requ.Method = httpMethod;
 
             return requ;
@@ -107,6 +108,10 @@ namespace JellyFish.Handler.Backend.Communication.WebApi.Abstraction
 
         public virtual async Task<RestResponse> Send(RestRequest restRequest, CancellationToken cancellationToken)
         {
+            if(RestClient==null)
+            {
+                RestClient = Create();
+            }
             var resp = await RestClient.ExecuteAsync(restRequest,cancellationToken);
             return resp;
         }

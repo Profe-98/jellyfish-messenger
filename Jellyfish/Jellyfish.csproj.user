@@ -57,7 +57,7 @@
     <MauiXaml Update="Resources\Styles\Styles.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="View\ContactsPage.xaml">
+    <MauiXaml Update="View\UserSelectionPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="View\ProfilePage.xaml">
@@ -81,7 +81,7 @@
     <MauiXaml Update="View\StatusPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="View\VideoPlayerPage.xaml">
+    <MauiXaml Update="View\MediaPlayerPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>

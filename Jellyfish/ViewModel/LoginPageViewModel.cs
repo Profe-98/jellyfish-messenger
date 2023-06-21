@@ -1,4 +1,7 @@
-﻿using JellyFish.Service;
+﻿using JellyFish.Controls;
+using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Backend.Communication.WebApi;
+using JellyFish.Service;
 using JellyFish.Validation;
 using JellyFish.View;
 using System;
@@ -15,6 +18,10 @@ namespace JellyFish.ViewModel
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        private readonly ResetPasswordContentPageViewModel _resetPasswordContentPageViewModel;
+        private readonly RegisterContentPageViewModel _registerContentPageViewModel;
+        private readonly JellyfishWebApiRestClient _webApiRestClient;
+        private readonly ApplicationConfigHandler _applicationConfigHandler;
         private readonly NavigationService _navigationService;
         private readonly MainPageViewModel _mainPageViewModel;
 
@@ -28,35 +35,38 @@ namespace JellyFish.ViewModel
         {
             get; private set;   
         }
-        public string ApplicationVersionStr
+        private bool _rememberMe=false;
+        public bool RememberMe
         {
             get
             {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                return _rememberMe;
             }
-        }
-        public string CopyrightStr
-        {
-            get
+            set
             {
-                return "© by 0x00405a00";
+                _rememberMe = value;
+                OnPropertyChanged(nameof(RememberMe));
+                RememberMeChanged();
             }
         }
-        public string CompanyStr
-        {
-            get
-            {
-                return "roosIT";
-            }
-        }
-
+        private CancellationTokenSource _webApiActionCancelationToken = new CancellationTokenSource();
         public ICommand OpenRegisterPageCommand { get; private set; }
         public ICommand SubmitCommand { get; private set; }
         public ICommand ValidateByValueChangeCommand { get; private set; }
         public ICommand OpenForgotPasswordPageCommand { get; private set; } 
 
-        public LoginPageViewModel(MainPageViewModel mainPageViewModel,NavigationService navigationService)
+        public LoginPageViewModel(
+            ResetPasswordContentPageViewModel resetPasswordContentPageViewModel,
+            RegisterContentPageViewModel registerContentPageViewModel,
+            MainPageViewModel mainPageViewModel,
+            NavigationService navigationService,
+            ApplicationConfigHandler applicationConfigHandler,
+            JellyfishWebApiRestClient webApiRestClient)
         {
+            _resetPasswordContentPageViewModel = resetPasswordContentPageViewModel;
+            _registerContentPageViewModel = registerContentPageViewModel;   
+            _webApiRestClient = webApiRestClient;
+            _applicationConfigHandler = applicationConfigHandler;   
             _navigationService = navigationService;
             _mainPageViewModel = mainPageViewModel; 
             OpenRegisterPageCommand = new RelayCommand(OpenRegisterPageAction);
@@ -64,27 +74,82 @@ namespace JellyFish.ViewModel
             SubmitCommand = new RelayCommand(SubmitAction);
             OpenForgotPasswordPageCommand = new RelayCommand(OpenForgotPasswordPageAction);
             AddValidations();
-            Email.Value = "test@roos-it.net";
-            Password.Value = "test";
+            _rememberMe = _applicationConfigHandler.ApplicationConfig.AccountConfig.RemeberMe;
+            if(_rememberMe)
+            {
+                Email.Value = _applicationConfigHandler.ApplicationConfig.AccountConfig.UserName;
+                Password.Value = _applicationConfigHandler.ApplicationConfig.AccountConfig.Password;
+            }
+            SetAccountCredentialsFromConfig();
+            CheckBackendConnection();
+
+        }
+        private async void CheckBackendConnection()
+        {
+            bool resp = await _webApiRestClient.ConnectionTest(_webApiActionCancelationToken.Token);
+            if (!resp)
+            {
+                _applicationConfigHandler.ApplicationConfig.NetworkConfig.SetDefaults();    
+            }
+        }
+        private void SetAccountCredentialsFromConfig()
+        {
+            if (_applicationConfigHandler.ApplicationConfig.AccountConfig.RemeberMe)
+            {
+                if (_applicationConfigHandler.ApplicationConfig.AccountConfig.UserName != null && _applicationConfigHandler.ApplicationConfig.AccountConfig.Password != null)
+                {
+
+                    Email.Value = _applicationConfigHandler.ApplicationConfig.AccountConfig.UserName;
+                    Password.Value = _applicationConfigHandler.ApplicationConfig.AccountConfig.Password;
+                }
+            }
+        }
+        private async void RememberMeChanged()
+        {
+            await Task.Delay(1000);
+            if(RememberMe)
+            {
+                _applicationConfigHandler.ApplicationConfig.AccountConfig.UserName = Email.Value;
+                _applicationConfigHandler.ApplicationConfig.AccountConfig.Password = Password.Value;
+            }
+            else
+            {
+                _applicationConfigHandler.ApplicationConfig.AccountConfig.UserName = null;
+                _applicationConfigHandler.ApplicationConfig.AccountConfig.Password = null;
+            }
+            _applicationConfigHandler.ApplicationConfig.AccountConfig.RemeberMe = RememberMe;
+            _applicationConfigHandler.Safe();
         }
         private void OpenForgotPasswordPageAction()
         {
-            _navigationService.PushAsync(new ResetPasswordContentPage(new ResetPasswordContentPageViewModel()));
+            _navigationService.PushAsync(new ResetPasswordContentPage(_resetPasswordContentPageViewModel));
         }
         private async void SubmitAction()
         {
-            IsLoading=true;
             bool validEntries = ValidateUi();
-            if (validEntries) {
-                if(Email.Value == "test@roos-it.net" && Password.Value == "test")
-                {
-                    await _navigationService.PushAsync(new MainPage(_mainPageViewModel));
-                    _mainPageViewModel.SwipeRightAction(_mainPageViewModel.ViewTemplates);
-                    Email.Value = null;
-                    Password.Value = null;
-                }
+            if (!validEntries) {
+                return;
             }
-            IsLoading=false;
+
+            IsLoading = true;
+            var response = await _webApiRestClient.Authentificate(Email.Value, Password.Value, _webApiActionCancelationToken.Token);
+            IsLoading = false;
+            if (response == null)
+            {
+                NotificationHandler.ToastNotify("No internet: check your connection.");
+                return;
+            }
+
+
+            _applicationConfigHandler.ApplicationConfig.AccountConfig.UserSession = new WebApiFunction.Application.Model.Database.MySQL.Jellyfish.AuthModel(response);
+            _applicationConfigHandler.Safe();
+            LoggedIn();
+        }
+        private async void LoggedIn()
+        {
+
+            await _navigationService.PushAsync(new MainPage(_mainPageViewModel));
+            _mainPageViewModel.SwipeRightAction(_mainPageViewModel.ViewTemplates);
         }
         private bool ValidateUi(int checkUiElemt = -1)
         {
@@ -140,7 +205,7 @@ namespace JellyFish.ViewModel
         }
         private void OpenRegisterPageAction()
         {
-            _navigationService.PushAsync(new RegisterContentPage(new RegisterContentPageViewModel()));
+            _navigationService.PushAsync(new RegisterContentPage(_registerContentPageViewModel));
         }
     }
 }

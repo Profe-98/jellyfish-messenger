@@ -74,5 +74,14 @@ namespace JellyFish.Handler.Device.Media.Audio.Android
             Directory.CreateDirectory(path);
         }*/
         #endregion
+        public override void SetUserDeniedAction()
+        {
+            UserDeniedAction = () => { };
+        }
+
+        public override void SetUserRationalAction()
+        {
+            UserRationalAction = () => { };
+        }
     }
 }

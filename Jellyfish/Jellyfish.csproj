@@ -81,11 +81,11 @@
     <None Remove="Resources\Raw\loading2.json" />
     <None Remove="Resources\Raw\map-routing.json" />
     <None Remove="Resources\Raw\octopus2.json" />
+    <None Remove="Resources\Raw\registered.json" />
     <None Remove="Resources\Raw\website.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Camera.MAUI" Version="1.3.5" />
     <PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
     <PackageReference Include="CommunityToolkit.Maui.Markup" Version="3.1.0" />
     <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="1.0.2" />
@@ -107,6 +107,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\UserSelectionPage.xaml.cs">
+      <DependentUpon>UserSelectionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,9 @@
     </Compile>
     <Compile Update="View\ResetPasswordContentPage.xaml.cs">
       <DependentUpon>ResetPasswordContentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\MediaPlayerPage.xaml.cs">
+      <DependentUpon>MediaPlayerPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -158,7 +164,7 @@
     <MauiXaml Update="View\ChatsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="View\ContactsPage.xaml">
+    <MauiXaml Update="View\UserSelectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="View\ProfilePage.xaml">
@@ -185,7 +191,7 @@
     <MauiXaml Update="View\StatusPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="View\VideoPlayerPage.xaml">
+    <MauiXaml Update="View\MediaPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
@@ -202,13 +208,16 @@
   <ItemGroup>
     <Folder Include="Data\Backend\SignalR\" />
     <Folder Include="Data\Backend\WebApi\" />
-    <Folder Include="Handler\Backend\Communication\SignalR\" />
     <Folder Include="Handler\Device\Cache\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Camera.MAUI\Camera.MAUI\Camera.MAUI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="WebApiFunction">
-      <HintPath>..\..\..\RDBS\webapi\WebApiFunction\bin\Debug\net6.0\WebApiFunction.dll</HintPath>
+      <HintPath>..\..\generic-aspnet-webapi\WebApiFunction\bin\Debug\net7.0\WebApiFunction.dll</HintPath>
     </Reference>
   </ItemGroup>
 

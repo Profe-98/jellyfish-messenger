@@ -1,4 +1,6 @@
+using JellyFish.ControlExtension;
 using JellyFish.Controls;
+using JellyFish.Model;
 using JellyFish.Service;
 using JellyFish.ViewModel;
 
@@ -33,5 +35,17 @@ public partial class ChatPage : CustomContentPage
             //ChatEditorControlsGrid.TranslateTo(0, 0, 50);
             //RefreshView.TranslateTo(0, 0, 50);
         }
+    }
+
+    private void MessagesList_BindingContextChanged(object sender, EventArgs e)
+    {
+
+        
+    }
+
+    private void MessagesList_Loaded(object sender, EventArgs e)
+    {
+        var sv = MessagesList;
+        sv.ScrollToEnd(typeof(MessageGroup));
     }
 }

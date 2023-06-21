@@ -15,7 +15,8 @@ namespace JellyFish.Handler.Data
             WriteIndented= true,
             Converters = {
                 new JsonStringEnumConverter()//enum Values als String
-            }
+            },
+            UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode
 
         };
         public ExtendedJsonHandler() : this(true, DefaultSerializerOption)

@@ -55,8 +55,7 @@
                                 <VerticalStackLayout>
                                     <HorizontalStackLayout Spacing="10">
                                         <Entry Placeholder="E-Mail..." Text="{Binding Email.Value,Mode=TwoWay}" 
-                                           IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
-                                           WidthRequest="200" MinimumWidthRequest="200">
+                                           IsTextPredictionEnabled="False" IsSpellCheckEnabled="False">
                                             <Entry.Behaviors>
                                                 <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="1" />
                                             </Entry.Behaviors>
@@ -81,7 +80,7 @@
                                 WidthRequest="30"/>
                                         </StackLayout>
                                     </HorizontalStackLayout>
-                                    <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                    <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" MaximumWidthRequest="150" />
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </Frame>
@@ -92,8 +91,7 @@
 
                                     <HorizontalStackLayout Spacing="10">
                                         <Entry Placeholder="Password..." Text="{Binding Password.Value,Mode=TwoWay}" 
-                                           IsPassword="{Binding ShowPassword}" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False"
-                                           WidthRequest="200" MinimumWidthRequest="200">
+                                           IsPassword="{Binding ShowPassword,Converter={StaticResource BoolInvertConverter}}" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False">
                                             <Entry.Behaviors>
                                                 <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateByValueChangeCommand}" CommandParameter="2" />
                                             </Entry.Behaviors>
@@ -117,16 +115,20 @@
                                 WidthRequest="30"/>
                                         </StackLayout>
                                     </HorizontalStackLayout>
-                                    <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
-                                    
+                                    <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" MaximumWidthRequest="150" />
+
                                 </VerticalStackLayout>
+                                <Switch 
+                                            ThumbColor="Gray"
+                                            IsToggled="{Binding ShowPassword,Mode=TwoWay}" 
+                                            OnColor="{StaticResource Primary}"></Switch>
                             </HorizontalStackLayout>
                         </Frame>
                         <Frame Padding="2" BorderColor="Transparent" CornerRadius="15">
 
                             <HorizontalStackLayout Spacing="5" VerticalOptions="Center" HorizontalOptions="Center">
                                 <Label Text="Remember me?" TextColor="{StaticResource Primary}" HorizontalOptions="Start" VerticalOptions="Center"></Label>
-                                <Switch ThumbColor="Grey" OnColor="{StaticResource Primary}" HorizontalOptions="End" VerticalOptions="Center"></Switch>
+                                <Switch ThumbColor="Grey" IsToggled="{Binding RememberMe,Mode=TwoWay}" OnColor="{StaticResource Primary}" HorizontalOptions="End" VerticalOptions="Center"></Switch>
                             </HorizontalStackLayout>
                         </Frame>
                         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">

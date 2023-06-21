@@ -21,7 +21,18 @@ namespace JellyFish.ViewModel
         private readonly NavigationService _navigationService;
 
         private readonly IServiceProvider _serviceProvider;
-       
+        private bool _selectedView = false;
+        public bool SelectedView
+        {
+            get { return _selectedView; }
+            set
+            {
+                _selectedView = value;
+                OnPropertyChanged(nameof(SelectedView));
+            }
+        }
+
+
         public StatusPageViewModel(IServiceProvider serviceProvider, NavigationService navigationService)
         {
             _serviceProvider = serviceProvider;

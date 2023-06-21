@@ -28,8 +28,6 @@ using WebApiFunction.Mail;
 using WebApiFunction.Data.Web.MIME;
 using WebApiFunction.Application.Controller.Modules;
 using WebApiFunction.Application.Model.Internal;
-using WebApiFunction.Application.Model.Database.MySql;
-using WebApiFunction.Application.Model.Database.MySql.Entity;
 using WebApiFunction.Cache.Distributed.RedisCache;
 using WebApiFunction.Ampq.Rabbitmq.Data;
 using WebApiFunction.Ampq.Rabbitmq;
@@ -45,8 +43,6 @@ using WebApiFunction.Data;
 using WebApiFunction.Data.Format.Json;
 using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
 using WebApiFunction.Database;
-using WebApiFunction.Database.MySQL;
-using WebApiFunction.Database.MySQL.Data;
 using WebApiFunction.Filter;
 using WebApiFunction.Formatter;
 using WebApiFunction.LocalSystem.IO.File;
@@ -70,12 +66,22 @@ using WebApiFunction.Healthcheck;
 using WebApiFunction.Application;
 using WebApiFunction.Web.Authentification.JWT;
 using WebApiFunction.Database.Dapper.Converter;
-using WebApiFunction.Application.Model.Database.MySql.Dapper.TypeMapper;
-using WebApiFunction.Application.Model.Database.MySql.Dapper.Context;
 using Microsoft.AspNetCore.SignalR;
 using WebApiFunction.Web.Websocket.SignalR.HubService;
 using WebApiFunction.Startup;
 using WebApiApplicationServiceV2;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using JellyFishBackend.Middleware;
+using MailKit.Security;
+using MimeKit.Text;
+using MimeKit;
+using MailKit.Net.Smtp;
+using JellyFishBackend.SignalR.Hub;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Hosting;
 
 namespace JellyFishBackend
 {
@@ -83,7 +89,7 @@ namespace JellyFishBackend
     {
         readonly string AllowOrigin = "api-gateway";
         public IConfiguration Configuration { get; }
-        public static string[] DatabaseEntityNamespaces { get; } = new string[] { "WebApiFunction.Application.Model.Database.MySql.Jellyfish", "WebApiFunction.Application.Model.Database.MySql.Entity" };
+        public static string[] DatabaseEntityNamespaces { get; } = new string[] { "WebApiFunction.Application.Model.Database.MySQL.Jellyfish", "WebApiFunction.Application.Model.Database.MySQL.Table", "WebApiFunction.Application.Model.Database.MySQL.View" };
 
         public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
@@ -120,16 +126,13 @@ namespace JellyFishBackend
             initialMailConfigurationModel.ImapSettings.Server = "imap.strato.de";
             initialMailConfigurationModel.ImapSettings.Port =993;
             initialMailConfigurationModel.ImapSettings.SecureSocketOptions = MailKit.Security.SecureSocketOptions.Auto;
-            initialMailConfigurationModel.ImapSettings.LoggerFile = "imap.log";
+            initialMailConfigurationModel.ImapSettings.LoggerFolderPath = Path.Combine(Environment.CurrentDirectory, "imap_logs");
             initialMailConfigurationModel.ImapSettings.Timeout = 10000;
-            //SMTP
             initialMailConfigurationModel.SmtpSettings = new MailConfigurationModel.MailSettingsModel();
-            initialMailConfigurationModel.ImapSettings.User = "mail@roos-it.net";
-            initialMailConfigurationModel.ImapSettings.Password = "aChJz8nPf5dXZsa";
-            initialMailConfigurationModel.SmtpSettings.Server ="smtp.strato.de";
-            initialMailConfigurationModel.SmtpSettings.Port =465;
+            initialMailConfigurationModel.SmtpSettings.Server = "smtp.strato.log";
+            initialMailConfigurationModel.SmtpSettings.Port = 465;
             initialMailConfigurationModel.SmtpSettings.SecureSocketOptions = MailKit.Security.SecureSocketOptions.Auto;
-            initialMailConfigurationModel.SmtpSettings.LoggerFile ="smtp.log";
+            initialMailConfigurationModel.SmtpSettings.LoggerFolderPath = Path.Combine(Environment.CurrentDirectory, "smtp_logs");
             initialMailConfigurationModel.SmtpSettings.Timeout = 10000;
 
             DatabaseConfigurationModel initialDatabaseConfigurationModel = new DatabaseConfigurationModel();
@@ -221,9 +224,26 @@ namespace JellyFishBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
+            var sp  = services.BuildServiceProvider();
             services.AddAuthentication("Base").
                 AddScheme<BasicAuthenticationOptions, AuthentificationHandler>("Base", null);
-            services.AddAuthorization();
+            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationResultMiddleware>();
+            services.AddAuthorization(options =>
+            {
+                //User Policy: Any user with the role root
+                options.AddPolicy("Root", policy =>
+                                  policy.RequireClaim("user_role", "root"));
+                //User Policy: Any user with the role admin
+                options.AddPolicy("Administrator", policy =>
+                                  policy.RequireClaim("user_role", "admin"));
+                //User Policy: Any registered User that confirms his registration
+                options.AddPolicy("User", policy =>
+                                  policy.RequireClaim("user_role", "user"));
+            });
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -244,21 +264,39 @@ namespace JellyFishBackend
 
             //app.UseHttpsRedirection();
             //app.UseStaticFiles();
-
             app.UseRouting();
             app.UseCors(AllowOrigin);//must used between UseRouting & UseEndpoints
+            var appConfigService = serviceProvider.GetService<IAppconfig>();
+            if(appConfigService.AppServiceConfiguration!=null&& appConfigService.AppServiceConfiguration.SignalRHubConfigurationModel!=null)
+            {
+                app.UseWebSockets();
+
+            }
+            if (env.IsDevelopment())
+            {
+                var swaggerOptions = new SwaggerOptions()
+                {
+
+                };
+                //beim Aufbauen der Swagger Doku aktuell enorm hohe RAM Auslastung.
+                //Sprich nach erstem HTTP Call auf Swagger Doku via Browser
+                app.UseSwagger(swaggerOptions);
+                //http://localhost:5030/swagger/v1/swagger.json
+                //http://localhost:5030/swagger/index.html
+                app.UseSwaggerUI();
+            }
             app.UseAuthentication();
             app.UseAuthorization();
-
             ISingletonNodeDatabaseHandler databaseHandler = serviceProvider.GetService<ISingletonNodeDatabaseHandler>();
             INodeManagerHandler nodeManager = serviceProvider.GetService<INodeManagerHandler>();
             IAppconfig appConfig = serviceProvider.GetService<IAppconfig>();
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapHub<MessengerHub>("/messenger");
                 if (appConfig.AppServiceConfiguration.SignalRHubConfigurationModel != null && appConfig.AppServiceConfiguration.SignalRHubConfigurationModel.UseLocalHub)
                     endpoints.RegisterSignalRHubs(serviceProvider);//signalr init before register backend for route register
-                endpoints.RegisterBackend(nodeManager, serviceProvider, env, databaseHandler, actionDescriptorCollectionProvider, Configuration, DatabaseEntityNamespaces, HubServiceExtensions.RegisteredHubServices);
+                endpoints.RegisterBackend(nodeManager, serviceProvider, env, databaseHandler, actionDescriptorCollectionProvider, Configuration, DatabaseEntityNamespaces,HubServiceExtensions.RegisteredHubServices);
 
             });
         }

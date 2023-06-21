@@ -8,14 +8,22 @@ using Microsoft.Extensions.Logging;
 
 namespace JellyFish.View;
 
-public partial class CameraHandlerPage : CustomContentPage
+public partial class CameraHandlerPage : CustomContentPage, IDisposable
 {
     private double currentScale = 1;
     private double startScale = 1;
 
     public CameraHandlerPage()
 	{
-		InitializeComponent();
+        try
+        {
+            InitializeComponent();
+
+        }
+        catch (Exception ex)
+        {
+            NotificationHandler.ToastNotify(ex.Message);
+        }
 
 	}
     ~CameraHandlerPage() { 
@@ -29,24 +37,43 @@ public partial class CameraHandlerPage : CustomContentPage
         string localFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory, DateTime.Now.Ticks + (viewModel.IsCameraModeVideoRecMode?(".mp4") :(".jpg")));
         if (viewModel.IsCameraModeVideoRecMode)
         {
-            if(viewModel.ActiveVideoRecording)
+            try
             {
-                _currentRecFile = localFilePath;
-                var camRes = await Camera.StartRecordingAsync(_currentRecFile);
-                if (camRes == CameraResult.Success)
-                {
 
+                if (viewModel.ActiveVideoRecording)
+                {
+                    _currentRecFile = localFilePath;
+                    var camRes = await Camera.StartRecordingAsync(_currentRecFile);
+                    if (camRes == CameraResult.Success)
+                    {
+
+                    }
+                    else
+                    {
+                        await Camera.StopRecordingAsync();
+                        viewModel.ActiveVideoRecording = false;
+                        NotificationHandler.ToastNotify("Error: No permissions to record a video");
+                    }
+                }
+                else
+                {
+                    var camRes = await Camera.StopRecordingAsync();
+
+                    if (camRes == CameraResult.Success)
+                    {
+                        var model = new Model.CameraMediaModel() { VideoSourcePath = _currentRecFile };
+                        viewModel.AddCapturedMedia(model);
+                    }
+                    else
+                    {
+
+                        NotificationHandler.ToastNotify("Error: No permissions to save the recording");
+                    }
                 }
             }
-            else
+            catch(Exception ex)
             {
-                var camRes = await Camera.StopRecordingAsync();
-                
-                if (camRes == CameraResult.Success)
-                {
-                    var model = new Model.CameraMediaModel { VideoSourcePath = _currentRecFile };
-                    viewModel.AddCapturedMedia(model);
-                }
+                NotificationHandler.ToastNotify(ex.Message);
             }
         }
         else
@@ -55,18 +82,69 @@ public partial class CameraHandlerPage : CustomContentPage
             if(writeResponse) { 
                 viewModel.AddCapturedMedia(new Model.CameraMediaModel { ImageSourceFilePath = localFilePath, ImageSource = Camera.SnapShot });
             }
+            else
+            {
+                NotificationHandler.ToastNotify("Error: Save snapshot failed");
+            }
 
         }
     }
+    protected override void OnDisappearing()
+    {
+        
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            try
+            {
 
+                if (Camera.SnapShot != null)
+                {
+                    bool resp = await Camera.SnapShot?.Cancel();
+
+                }
+                if (Camera.SnapShotStream != null)
+                {
+                    Camera.SnapShotStream?.Close();
+
+                }
+                //Camera.SnapShotStream?.Dispose();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            if (await Camera.StopCameraAsync() == CameraResult.Success)
+            {
+
+            }
+        });
+        
+        //this.Dispose();
+        base.OnDisappearing();
+    }
+    protected override void OnHandlerChanged()
+    {
+        try
+        {
+            base.OnHandlerChanged();
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
     private void Camera_CamerasLoaded(object sender, EventArgs e)
     {
         Camera.Camera = Camera.Cameras.First();
+        Camera.Microphone = Camera.Microphones.First();
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            
+            if (await Camera.StartCameraAsync() == CameraResult.Success)
+            {
 
-        MainThread.BeginInvokeOnMainThread(async () => {
-            System.Diagnostics.Debug.WriteLine("camera starting/switching");
-            //await Camera.StopCameraAsync();
-            await Camera.StartCameraAsync();
+            }
         });
     }
     private void PinchGestureRecognizer_PinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
@@ -91,5 +169,10 @@ public partial class CameraHandlerPage : CustomContentPage
     private void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
     {
 
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 }

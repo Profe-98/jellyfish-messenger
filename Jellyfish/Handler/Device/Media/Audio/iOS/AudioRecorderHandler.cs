@@ -89,5 +89,14 @@ namespace JellyFish.Handler.Device.Media.Audio.iOS
             recorder = null;
             return audioFilePath;
         }*/
+        public override void SetUserDeniedAction()
+        {
+            UserDeniedAction = () => { };
+        }
+
+        public override void SetUserRationalAction()
+        {
+            UserRationalAction = () => { };
+        }
     }
 }

@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Camera.MAUI</name>
+    </assembly>
+    <members>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeForeground">
+            <summary>
+            Foreground color for Codebar generation. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeBackground">
+            <summary>
+            Background color for Codebar generation. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeWidth">
+            <summary>
+            Width of generated Barcode image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeHeight">
+            <summary>
+            Height of generated Barcode image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeMargin">
+            <summary>
+            Margin of generated Barcode image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.BarcodeFormat">
+            <summary>
+            Barcode Format for the generated image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.Barcode">
+            <summary>
+            Barcode string to Encode. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.BarcodeImage.Aspect">
+            <summary>
+            Scale mode for the image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.FlashMode">
+            <summary>
+            Flash mode for take a photo. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.TorchEnabled">
+            <summary>
+            Turns the camera torch on and off if available. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.Cameras">
+            <summary>
+            List of available cameras in the device. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.NumCamerasDetected">
+            <summary>
+            Indicates the number of available cameras in the device.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.Camera">
+            <summary>
+            Set the camera to use by the controler. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.Microphones">
+            <summary>
+            List of available microphones in the device. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.NumMicrophonesDetected">
+            <summary>
+            Indicates the number of available microphones in the device.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.Microphone">
+            <summary>
+            Set the microphone to use by the controler. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.MirroredImage">
+            <summary>
+            Turns a mirror image of the camera on and off. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.BarCodeDetectionEnabled">
+            <summary>
+            Turns on and off the barcode detection. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.BarCodeDetectionFrameRate">
+            <summary>
+            Indicates every how many frames the control tries to detect a barcode in the image. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.BarCodeDetectionMaxThreads">
+            <summary>
+            Indicates the maximun number of simultaneous running threads for barcode detection
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.BarCodeOptions">
+            <summary>
+            Options for the barcode detection. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.BarCodeResults">
+            <summary>
+            It refresh each time a barcode is detected if BarCodeDetectionEnabled porperty is true
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.ZoomFactor">
+            <summary>
+            The zoom factor for the current camera in use. This is a bindable property.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.MinZoomFactor">
+            <summary>
+            Indicates the minimum zoom factor for the camera in use. This property is refreshed when the "Camera" property change.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.MaxZoomFactor">
+            <summary>
+            Indicates the maximum zoom factor for the camera in use. This property is refreshed when the "Camera" property change.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoSnapShotSeconds">
+            <summary>
+            Sets how often the SnapShot property is updated in seconds.
+            Default 0: no snapshots are taken
+            WARNING! A low frequency directly impacts over control performance and memory usage (with AutoSnapShotAsImageSource = true)
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoSnapShotFormat">
+            <summary>
+            Sets the snaphost image format
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.SnapShot">
+            <summary>
+            Refreshes according to the frequency set in the AutoSnapShotSeconds property (if AutoSnapShotAsImageSource is set to true)
+            or when GetSnapShot is called or TakeAutoSnapShot is set to true
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.SnapShotStream">
+            <summary>
+            Refreshes according to the frequency set in the AutoSnapShotSeconds property or when GetSnapShot is called.
+            WARNING. Each time a snapshot is made, the previous stream is disposed.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.TakeAutoSnapShot">
+            <summary>
+            Change from false to true refresh SnapShot property
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoSnapShotAsImageSource">
+            <summary>
+            If true SnapShot property is refreshed according to the frequency set in the AutoSnapShotSeconds property
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoStartPreview">
+            <summary>
+            Starts/Stops the Preview if camera property has been set
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoRecordingFile">
+            <summary>
+            Full path to file where record video will be recorded.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.AutoStartRecording">
+            <summary>
+            Starts/Stops record video to AutoRecordingFile if camera and microphone properties have been set
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.ControlBarcodeResultDuplicate">
+            <summary>
+            If true BarcodeDetected event will invoke only if a Results is diferent from preview Results
+            </summary>
+        </member>
+        <member name="E:Camera.MAUI.CameraView.BarcodeDetected">
+            <summary>
+            Event launched every time a code is detected in the image if "BarCodeDetectionEnabled" is set to true.
+            </summary>
+        </member>
+        <member name="E:Camera.MAUI.CameraView.CamerasLoaded">
+            <summary>
+            Event launched when "Cameras" property has been loaded.
+            </summary>
+        </member>
+        <member name="E:Camera.MAUI.CameraView.MicrophonesLoaded">
+            <summary>
+            Event launched when "Microphones" property has been loaded.
+            </summary>
+        </member>
+        <member name="P:Camera.MAUI.CameraView.Current">
+            <summary>
+            A static reference to the last CameraView created.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.StartCameraAsync(Microsoft.Maui.Graphics.Size)">
+            <summary>
+            Start playback of the selected camera async. "Camera" property must not be null.
+            <paramref name="Resolution"/> Indicates the resolution for the preview and photos taken with TakePhotoAsync (must be in Camera.AvailableResolutions). If width or height is 0, max resolution will be taken.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.StartRecordingAsync(System.String,Microsoft.Maui.Graphics.Size)">
+            <summary>
+            Start recording a video async. "Camera" property must not be null.
+            <paramref name="file"/> Full path to file where video will be stored.
+            <paramref name="Resolution"/> Sets the Video Resolution. It must be in Camera.AvailableResolutions. If width or height is 0, max resolution will be taken.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.StopCameraAsync">
+            <summary>
+            Stop playback of the selected camera async.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.StopRecordingAsync">
+            <summary>
+            Stop recording a video async.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.TakePhotoAsync(Camera.MAUI.ImageFormat)">
+            <summary>
+            Takes a photo from the camera selected.
+            </summary>
+            <param name="imageFormat">The capture image format</param>
+            <returns>A stream with the photo info</returns>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.GetSnapShot(Camera.MAUI.ImageFormat)">
+            <summary>
+            Takes a capture form the active camera playback.
+            </summary>
+            <param name="imageFormat">The capture image format</param>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.SaveSnapShot(Camera.MAUI.ImageFormat,System.String)">
+            <summary>
+            Saves a capture form the active camera playback in a file
+            </summary>
+            <param name="imageFormat">The capture image format</param>
+            <param name="SnapFilePath">Full path for the file</param>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.ForceAutoFocus">
+            <summary>
+            Force execute the camera autofocus trigger.
+            </summary>
+        </member>
+        <member name="M:Camera.MAUI.CameraView.ForceDisposeHandler">
+            <summary>
+            Forces the device specific control dispose
+            </summary>
+        </member>
+    </members>
+</doc>

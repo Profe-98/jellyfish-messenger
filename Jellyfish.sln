@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfish", "Jellyfish\Jell
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JellyFishBackend", "JellyFishBackend\JellyFishBackend.csproj", "{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiFunction", "..\generic-aspnet-webapi\WebApiFunction\WebApiFunction.csproj", "{2FDCA536-516A-4CB0-B920-DF35564EB90E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Camera.MAUI", "..\Camera.MAUI\Camera.MAUI\Camera.MAUI.csproj", "{36DACAE1-74CF-4199-ADFE-B2637034AFD9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiApplicationServiceV2", "..\generic-aspnet-webapi\WebApiApplicationServiceV2\WebApiApplicationServiceV2.csproj", "{B2658121-9D1A-424B-9BFF-34211D7AD209}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +35,18 @@ Global
 		{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FDCA536-516A-4CB0-B920-DF35564EB90E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FDCA536-516A-4CB0-B920-DF35564EB90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FDCA536-516A-4CB0-B920-DF35564EB90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FDCA536-516A-4CB0-B920-DF35564EB90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36DACAE1-74CF-4199-ADFE-B2637034AFD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DACAE1-74CF-4199-ADFE-B2637034AFD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DACAE1-74CF-4199-ADFE-B2637034AFD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DACAE1-74CF-4199-ADFE-B2637034AFD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

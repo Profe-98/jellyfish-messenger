@@ -21,8 +21,9 @@ namespace JellyFish.Data.AppConfig
             base.SetDefaults();
             ChatConfig = new ChatConfig();
             NetworkConfig = new NetworkConfig();    
-            NotificationConfig = new NotificationConfig();  
+            NotificationConfig = new NotificationConfig();
             SqlLiteConfig = new SqlLiteConfig();
+            AccountConfig = new AccountConfig();
         }
     }
 }

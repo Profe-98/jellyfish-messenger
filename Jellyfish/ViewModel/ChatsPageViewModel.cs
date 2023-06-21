@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using JellyFish.Controls;
 
 namespace JellyFish.ViewModel
 {
@@ -38,6 +39,16 @@ namespace JellyFish.ViewModel
             }
         }
 
+        private bool _selectedView = false;
+        public bool SelectedView
+        {
+            get { return _selectedView; }
+            set
+            {
+                _selectedView = value;
+                OnPropertyChanged(nameof(SelectedView));
+            }
+        }
 
         public bool AreChatsAvailable
         {
@@ -76,8 +87,14 @@ namespace JellyFish.ViewModel
             SelectedChatChangedCommand = new RelayCommand(SelectedChatChangedAction);
             TabChatCommand = new RelayCommand<Chat>(TabChatAction);
 
+            Init();
+        }
+        public async void Init()
+        {
 
-            LoadChats();
+            _chats = await LoadChats();
+            OnPropertyChanged(nameof(AreChatsAvailable));
+            OnPropertyChanged(nameof(Chats));
         }
 
         public void SelectedChatChangedAction()
@@ -104,61 +121,71 @@ namespace JellyFish.ViewModel
 
         private async void OnChatSelected(Chat chat)
         {
-            var vmFromDi = _serviceProvider.GetService<ChatPageViewModel>();
-            ChatPage chatPage = new ChatPage(vmFromDi);
-            var vm = chatPage.BindingContext as ChatPageViewModel;
-            vm.SetChat(chat);
-            await _navigationService.PushAsync(chatPage);
-            vm.FocusLastMessage = false;
-            vm.FocusLastMessage = true;
-            this._SelectedChat = null;//Reset that Chat is clickable/tapable after return from chat to chats view
-            OnPropertyChanged(nameof(SelectedChat));
+            try
+            {
+
+                var vmFromDi = _serviceProvider.GetService<ChatPageViewModel>();
+                ChatPage chatPage = new ChatPage(vmFromDi);
+                var vm = chatPage.BindingContext as ChatPageViewModel;
+                vm.SetChat(chat);
+                await _navigationService.PushAsync(chatPage);
+                vm.FocusLastMessage = false;
+                vm.FocusLastMessage = true;
+                this._SelectedChat = null;//Reset that Chat is clickable/tapable after return from chat to chats view
+                OnPropertyChanged(nameof(SelectedChat));
+            }
+            catch(Exception ex) {
+                NotificationHandler.DisplayAlert("exc",ex.Message+ ":"+ex.Source,null,cancel:"cancel");
+            }
 
         }
 
-        public async void LoadChats()
+        public async Task<ObservableCollection<Chat>> LoadChats()
         {
-            Random random = new Random();
-            _chats = new ObservableCollection<Chat>();
-
-            OnPropertyChanged("AreChatsAvailable");
-            for (int i = 0; i < 20; i++)
+            Task<ObservableCollection<Chat>> task = Task.Factory.StartNew(() =>
             {
-                int randomChatCount = random.Next(1, 44);
-                var chat = new Chat() { Name = "User" + i + "", Messages = new ObservableCollection<MessageGroup>() };
-                bool sendMessage = false;
-                List<Message> messages = new List<Message>();
-                for (int j = 0; j < randomChatCount; j++)
+                ObservableCollection<Chat> chats = new ObservableCollection<Chat>();
+                Random random = new Random();
+
+                for (int i = 0; i < 50; i++)
                 {
-                    sendMessage = !sendMessage;
-                    var msg = new Message() { Text = "random+" + i + ",demo-msg-id:" + j, Received = sendMessage, MessageDateTime = DateTime.Now, SendToBackend = true };
-                    messages.Add(msg);
-                }
-                var msg2 = new Message() { Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", Received = sendMessage, MessageDateTime = DateTime.Now.AddDays(-random.Next(0, 50)), SendToBackend = true };
-                var msg3 = new Message() { Text = "https://www.google.com", Received = sendMessage, MessageDateTime = DateTime.Now, SendToBackend = true };
-                var msg4 = new Message() { Location = new Location(36.9628066, -122.0194722), Text = "komm hier hin", Received = true, MessageDateTime = DateTime.Now, SendToBackend = true };
-                messages.Add(msg2);
-                messages.Add(msg3);
-                messages.Add(msg4);
-                List<MessageGroup> messageGrp = new List<MessageGroup>();
-                foreach (Message m in messages)
-                {
-                    DateOnly key = DateOnly.FromDateTime(m.MessageDateTime);
-                    int index = messageGrp.IndexOf(x => x.Date == key);
-                    if (index == -1)
+                    int randomChatCount = random.Next(1, 44);
+                    var chat = new Chat() { Name = "User" + i + "", Messages = new ObservableCollection<MessageGroup>() };
+                    bool sendMessage = false;
+                    List<Message> messages = new List<Message>();
+                    for (int j = 0; j < randomChatCount; j++)
                     {
-                        messageGrp.Add(new MessageGroup(key));
-                        index = messageGrp.Count - 1;
+                        sendMessage = !sendMessage;
+                        var msg = new Message() { Text = "random+" + i + ",demo-msg-id:" + j, Received = sendMessage, MessageDateTime = DateTime.Now, SendToBackend = true };
+                        messages.Add(msg);
                     }
-                    messageGrp[index].Add(m);
+                    var msg2 = new Message() { Text = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111", Received = sendMessage, MessageDateTime = DateTime.Now.AddDays(-random.Next(0, 50)), SendToBackend = true };
+                    var msg3 = new Message() { Text = "https://www.google.com", Received = sendMessage, MessageDateTime = DateTime.Now, SendToBackend = true };
+                    var msg4 = new Message() { Location = new Location(36.9628066, -122.0194722), Text = "komm hier hin", Received = true, MessageDateTime = DateTime.Now, SendToBackend = true };
+                    messages.Add(msg2);
+                    messages.Add(msg3);
+                    messages.Add(msg4);
+                    List<MessageGroup> messageGrp = new List<MessageGroup>();
+                    foreach (Message m in messages)
+                    {
+                        DateOnly key = DateOnly.FromDateTime(m.MessageDateTime);
+                        int index = messageGrp.IndexOf(x => x.Date == key);
+                        if (index == -1)
+                        {
+                            messageGrp.Add(new MessageGroup(key));
+                            index = messageGrp.Count - 1;
+                        }
+                        messageGrp[index].Add(m);
+
+                    }
+                    chat.Messages = messageGrp.OrderBy(x => x.SortKey).ToList().ToObservableCollection();
+                    chats.Add(chat);
 
                 }
-                chat.Messages = messageGrp.OrderBy(x => x.SortKey).ToList().ToObservableCollection();
-                _chats.Add(chat);
+                return chats;
+            });
 
-            }
-            OnPropertyChanged(nameof(AreChatsAvailable));
-            OnPropertyChanged(nameof(Chats));
+            return await task;
         }
 
     }

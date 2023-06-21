@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiApplicationServiceV2\WebApiApplicationServiceV2.csproj" />
-    <ProjectReference Include="..\WebApiFunction\WebApiFunction.csproj" />
+    <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiApplicationServiceV2\WebApiApplicationServiceV2.csproj" />
+    <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiFunction\WebApiFunction.csproj" />
   </ItemGroup>
 
 </Project>

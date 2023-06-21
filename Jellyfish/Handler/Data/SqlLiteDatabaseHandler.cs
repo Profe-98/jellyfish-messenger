@@ -21,7 +21,16 @@ namespace JellyFish.Handler.Data
     public class SqlLiteDatabaseHandler<T> : AbstractDeviceActionHandler<Permissions.StorageRead, Permissions.StorageWrite>,IDisposable
         where T : AbstractEntity,new()
     {
-        
+
+        public override void SetUserDeniedAction()
+        {
+            UserDeniedAction = () => { };
+        }
+
+        public override void SetUserRationalAction()
+        {
+            UserRationalAction = () => { };
+        }
         public SQLiteAsyncConnection DatabaseHandle
         {
             get; private set;
@@ -173,7 +182,7 @@ namespace JellyFish.Handler.Data
         public void Dispose()
         {
             CloseDatabase();    
-            GC.SuppressFinalize(this);  
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -190,7 +190,7 @@ namespace JellyFish.ViewModel
         }
         public BarcodeDecodeOptions BarCodeOptions { get; set; }
         public string BarcodeText { get; set; } = "No barcode detected";
-        public bool AutoStartPreview { get; set; } = false;
+        public bool AutoStartPreview { get; set; } = true;
         public bool AutoStartRecording { get; set; } = false;
         private Result[] barCodeResults;
         public Result[] BarCodeResults
@@ -240,7 +240,19 @@ namespace JellyFish.ViewModel
                 OnPropertyChanged(nameof(IsCameraModeVideoRecMode));
             }
         }
-        public bool ActiveVideoRecording { get; set; } = false;
+        private bool _activeVideoRecording = false;
+        public bool ActiveVideoRecording
+        {
+            get
+            {
+                return _activeVideoRecording;
+            }
+            set
+            {
+                _activeVideoRecording= value;
+                RecordingTimerMethod();
+            }
+        }
         public bool IsCameraModeVideoRecMode
         {
             get
@@ -265,6 +277,7 @@ namespace JellyFish.ViewModel
                 _cameraModes = value;   
             }
         }
+        public CameraView CameraView { get; set; }
 
         public bool AbortAction { get; private set; } = false;//Boolean value that indicates the state when the BackButton or Return Button is pressed. Import for closing actions from previes view: e.g. CamMode->PictureSelection Mode, on back button press doesnt return to chat. It close first the pictureselectionmode and show the cam. Another return press move bring us back to chat
         public bool HasSnapShots { get { return _imageSources != null && _imageSources.Count != 0; } }//The State if some photos are taken
@@ -330,6 +343,7 @@ namespace JellyFish.ViewModel
             PrepeareForSendingCommand = new RelayCommand(PrepeareForSendingAction);
             _chatPageViewModel = chatPageViewModel;
             SelectedCameraMode = CameraModes.First();
+            OnPropertyChanged(nameof(AutoStartPreview));
         }
         ~CameraHandlerPageViewModel()
         {
@@ -375,9 +389,7 @@ namespace JellyFish.ViewModel
         }
         private void CloseCameraPage()
         {
-
-            var current = _navigationService.NavigationStack.ToList().Last();
-            _navigationService.RemovePage(current);
+            _navigationService.CloseCurrentPage();
         }
         private void DeleteMediaFromTakenMediaAction(CameraMediaModel imageSource)
         {
@@ -446,35 +458,42 @@ namespace JellyFish.ViewModel
             {
                 ActiveVideoRecording = !ActiveVideoRecording;
                 OnPropertyChanged(nameof(ActiveVideoRecording));
-                if (ActiveVideoRecording)
-                {
-                    RecordingTimer = new System.Timers.Timer();
-                    RecordingTimer.AutoReset = true;
-                    RecordingTimer.Enabled = true;
-                    RecordingTimer.Interval= 1000;
-                    RecordingTimer.Elapsed += (s,e) => {
-                        var elapsedTime = DateTime.Now - RecordingStartTime;
-                        RecordingElapsedTime = elapsedTime;
-                        RecordingProgressBar = (100.0/60.0*elapsedTime.Seconds)/100.0;
-                        OnPropertyChanged(nameof(RecordingElapsedTime));
-                        OnPropertyChanged(nameof(RecordingProgressBar));
-                    };
-                    RecordingStartTime = DateTime.Now;
-                    RecordingTimer.Start(); 
-
-                }
-                else
-                {
-                    RecordingTimer.Stop();
-                    RecordingTimer.Dispose();
-                    RecordingElapsedTime = TimeSpan.Zero;
-                    RecordingProgressBar = 0;
-                }
+                
             }
             else
             {
                 TakeSnapshot = false;
                 TakeSnapshot = true;
+            }
+        }
+        private void RecordingTimerMethod()
+        {
+            if (RecordingTimer == null)
+            {
+                RecordingTimer = new System.Timers.Timer();
+            }
+            if (ActiveVideoRecording)
+            {
+                RecordingTimer.AutoReset = true;
+                RecordingTimer.Enabled = true;
+                RecordingTimer.Interval = 1000;
+                RecordingTimer.Elapsed += (s, e) => {
+                    var elapsedTime = DateTime.Now - RecordingStartTime;
+                    RecordingElapsedTime = elapsedTime;
+                    RecordingProgressBar = (100.0 / 60.0 * elapsedTime.Seconds) / 100.0;
+                    OnPropertyChanged(nameof(RecordingElapsedTime));
+                    OnPropertyChanged(nameof(RecordingProgressBar));
+                };
+                RecordingStartTime = DateTime.Now;
+                RecordingTimer.Start();
+
+            }
+            else
+            {
+
+                RecordingTimer.Stop();
+                RecordingElapsedTime = TimeSpan.Zero;
+                RecordingProgressBar = 0;
             }
         }
         public async void AddCapturedMedia(CameraMediaModel cameraImageModel)

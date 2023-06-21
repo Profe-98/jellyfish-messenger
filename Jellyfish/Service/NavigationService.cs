@@ -91,7 +91,16 @@ namespace JellyFish.Service
 
         public Task PushAsync(Page page)
         {
-            return Navigation.PushAsync(page);
+            Task t = null;
+            try
+            {
+                t = Navigation.PushAsync(page);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return t;
         }
 
         public Task PushAsync(Page page, bool animated)
@@ -112,6 +121,17 @@ namespace JellyFish.Service
         public void RemovePage(Page page)
         {
             Navigation.RemovePage(page);
+        }
+        public void CloseCurrentPage()
+        {
+            if (this.NavigationStack == null|| this.NavigationStack !=null&& this.NavigationStack.Count<2)
+                return;
+
+            var current = this.NavigationStack.ToList().Last();
+            if(current != null)
+            {
+                this.RemovePage(current);
+            }
         }
         public void PrevoiusPage(Page page)
         {

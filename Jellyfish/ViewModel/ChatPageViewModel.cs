@@ -20,6 +20,10 @@ using JellyFish.Service;
 using JellyFish.Handler.Device.Media.Camera;
 using JellyFish.View;
 using JellyFish.Handler.Device.Extension;
+using JellyFish.Controls;
+using CommunityToolkit.Mvvm.Input;
+using JellyFish.Handler.Device.Sensor;
+using JellyFish.Handler.Device.Media.Contact;
 
 namespace JellyFish.ViewModel
 {
@@ -107,7 +111,7 @@ namespace JellyFish.ViewModel
             set
             {
                 _focusLastMessage = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(FocusLastMessage));
             }
         }
         private bool _expandAttachmentsIsExpanded;
@@ -141,8 +145,8 @@ namespace JellyFish.ViewModel
                 OnPropertyChanged();
             }
         }
-        private JellyFish.Model.Contact _selectedContact;
-        public JellyFish.Model.Contact SelectedContact
+        private User _selectedContact;
+        public User SelectedContact
         {
             get
             {
@@ -176,7 +180,10 @@ namespace JellyFish.ViewModel
         {
             get
             {
-                return _selectedGpsLocation.ToGpsString();
+                if (_selectedGpsLocation == null)
+                    return null;
+                string str = string.Format("Lat: {0}, Lon: {1}", _selectedGpsLocation.Latitude, _selectedGpsLocation.Longitude);
+                return str;
             }
         }
 
@@ -187,12 +194,43 @@ namespace JellyFish.ViewModel
                 return _selectedGpsLocation != null ||_selectedContact != null ;
             }
         }
+        private bool _isChatUserOnline = false;
+        public bool IsChatUserOnline
+        {
+            get
+            {
+                return _isChatUserOnline;
+            }
+            private set
+            {
+                _isChatUserOnline=value;
+            }
+        }
 
         public bool IsContactSelected { get => _selectedContact != null; }
 
         public bool IsGpsLocationSelected { get => _selectedGpsLocation != null; }
+        private bool _isLoadingInBackground = false;
+        public bool IsLoadingInBackground
+        {
+            get
+            {
+                return _isLoadingInBackground;
+            }
+            private set
+            {
+                _isLoadingInBackground =value;
+                OnPropertyChanged(nameof(IsLoadingInBackground));
+            }
+        }
 
+        public const string MessageQueueSendContact = "MessageQueueSendContact";
+        private readonly CameraHandler _cameraHandler;
+        private readonly GpsHandler _gpsHandler;
         private readonly NavigationService _navigationService;
+        private readonly ProfilePageViewModel _profilePageViewModel;
+        private readonly DeviceContactHandler _deviceContactHandler;
+        public ICommand OpenProfilePageCommand { get; private set; }
         public ICommand BackButtonCommand { get; private set; }
         public ICommand MessageSwipeLeftCommand { get; private set; }
         public ICommand MessageSwipeRightCommand { get; private set; }
@@ -204,13 +242,22 @@ namespace JellyFish.ViewModel
         public ICommand ExpandChatsMenuCommand { get; private set; }
         public ICommand TakePhotoCommand { get; private set; }
         public ICommand PlayVideoCommand { get; private set; }
+        public ICommand ShowMediaCommand { get; private set; }
         public ICommand VoiceRecordMessageCommand { get; private set; }
         public ICommand SendContactCommand { get; private set; }
         public ICommand SendMediaPhotoCommand { get; private set; }
         public ICommand SendGpsLocationCommand { get; private set; }
-        public ChatPageViewModel(NavigationService navigationService)//INotificationService notificationService)
+        public ChatPageViewModel(NavigationService navigationService,
+            CameraHandler cameraHandler,
+            GpsHandler gpsHandler,
+            DeviceContactHandler deviceContactHandler,
+            ProfilePageViewModel profilePageViewModel)//INotificationService notificationService)
         {
+            _profilePageViewModel = profilePageViewModel;
+            _deviceContactHandler = deviceContactHandler;
             _navigationService = navigationService;
+            _cameraHandler = cameraHandler;
+            _gpsHandler = gpsHandler;   
             //_notificationService = notificationService;
             MessageSwipeLeftCommand = new RelayCommand(MessageSwipeLeftAction);
             MessageSwipeRightCommand = new RelayCommand<Message>(MessageSwipeRightAction);
@@ -223,55 +270,60 @@ namespace JellyFish.ViewModel
             TakePhotoCommand = new RelayCommand(TakePhoto);
             BackButtonCommand = new RelayCommand(BackButtonAction);
             PlayVideoCommand = new RelayCommand<CameraMediaModel>(PlayVideoAction);
+            ShowMediaCommand = new RelayCommand<CameraMediaModel>(ShowMediaAction);
             VoiceRecordMessageCommand = new RelayCommand(VoiceRecordMessageAction);
             SendContactCommand = new RelayCommand(SendContactAction); 
             SendMediaPhotoCommand = new RelayCommand(SendMediaPhotoAction); 
             SendGpsLocationCommand = new RelayCommand(SendGpsLocationAction);
+            OpenProfilePageCommand = new RelayCommand(OpenProfilePageAction);
             WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
             {
                 if(m.Message!= null)
                 {
-                    if(m.Message == "OnBackButtonPressed")
+                    switch(m.Message)
                     {
-
+                        case "OnBackButtonPressed":
+                            break;
+                        case MessageQueueSendContact:
+                            if (m.Args != null && m.Args.Length == 1)
+                            {
+                                UserSelectionPageViewModel response = (UserSelectionPageViewModel)m.Args[0];
+                                if (response != null)
+                                {
+                                    if (response.SelectedUserFriend != null)
+                                    {
+                                        this.SelectedGpsLocation = null;
+                                        this.SelectedContact = null;
+                                        this.SelectedContact = response.SelectedUserFriend;
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
             });
         }
         private async void SendContactAction()
         {
-
+            this.SelectedGpsLocation = null;
+            ExpandAttachmentsIsExpanded = false;
+            ExpandChatMenuIsExpanded = false;
             try
             {
-
-                /*var contacts = await Microsoft.Maui.ApplicationModel.Communication.Contacts.GetAllAsync();
-                var contactList = contacts.ToList();
-                var contact = contactList.First();
-                if (contact == null)
-                    return;
-
-                string id = contact.Id;
-                string namePrefix = contact.NamePrefix;
-                string givenName = contact.GivenName;
-                string middleName = contact.MiddleName;
-                string familyName = contact.FamilyName;
-                string nameSuffix = contact.NameSuffix;
-                string displayName = contact.DisplayName;
-                List<ContactPhone> phones = contact.Phones; 
-                List<ContactEmail> emails = contact.Emails; */
-                var selectedContract = await Microsoft.Maui.ApplicationModel.Communication.Contacts.Default.PickContactAsync();
-                if(selectedContract != null)
-                {
-                    var contactModel = JellyFish.Model.Contact.Create(selectedContract);
-                    this.SelectedContact = contactModel;    
-                    ExpandAttachmentsIsExpanded = false;
-                }
+                await _deviceContactHandler.OpenUserSelectionHandler(_navigationService, false,MessageQueueSendContact);
+                ExpandAttachmentsIsExpanded = false;
 
             }
             catch (Exception ex)
             {
-
+                NotificationHandler.ToastNotify(ex.ToString());
             }
+        }
+        private async void OpenProfilePageAction()
+        {
+            var page = new ProfilePage() ;
+            page.BindingContext = _profilePageViewModel;
+            await _navigationService.PushAsync(page);
         }
         private async void SendMediaPhotoAction()
         {
@@ -279,39 +331,65 @@ namespace JellyFish.ViewModel
         }
         private async void SendGpsLocationAction()
         {
+            this.SelectedGpsLocation = null;
+            this.SelectedContact = null;
             ExpandAttachmentsIsExpanded = false;
-            try
+            ExpandChatMenuIsExpanded = false;
+            IsLoadingInBackground = true;
+            var location = await _gpsHandler.GetCurrentLocation();
+            if (location != null)
             {
-                var location = await GetCurrentLocation();
-                if(location != null)
-                {
-                    this.SelectedGpsLocation = location;
-                }
-
+                this.SelectedGpsLocation = location;
             }
-            catch (Exception ex)
+            else
             {
-
+                NotificationHandler.ToastNotify("Abort: Gps need permissions");
             }
+            IsLoadingInBackground = false;
         }
         private async void VoiceRecordMessageAction()
         {
-            
+
         }
         private async void PlayVideoAction(CameraMediaModel data)
         {
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+            if (status == PermissionStatus.Denied)
+            {
+                NotificationHandler.ToastNotify("Abort: Show media need permissions");
+                return;
+            }
             if (data == null)
                 return;
 
-            var page = new VideoPlayerPage();
-            var vm = new VideoPlayerPageViewModel();
-            page.BindingContext = vm;   
-            vm.SetVideoModel(data); 
+            var page = new MediaPlayerPage();
+            var vm = new MediaPlayerPageViewModel();
+            page.BindingContext = vm;
+            vm.SetVideoModel(new List<CameraMediaModel>() { data });
             await _navigationService.PushAsync(page);
         }
+        private async void ShowMediaAction(CameraMediaModel data)
+        {
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+            if (status == PermissionStatus.Denied)
+            {
+                NotificationHandler.ToastNotify("Abort: Show media need permissions");
+                return;
+            }
+            if (data == null)
+                return;
+            CameraMediaModel mdia = (CameraMediaModel)data;
+            var page = new MediaPlayerPage();
+            var vm = new MediaPlayerPageViewModel();
+            page.BindingContext = vm;
+
+            vm.SetVideoModel(new List<CameraMediaModel> { mdia});
+            await _navigationService.PushAsync(page);
+        }
+
         public async void TakePhoto()
         {
-            await _navigationService.OpenCustomCameraHandler(this);
+            await _cameraHandler.OpenCustomCameraHandler(_navigationService,this);
             ExpandAttachmentsAction();
         }
         public void BackButtonAction()
@@ -357,6 +435,12 @@ namespace JellyFish.ViewModel
         }
         public async void OpenLinkFromMessageAction(Message message)
         {
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.LaunchApp>();
+            if (status == PermissionStatus.Denied)
+            {
+                NotificationHandler.ToastNotify("Abort: Open url need permissions");
+                return;
+            }
             try
             {
 
@@ -369,6 +453,12 @@ namespace JellyFish.ViewModel
         }
         public async void OpenGpsLocationFromMessageAction(Message message)
         {
+            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Maps>();
+            if (status == PermissionStatus.Denied)
+            {
+                NotificationHandler.ToastNotify("Abort: Open location need permissions");
+                return;
+            }
             try
             {
 
@@ -388,110 +478,6 @@ namespace JellyFish.ViewModel
 
         }
 
-        public async void OsTakePhotoTest()
-        {
-            try
-            {
-
-                if (MediaPicker.Default.IsCaptureSupported)
-                {
-                    FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
-                    if (photo != null)
-                    {
-                        // save the file into local storage
-                        string localFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-
-                        using Stream sourceStream = await photo.OpenReadAsync();
-                        using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-                        await sourceStream.CopyToAsync(localFileStream);
-                        //SendMessageAction(photo.FullPath);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        public void VibrateTest()
-        {
-
-            int secondsToVibrate = Random.Shared.Next(1, 7);
-            TimeSpan vibrationLength = TimeSpan.FromSeconds(secondsToVibrate);
-
-            Vibration.Default.Vibrate(vibrationLength);
-        }
-        public void HapticTest()
-        {
-            HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
-        }
-        public async void OsTakeVideoTest()
-        {
-            try
-            {
-
-                if (MediaPicker.Default.IsCaptureSupported)
-                {
-                    FileResult vid = await MediaPicker.Default.CaptureVideoAsync();
-                    Location location = await GetCurrentLocation();
-                    if (vid != null)
-                    {
-                        // save the file into local storage
-                        string localFilePath = System.IO.Path.Combine(FileSystem.CacheDirectory, vid.FileName);
-
-                        using Stream sourceStream = await vid.OpenReadAsync();
-                        using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-                        await sourceStream.CopyToAsync(localFileStream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        private CancellationTokenSource _cancelTokenSource;
-        private bool _isCheckingLocation;
-        public async Task<Location> GetCurrentLocation()
-        {
-            Location location = null;
-            try
-            {
-                _isCheckingLocation = true;
-
-                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-
-                _cancelTokenSource = new CancellationTokenSource();
-
-                location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
-            }
-            // Catch one of the following exceptions:
-            //   FeatureNotSupportedException
-            //   FeatureNotEnabledException
-            //   PermissionException
-            catch (Exception ex)
-            {
-                // Unable to get location
-            }
-            finally
-            {
-                _isCheckingLocation = false;
-            }
-            return location;
-
-        }
-
-        public void CancelRequest()
-        {
-            if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
-                _cancelTokenSource.Cancel();
-        }
-        public async void OsFileAccessTest()
-        {
-            string cacheDir = FileSystem.Current.CacheDirectory;
-            string mainDir = FileSystem.Current.AppDataDirectory;
-        }
         public void RefreshChatViewAction()
         {
             IsChatRefreshing = true;
@@ -504,17 +490,10 @@ namespace JellyFish.ViewModel
                 Messages = new ObservableCollection<MessageGroup>();
             }
             SendReceiveMessageState = !SendReceiveMessageState;//fuer tests
-            var msg = new Message() 
-            { 
-                Text = Text, 
-                Images = this.TakenPhotos, 
-                Received = SendReceiveMessageState, 
-                MessageDateTime = DateTime.Now, 
-                SendToBackend = true,
-                Location = this.SelectedGpsLocation,
-                Contact = this.SelectedContact
-            };
-            DateOnly msgGrpKey = DateOnly.FromDateTime(msg.MessageDateTime);
+
+
+            var curDateTime = DateTime.Now;
+            DateOnly msgGrpKey = DateOnly.FromDateTime(curDateTime);
             int index = Messages.IndexOf(x => msgGrpKey == x.Date);
             if (index == -1)
             {
@@ -523,61 +502,55 @@ namespace JellyFish.ViewModel
                 Messages.Add(new MessageGroup(msgGrpKey));
                 index = Messages.Count - 1;
             }
-            Messages[index].Add(msg);
+            if (this.TakenPhotos != null && this.TakenPhotos.Count>0)
+            {
+                foreach (var mediaModel in this.TakenPhotos)
+                {
+
+                    var msgMedia = new Message()
+                    {
+                        Media = mediaModel, 
+                        Text = null,
+                        Received = SendReceiveMessageState,
+                        MessageDateTime = curDateTime,
+                        SendToBackend = true,
+                    };
+                    Messages[index].Add(msgMedia);
+                }
+            }
+            if(!String.IsNullOrWhiteSpace(Text))
+            {
+                var msg = new Message()
+                {
+                    Text = Text,
+                    Received = SendReceiveMessageState,
+                    MessageDateTime = curDateTime,
+                    SendToBackend = true,
+                    Location = this.SelectedGpsLocation,
+                    Contact = this.SelectedContact
+                };
+                Messages[index].Add(msg);
+            }
+            else if(this.SelectedGpsLocation != null || this.SelectedContact != null)
+            {
+                var msg = new Message()
+                {
+                    Text = null,
+                    Received = SendReceiveMessageState,
+                    MessageDateTime = curDateTime,
+                    SendToBackend = true,
+                    Location = this.SelectedGpsLocation,
+                    Contact = this.SelectedContact
+                };
+                Messages[index].Add(msg);
+            }
             Text = null;
             RefreshChatViewAction();
             OnPropertyChanged("Messages");
-            FocusLastMessage = false;
             FocusLastMessage = true;
+            this.TakenPhotos = null;
             this.SelectedContact = null;
             this.SelectedGpsLocation = null;
-            /*var request = new NotificationRequest
-            {
-                NotificationId = 100,
-                Title = "title",
-                Subtitle = msg.Text,
-                Description = $"Tap Count: {102}",
-                BadgeNumber = 102,
-                ReturningData = "returning data",
-                CategoryType = NotificationCategoryType.Status,
-                Android =
-            {
-                IconSmallName =
-                {
-                    ResourceName = "i2",
-                },
-                Color =
-                {
-                    ResourceName = "colorPrimary"
-                },
-                    IsProgressBarIndeterminate = false,
-
-                ProgressBarMax = 100,
-                ProgressBarProgress = 24,
-                Priority = AndroidPriority.High
-                //AutoCancel = false,
-                //Ongoing = true
-            },
-
-            };
-
-            request.Sound = DeviceInfo.Platform == DevicePlatform.Android
-                ? "good_things_happen"
-                : "good_things_happen.aiff";
-
-            try
-            {
-                if (await _notificationService.AreNotificationsEnabled() == false)
-                {
-                    await _notificationService.RequestNotificationPermission();
-                }
-
-                var ff = await _notificationService.Show(request);
-
-            }
-            catch (Exception exception)
-            {
-            }*/
         }
 
         public void SetChat(Chat chat)

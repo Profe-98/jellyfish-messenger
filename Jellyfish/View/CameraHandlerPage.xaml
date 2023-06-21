@@ -158,10 +158,10 @@
                             <Style TargetType="Button">
                                 <Style.Triggers>
                                     <DataTrigger TargetType="Button" Binding="{Binding ActiveVideoRecording,Mode=TwoWay}" Value="True">
-                                        <Setter TargetName="{x:Reference CaptureButton}" Property="Text" Value="Stop"></Setter>
+                                        <Setter Property="Text" Value="Stop"></Setter>
                                     </DataTrigger>
                                     <DataTrigger TargetType="Button" Binding="{Binding ActiveVideoRecording,Mode=TwoWay}" Value="False">
-                                        <Setter TargetName="{x:Reference CaptureButton}" Property="Text" Value="Capture"></Setter>
+                                        <Setter Property="Text" Value="Capture"></Setter>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

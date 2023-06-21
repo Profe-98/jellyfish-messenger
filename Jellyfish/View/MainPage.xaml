@@ -17,7 +17,6 @@
     <ContentPage.Resources>
         <converter:CounterBindingControlVisibilityBehavoir x:Key="CounterBindingControlVisibilityBehavoir"></converter:CounterBindingControlVisibilityBehavoir>
         <converter:BoolInvertConverter x:Key="BoolInvertConverter"></converter:BoolInvertConverter>
-        <converter:ExtractContentConverter x:Key="ExtractContentConverter"></converter:ExtractContentConverter>
         <converter:ResourceDictionaryValueExtractorConverter x:Key="ResourceDictionaryValueExtractorConverter"></converter:ResourceDictionaryValueExtractorConverter>
         <DataTemplate x:Key="ViewHeaderTemplate">
             <Grid >
@@ -118,51 +117,37 @@
                                        ViewHeaderTemplate="{StaticResource ViewHeaderTemplate}"></selector:ViewTemplateSelector>
         <x:Array x:Key="ViewTemplates" Type="{x:Type model:ViewTemplateModel}">
 
-            <model:ChatsViewTemplate Title="Chats" >
-                <model:ChatsViewTemplate.ContentView>
-                    <view:ChatsPage x:Name="ChatsViewTemplateBorder" BindingContext="{Binding Source={RelativeSource AncestorType={x:Type ContentPage},Mode=FindAncestor},Path=BindingContext.ChatsPageViewModel}">
-                        
-                    </view:ChatsPage>
-                </model:ChatsViewTemplate.ContentView>
+            <model:ChatsViewTemplate 
+                Title="Chats"
+                ContentViewModelType="{x:Type vm:ChatsPageViewModel}">
             </model:ChatsViewTemplate>
 
-            <model:StatusViewTemplate Title="Status">
-                <model:StatusViewTemplate.ContentView>
-                    <view:StatusPage x:Name="StatusViewTemplateBorder" BindingContext="{Binding Source={RelativeSource AncestorType={x:Type ContentPage},Mode=FindAncestor},Path=BindingContext.StatusPageViewModel}">
-
-                    </view:StatusPage>
-                </model:StatusViewTemplate.ContentView>
+            <model:StatusViewTemplate 
+                Title="Status"
+                ContentViewModelType="{x:Type vm:StatusPageViewModel}">
             </model:StatusViewTemplate>
 
-            <model:CallViewTemplate Title="Calls">
-                <model:CallViewTemplate.ContentView>
-                    <view:CallsPage x:Name="CallsViewTemplateBorder" BindingContext="{Binding Source={RelativeSource AncestorType={x:Type ContentPage},Mode=FindAncestor},Path=BindingContext.CallsPageViewModel}">
-
-                    </view:CallsPage>
-                </model:CallViewTemplate.ContentView>
+            <model:CallViewTemplate 
+                Title="Calls"
+                ContentViewModelType="{x:Type vm:CallsPageViewModel}">
             </model:CallViewTemplate>
         </x:Array>
     </ContentPage.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition>
-
-            </ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto">
-
-            </RowDefinition>
-            <RowDefinition >
-
-            </RowDefinition>
-            <RowDefinition >
-
-            </RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="#512BD4">
+        <Grid 
+            Grid.Row="0" 
+            Grid.Column="0" 
+            BackgroundColor="{StaticResource Primary}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="0"></RowDefinition>
@@ -174,7 +159,15 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Text="Chats" TextColor="White" FontAttributes="None" Grid.Row="0" Grid.Column="0" FontFamily="Roboto-Bold" FontSize="16"></Label>
+            <Label 
+                Margin="5,5,5,5"
+                Text="Chats" 
+                TextColor="White" 
+                FontAttributes="None" 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                FontFamily="Roboto-Bold" 
+                FontSize="18"></Label>
             <StackLayout Spacing="5" Orientation="Horizontal" HorizontalOptions="End" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
 
 
@@ -234,20 +227,26 @@
                             Margin="10">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
-                    
+
                 </CollectionView.ItemsLayout>
-                
+
             </customcontrol:ViewTemplateCollection>
         </Grid>
         <Border x:Name="ExpandSearch"
-                BackgroundColor="#512BD4"
-                Stroke="Transparent" 
-                StrokeThickness="0"
-                Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" ZIndex="99"
-                HorizontalOptions="Fill" 
-                VerticalOptions="Fill" 
-                IsVisible="{Binding IsSearchExpanded,Mode=TwoWay}"
-                >
+                BackgroundColor="White"
+                Stroke="{StaticResource Primary}" 
+                StrokeThickness="2"
+                Grid.Row="0" 
+                Grid.RowSpan="2" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2" 
+                ZIndex="99"
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand" 
+                IsVisible="{Binding IsSearchExpanded,Mode=TwoWay}">
+            <Border.StrokeShape>
+                <Rectangle></Rectangle>
+            </Border.StrokeShape>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -256,17 +255,20 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <StackLayout Orientation="Horizontal" Grid.Row="0" HorizontalOptions="Fill">
-                    <Button Text="Back" Command="{Binding BackButtonCommand}"></Button>
-                    <Entry Placeholder="Search..." HorizontalOptions="Fill" HorizontalTextAlignment="Center"></Entry>
-                </StackLayout>
-                <FlexLayout Grid.Row="1" 
-                            HorizontalOptions="Start" 
-                            VerticalOptions="Start"
-                            Wrap="Wrap" 
-                            FlowDirection="LeftToRight" 
-                            Direction="Row"
-                            BackgroundColor="Transparent">
+                <Entry 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Placeholder="Search..."  
+                    HorizontalOptions="Fill" 
+                    HorizontalTextAlignment="Start"></Entry>
+                <FlexLayout 
+                    Grid.Row="1" 
+                    HorizontalOptions="Start" 
+                    VerticalOptions="Start"
+                    Wrap="Wrap" 
+                    FlowDirection="LeftToRight" 
+                    Direction="Row"
+                    BackgroundColor="Transparent">
                     <customcontrol:MediaShareMenuItem HeightRequest="35" WidthRequest="110" Text="Photos" IconSvg="{StaticResource icons8filesvg}">
                     </customcontrol:MediaShareMenuItem>
                     <customcontrol:MediaShareMenuItem HeightRequest="35" WidthRequest="110" Text="Videos" IconSvg="{StaticResource icons8imagefilesvg}">
@@ -338,14 +340,31 @@
                 </Grid>
             </Border>
         </AbsoluteLayout>
-        <ContentPresenter
-                Grid.Row="1" 
-                Grid.RowSpan="2"
-                Grid.Column="0" 
-                Content="{Binding SelectedViewTemplate,Converter={StaticResource ExtractContentConverter},Mode=OneWay}">
+        <view:ChatsPage 
+            BindingContext="{Binding ChatsPageViewModel,Mode=TwoWay}"
+            ZIndex="0"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            >
 
+        </view:ChatsPage>
+        <view:StatusPage 
+            BindingContext="{Binding StatusPageViewModel,Mode=TwoWay}"
+            ZIndex="1"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
 
-        </ContentPresenter>
+        </view:StatusPage>
 
+        <view:CallsPage 
+            BindingContext="{Binding CallsPageViewModel,Mode=TwoWay}"
+            ZIndex="2"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+
+        </view:CallsPage>
     </Grid>
 </customcontrol:CustomContentPage>

@@ -9,6 +9,6 @@ namespace JellyFish.Handler.Device.Media.Contact
 {
     public interface IDeviceContactHandler
     {
-        public Task<List<Model.Contact>> GetDeviceContacts();
+        public Task<List<Microsoft.Maui.ApplicationModel.Communication.Contact>> GetDeviceContacts();
     }
 }

@@ -1,0 +1,332 @@
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P2 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjViY2E4YjY2YmE1MjU5NjY2YjI3YjQ2OWU3YjlmN2EiLHFvcD0iYXV0aCIsY2hhcnNldD11dGYtOCxhbGdvcml0aG09bWQ1LXNlc3M=
+C: ********
+S: 334 cnNwYXV0aD1jNWY5NGIxYWMwNzZjMTFkNGFmNzYyZGY4ODk0MTU2Ng==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1162
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56JInG1O
+C: From: no-reply@roos-it.net
+C: Date: Tue, 06 Jun 2023 21:17:43 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <RBVMGCJY4KU4.9V1Z9WTE0HWX2@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjEzLjA2LjIwMjMgMjE6MTc6NDMiLCJuYmYiOjE2ODYwNzkwNjMsImV4cCI6MTY4NjY4Mzg2MywiaWF0IjoxNjg2MDc5MDYzLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.sZdhYKt3PQUyFVbu59opULDsowq5cmDEW_oI6N14xfAqzd5wm1IueuNuV67cReO55NOaECP6f5FfY7E_DITd-Q
+C: Or enter the password reset code in the app.
+C: Password reset code: 5181480111
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56JInG1O
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P3 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjI5NmQzOTVhNTcxZDQyMWRmYjIwODViMmZjODVkY2Q5Iixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD0zYmUzNDZkODI5OGE4MmQzODYwMTZlMmJlODA5Nzc4Nw==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1162
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56KLFG6i
+C: From: no-reply@roos-it.net
+C: Date: Tue, 06 Jun 2023 22:20:10 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <AD781K0Z4KU4.TICPROO1OUQE1@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjEzLjA2LjIwMjMgMjI6MTk6MzMiLCJuYmYiOjE2ODYwODI4MDksImV4cCI6MTY4NjY4NzU3MywiaWF0IjoxNjg2MDgyODA5LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.fpnGEqw2Dq89Vd64O3u2b_3BOlP1X014FOJrEQdZTdIS9pcBTXxJMTPRgT0EZNwblpNeSaYYAmuc0bguZXF6zw
+C: Or enter the password reset code in the app.
+C: Password reset code: 2522317852
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56KLFG6i
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P16 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjU0N2UwOWE2N2UxNTU4YjY0NzY4OGFjMTkyOGFhMTM1Iixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD1iM2NiOGI2NTVhNTY3YzA0YjliMTQ2YjJjMmU2YzE1Yg==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1158
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56KOEG6p
+C: From: no-reply@roos-it.net
+C: Date: Tue, 06 Jun 2023 22:23:02 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <JO7PHC1Z4KU4.5WT2O72N0D2P2@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjEzLjA2LjIwMjMgMjI6MjI6NTgiLCJuYmYiOjE2ODYwODI5ODIsImV4cCI6MTY4NjY4Nzc3OCwiaWF0IjoxNjg2MDgyOTgyLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.ud0t_gZCspkZY-G0ldUvzc5FS8EXcbMi8rvqa2kpdkKxPknFiSOUGi8rrNvnN0RsJQK9DV870C-zvF6v0echgQ
+C: Or enter the password reset code in the app.
+C: Password reset code: 481537
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56KOEG6p
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P2 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjNmMzdhOGRlYmQ2YzIzNTU4ZTgwN2RkNjdjN2RmOTE2Iixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD03NTg4MDgwNDNlNTVhZDFhOTA2YjU1NDM0NDcyNTljMA==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1158
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56KjPGDI
+C: From: no-reply@roos-it.net
+C: Date: Tue, 06 Jun 2023 22:44:07 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <RO0TT57Z4KU4.1CXQVK9D7KLU2@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjEzLjA2LjIwMjMgMjI6NDQ6MDQiLCJuYmYiOjE2ODYwODQyNDcsImV4cCI6MTY4NjY4OTA0NCwiaWF0IjoxNjg2MDg0MjQ3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.cQiga2fguTdz19eyW8JQ0T_twNTRxSqhLO2t3w7BJWEUAuzdsp3FNnLr_tqkCIvpBw2I7VFokSpuqwo89pPRqw
+C: Or enter the password reset code in the app.
+C: Password reset code: 074025
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56KjPGDI
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P14 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjIyMjM2OGVmNGZmMTFlYmZmNTE2N2YwNzVmN2YzNzhjIixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD03MDhhNDY2MzQ3MmE0NmZkMWNkODE3ZmZlYmZiOWMyOA==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1158
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56Kv5GDs
+C: From: no-reply@roos-it.net
+C: Date: Tue, 06 Jun 2023 22:55:39 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <ZZRQ4CAZ4KU4.6SL1VTJE8NP12@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjEzLjA2LjIwMjMgMjI6NTU6MzgiLCJuYmYiOjE2ODYwODQ5MzgsImV4cCI6MTY4NjY4OTczOCwiaWF0IjoxNjg2MDg0OTM4LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.DmvNZUN88mEaiFGqa6a09pp1wwG3xfT_7AYztyF54l0q311jtAqtnOl9AudzxXIZWC9UmKWbCFIyxAkWO1sDvw
+C: Or enter the password reset code in the app.
+C: Password reset code: 856214
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56Kv5GDs
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P6 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9ImFkNjM2OWM5YmYxMDNmMTQ1MmFlOGNhMTcwOGNjZDE2Iixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD1jNWU2ZTIwZWY4NzkyOTUzZTdkYzJmYTI1YmU1NmZlNA==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1158
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56M2FGIC
+C: From: no-reply@roos-it.net
+C: Date: Wed, 07 Jun 2023 00:01:11 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <XHKJGESZ4KU4.T5EXFW4R1WQC3@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjE0LjA2LjIwMjMgMDA6MDE6MTAiLCJuYmYiOjE2ODYwODg4NzAsImV4cCI6MTY4NjY5MzY3MCwiaWF0IjoxNjg2MDg4ODcwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.BBgZW7_PG0omcICABPWE3qYM8W0u7B-31PTl_ItaKI1dwoVOa2OcTW9wl8KrclZXuxdHYKVNGaUlarT2a_DiLQ
+C: Or enter the password reset code in the app.
+C: Password reset code: 120130
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56M2FGIC
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P11 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjlhZDg5ODRiMjkwNDYwNTdhMzE4ODRmYWE4ODkxZDIiLHFvcD0iYXV0aCIsY2hhcnNldD11dGYtOCxhbGdvcml0aG09bWQ1LXNlc3M=
+C: ********
+S: 334 cnNwYXV0aD1hZjc0MDhjYTkxMzdiYjhiOWRjYjFmOWY0NDg2YWQ2OA==
+C: 
+S: 235 2.7.0 OK Authenticated
+C: MAIL FROM:<no-reply@roos-it.net> SIZE=1158
+C: RCPT TO:<mika-roos@web.de>
+S: 250 2.1.0 Sender ok
+S: 250 2.1.5 Recipient ok: <mika-roos@web.de>
+C: DATA
+S: 354 3.0.0 Enter data for mail with id J4ece2z56MOAGJy
+C: From: no-reply@roos-it.net
+C: Date: Wed, 07 Jun 2023 00:23:05 +0200
+C: Subject: Password Reset Request
+C: Message-Id: <L3SUTFYZ4KU4.TVMSVMPC1PCJ1@0x00405a00-pc>
+C: To: mika-roos@web.de
+C: Sender: no-reply@roos-it.net
+C: MIME-Version: 1.0
+C: Content-Type: text/plain; charset=utf-8
+C: 
+C: Hello test test,
+C: 
+C: to complete the user activation follow this link: http://10.100.0.200:5030/jelly-api-1/user/password/reset/eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIiwidXNlciI6Im1pa2Etcm9vc0B3ZWIuZGUiLCJ1c2VyX3R5cGVfaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJlbWFpbCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImV4cGlyZXNfdGltZSI6IjE0LjA2LjIwMjMgMDA6MjM6MDUiLCJuYmYiOjE2ODYwOTAxODUsImV4cCI6MTY4NjY5NDk4NSwiaWF0IjoxNjg2MDkwMTg1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMTAvIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDEwLyJ9.NjRDBZQY_lTqT2g92ItTGezSX_TgNtc9hnezV3dKzOBmkdD6tACCcpLYbrFLkcjQWppLSsA9ryx2zm7aKzA0Dg
+C: Or enter the password reset code in the app.
+C: Password reset code: 528138
+C: 
+C: Ensure that you complete you user activation till 'Montag, 1. Januar 0001'.
+C: Otherwise your request is not longer available.
+C: .
+S: 250 2.0.0 OK queued with id J4ece2z56MOAGJy
+C: QUIT
+S: 221 2.0.0 closing connection
+Connected to smtps://smtp.strato.de:465/
+S: 220 smtp.strato.de ESMTP RZmta (P16 -)
+C: EHLO 0x00405a00-PC
+S: 250-smtp.strato.de greets 88.152.157.81
+S: 250-ENHANCEDSTATUSCODES
+S: 250-PIPELINING
+S: 250-8BITMIME
+S: 250-DELIVERBY
+S: 250-SIZE 104857600
+S: 250-AUTH PLAIN LOGIN CRAM-MD5 DIGEST-MD5
+S: 250-REQUIRETLS
+S: 250 HELP
+C: AUTH DIGEST-MD5
+S: 334 bm9uY2U9IjRkN2E3ODc1NGRiYjZlZmFhNjI1NzZlYjJlNzZmNWE5Iixxb3A9ImF1dGgiLGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNz
+C: ********
+S: 334 cnNwYXV0aD1hN2M0ZGE4OWIyYmQzMmQzY2YzMzQ2YTI1MWYzYzNjNg==
+C: 

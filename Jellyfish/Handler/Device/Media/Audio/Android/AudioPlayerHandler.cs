@@ -90,5 +90,14 @@ namespace JellyFish.Handler.Device.Media.Audio.Android
             return isCompleted;
         }*/
         #endregion
+        public override void SetUserDeniedAction()
+        {
+            UserDeniedAction = () => { };
+        }
+
+        public override void SetUserRationalAction()
+        {
+            UserRationalAction = () => { };
+        }
     }
 }

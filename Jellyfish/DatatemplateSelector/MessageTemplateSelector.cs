@@ -12,22 +12,21 @@ namespace JellyFish.DatatemplateSelector
 
     public class MessageDataTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate ReceiveMessageTemplate { get; set; }
-        public DataTemplate SendMessageTemplate { get; set; }
-        public DataTemplate LinkSendMessageTemplate { get; set; }
-        public DataTemplate LinkReceiveMessageTemplate { get; set; }
-        public DataTemplate GpsSendMessageTemplate { get; set; }
-        public DataTemplate GpsReceiveMessageTemplate { get; set; }
-        public DataTemplate ImageSendMessageTemplate { get; set; }
-        public DataTemplate ImageReceiveMessageTemplate { get; set; }
-        public DataTemplate ContactSendMessageTemplate { get; set; }
-        public DataTemplate ContactReceiveMessageTemplate { get; set; }
+        public DataTemplate DefaultMessageTemplate { get; set; }
+        public DataTemplate LinkMessageTemplate { get; set; }
+        public DataTemplate GpsMessageTemplate { get; set; }
+        public DataTemplate ImageMessageTemplate { get; set; }
+        public DataTemplate VideoMessageTemplate { get; set; }
+        public DataTemplate ContactMessageTemplate { get; set; }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
             var msg = (Message)item;
-            var selectedTemplate = msg.Received ? (msg.IsLink ? LinkReceiveMessageTemplate : msg.IsGpsMessage ? GpsReceiveMessageTemplate : (msg.IsImg ? ImageReceiveMessageTemplate : (msg.IsContact? ContactReceiveMessageTemplate : ReceiveMessageTemplate))) :
-                msg.IsLink ? LinkSendMessageTemplate : msg.IsGpsMessage ? GpsSendMessageTemplate : (msg.IsImg?ImageSendMessageTemplate: (msg.IsContact?ContactSendMessageTemplate: SendMessageTemplate));
+            var selectedTemplate = msg.IsLink ?
+                LinkMessageTemplate : msg.IsGpsMessage ?
+                GpsMessageTemplate : (msg.IsImg ?
+                (msg.Media.IsImage? ImageMessageTemplate:VideoMessageTemplate) : (msg.IsContact?
+                ContactMessageTemplate : DefaultMessageTemplate));
             if (selectedTemplate == null)
             {
                 throw new ArgumentNullException();

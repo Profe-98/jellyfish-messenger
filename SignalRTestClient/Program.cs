@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
-using WebApiFunction.Application.Model.Database.MySql.Entity;
+
 using WebApiFunction.Data.Format.Json;
 
 public static class Program

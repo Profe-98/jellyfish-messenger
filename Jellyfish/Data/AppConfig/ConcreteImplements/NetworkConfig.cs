@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using JellyFish.Attribute;
 using JellyFish.Data.AppConfig.Abstraction;
+using JellyFish.Validation;
 
 namespace JellyFish.Data.AppConfig.ConcreteImplements
 {
@@ -17,25 +18,21 @@ namespace JellyFish.Data.AppConfig.ConcreteImplements
             HTTP,
 
         }
-
-        [PropertyUiDisplayText("WebApiBaseUrl",true)]
+        #region WebApi
         public string WebApiBaseUrl { get; set; }
-        [PropertyUiDisplayText("WebApiBaseUrlPort", true)]
         public uint WebApiBaseUrlPort { get; set; }
-        [PropertyUiDisplayText("WebApiHttpClientTransportProtocol", true)]
+        public string WebApiPath { get; set; }
         public HTTP_TRANSPORT_PROTOCOLS WebApiHttpClientTransportProtocol { get; set; }
 
-        [PropertyUiDisplayText("SignalRHubBaseUrl", true)]
-        public string SignalRHubBaseUrl { get;set; }
-        [PropertyUiDisplayText("SignalRHubBaseUrlPort", true)]
+        #endregion
+        #region SignalR
+        public HTTP_TRANSPORT_PROTOCOLS SignalRHubClientTransportProtocol { get; set; }
+        public string SignalRHubBaseUrl { get; set; }
+        public string SignalRHubEndpoint { get; set; }
         public uint SignalRHubBaseUrlPort { get; set; }
-
-        [PropertyUiDisplayText("SignalRTransferFormat", true)]
         public Microsoft.AspNetCore.Connections.TransferFormat SignalRTransferFormat = Microsoft.AspNetCore.Connections.TransferFormat.Text;
-
-        [PropertyUiDisplayText("SignalRTransportProtocol", true)]
-        public Microsoft.AspNetCore.Http.Connections.HttpTransportType SignalRTransportProtocol = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets | Microsoft.AspNetCore.Http.Connections.HttpTransportType.LongPolling;
-
+        public Microsoft.AspNetCore.Http.Connections.HttpTransportType SignalRTransportProtocol = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+        #endregion
         public NetworkConfig() {
 
             SetDefaults();
@@ -43,8 +40,18 @@ namespace JellyFish.Data.AppConfig.ConcreteImplements
 
         public override void SetDefaults()
         {
+            WebApiBaseUrl = "10.100.0.200";
+            WebApiPath = "/jelly-api-1";
+            WebApiBaseUrlPort =5030;
             WebApiHttpClientTransportProtocol = HTTP_TRANSPORT_PROTOCOLS.HTTP;
+            SignalRHubClientTransportProtocol = HTTP_TRANSPORT_PROTOCOLS.HTTP;
+            SignalRHubBaseUrl = "10.100.0.200";
+            SignalRHubEndpoint = "/messenger";
+            SignalRHubBaseUrlPort = 5030;
+            SignalRTransferFormat = Microsoft.AspNetCore.Connections.TransferFormat.Text;
+            SignalRTransportProtocol = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
             base.SetDefaults();
         }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using JellyFish.Service;
+﻿using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Backend.Communication.WebApi;
+using JellyFish.Service;
 using JellyFish.View;
 using JellyFish.ViewModel;
 
@@ -6,21 +8,39 @@ namespace JellyFish
 {
     public partial class App : Application
     {
-        public App(LoginPageViewModel loginPageViewModel,MainPageViewModel mainPageViewModel,NavigationService navigationService)
+        private CancellationTokenSource _webApiActionCancelationToken = new CancellationTokenSource();
+        public App(
+            JellyfishWebApiRestClient jellyfishWebApiRestClient,
+            ApplicationConfigHandler applicationConfigHandler,
+            LoginPageViewModel loginPageViewModel,
+            MainPageViewModel mainPageViewModel,
+            NavigationService navigationService)
         {
             InitializeComponent();
-            bool loggedin = false;
-            Page viewPage= null;
+            Page viewPage = new NavigationPage(new LoginPage(loginPageViewModel));
+            MainPage = viewPage;
+            Load(jellyfishWebApiRestClient, applicationConfigHandler, loginPageViewModel, mainPageViewModel, navigationService);
+
+        }
+        public static Dictionary<string, ResourceDictionary> ResourceDictionary;
+        public async void Load(
+            JellyfishWebApiRestClient jellyfishWebApiRestClient,
+            ApplicationConfigHandler applicationConfigHandler,
+            LoginPageViewModel loginPageViewModel,
+            MainPageViewModel mainPageViewModel,
+            NavigationService navigationService)
+        {
+            bool loggedin = applicationConfigHandler.ApplicationConfig.AccountConfig.UserSession!=null;
+
+
+
+
+
             if (loggedin)
             {
-                viewPage = new NavigationPage(new MainPage(mainPageViewModel));
+                await navigationService.PushAsync(new MainPage(mainPageViewModel));
             }
-            else
-            {
-                viewPage = new NavigationPage(new LoginPage(loginPageViewModel));
-            }
-            
-            MainPage = viewPage; 
+
             ResourceDictionary = new Dictionary<string, ResourceDictionary>();
             foreach (var dictionary in Application.Current.Resources.MergedDictionaries)
             {
@@ -29,9 +49,6 @@ namespace JellyFish
                 string key = dictionary.Source.OriginalString.Split(';').First().Split('/').Last().Split('.').First();
                 ResourceDictionary.Add(key, dictionary);
             }
-
         }
-        public static Dictionary<string, ResourceDictionary> ResourceDictionary;
-
     }
 }

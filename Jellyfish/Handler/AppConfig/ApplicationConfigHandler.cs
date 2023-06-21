@@ -35,11 +35,10 @@ namespace JellyFish.Handler.AppConfig
         {
             ConfigPath = configPath;
             SafeChangesImmediately = safeChangesImmediately;
-            ApplicationConfig = Load();
         }
 
 
-        private ApplicationConfig Load()
+        public ApplicationConfig Load()
         {
             ApplicationConfig applicationConfig = null;
             try

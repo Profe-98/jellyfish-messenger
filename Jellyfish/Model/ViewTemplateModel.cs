@@ -1,4 +1,5 @@
-﻿using JellyFish.ViewModel;
+﻿using JellyFish.View;
+using JellyFish.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,9 @@ namespace JellyFish.Model
     public abstract class ViewTemplateModel : BaseViewModel
     {
         public string Title { get; set; }
-        public Microsoft.Maui.Controls.View ContentView { get; set; }
-        public object ContentViewBindingContext { get; set; }
+        public Type ContentViewModelType { get; set; }
         private bool _isSelected = false;
-        public bool IsSelected
+        public virtual bool IsSelected
         {
             get
             {
@@ -23,7 +23,7 @@ namespace JellyFish.Model
             set
             {
                 _isSelected = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSelected));
             }
         }
         public int NotificationCount { get; set; }  
@@ -36,6 +36,7 @@ namespace JellyFish.Model
 
     public class ChatsViewTemplate : ViewTemplateModel
     {
+
     }
     public class StatusViewTemplate : ViewTemplateModel
     {

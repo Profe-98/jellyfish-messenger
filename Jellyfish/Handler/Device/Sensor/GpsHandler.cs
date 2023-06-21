@@ -2,17 +2,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JellyFish.Handler.Device.Sensor
 {
-    public class GpsHandler : AbstractDeviceActionHandler<Permissions.LocationWhenInUse> 
+    public class GpsHandler : AbstractDeviceActionHandler<Permissions.LocationWhenInUse,Permissions.LocationAlways> 
     {
         private CancellationTokenSource _cancelTokenSource;
         private bool _isCheckingLocation;
+
+        public GpsHandler(Action userRationalAction, Action userDeniedAction, [CallerMemberName] string caller = "") : base(userRationalAction, userDeniedAction, caller)
+        {
+        }
+
         public async Task<Location> GetCurrentLocation()
         {
+            bool permissions = await AreRequiredPermissionsGranted();
+            if (!permissions)
+            {
+                return null;
+            }
             Location location = null;   
             if(!_isCheckingLocation)
             {
@@ -37,6 +48,11 @@ namespace JellyFish.Handler.Device.Sensor
         }
         private async Task<Placemark> GetGeocodeReverseData(Location location)
         {
+            bool permissions = await AreRequiredPermissionsGranted();
+            if (!permissions)
+            {
+                return null;
+            }
             var latitude = location.Latitude;
             var longitude = location.Longitude;
             IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
@@ -60,6 +76,15 @@ namespace JellyFish.Handler.Device.Sensor
             }
 
             return null;
+        }
+        public override void SetUserDeniedAction()
+        {
+            UserDeniedAction = () => { };
+        }
+
+        public override void SetUserRationalAction()
+        {
+            UserRationalAction = () => { };
         }
 
     }

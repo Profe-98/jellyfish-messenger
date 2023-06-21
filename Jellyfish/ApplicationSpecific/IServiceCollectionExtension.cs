@@ -16,6 +16,10 @@ using JellyFish.Handler.Device.Filesystem;
 using JellyFish.Handler.Device.Sensor;
 using JellyFish.Handler.Device.ClipBoard;
 using JellyFish.Handler.Device.Network;
+using JellyFish.Handler.Backend.Communication.WebApi;
+using JellyFish.Handler.Backend.Communication.SignalR;
+using Microsoft.Maui.Handlers;
+using JellyFish.Handler.AppConfig;
 
 namespace JellyFish.ApplicationSpecific
 {
@@ -41,27 +45,63 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<CallsPageViewModel>();
             services.AddSingleton<MainPageViewModel>();
             services.AddSingleton<LoginPageViewModel>();
-            services.AddSingleton<RegisterContentPageViewModel>();
             services.AddSingleton<ResetPasswordContentPageViewModel>();
             services.AddTransient<ChatPageViewModel>();
-            services.AddSingleton<ContactsPageViewModel>();
+            services.AddSingleton<UserSelectionPageViewModel>();
             services.AddSingleton<ProfilePageViewModel>();
             services.AddSingleton<CameraHandlerPageViewModel>();
+            services.AddSingleton<RegisterContentPageViewModel>();
             return services;
         }
-        public static IServiceCollection AddDeviceHandlers(this IServiceCollection services)
+        public static IServiceCollection AddDeviceHandlers(this IServiceCollection services,ApplicationConfigHandler applicationHandler)
         {
-            services.AddSingleton<FileHandler>();
-            services.AddSingleton<VibrateHandler>();
-            services.AddSingleton<CameraHandler>();
-            services.AddSingleton<DeviceContactHandler>();
+            services.AddSingleton<FileHandler>(new FileHandler(() => { }, () => { }));
+            services.AddSingleton<VibrateHandler>(new VibrateHandler(() => { }, () => { }));
+            services.AddSingleton<CameraHandler>(new CameraHandler(() => { }, () => { }));
+            services.AddSingleton<DeviceContactHandler>(new DeviceContactHandler());
             //services.AddSingleton<AbstractAudioPlayerHandler>();
             //services.AddSingleton<AbstractAudioRecorderHandler>();
-            services.AddSingleton<DeviceCommunicationHandler>();
-            services.AddSingleton<NotificationHandler>();
-            services.AddSingleton<GpsHandler>();
-            services.AddSingleton<ClipBoardHandler>();
-            services.AddSingleton<NetworkingHandler>();
+            services.AddSingleton<DeviceCommunicationHandler>(new DeviceCommunicationHandler(() => { }, () => { }));
+            services.AddSingleton<NotificationHandler>(new NotificationHandler(() => { }, () => { }));
+            services.AddSingleton<GpsHandler>(new GpsHandler(() => { }, () => { }));
+            services.AddSingleton<ClipBoardHandler>(new ClipBoardHandler());
+            services.AddSingleton<NetworkingHandler>(new NetworkingHandler(() => { }, () => { }));
+            var jellyfishBackendClient = new JellyfishWebApiRestClient();
+            string loginSessionEndpoint= WebApiEndpointStruct.LoginSessionEndpoint;
+            string logoutSessionEndpoint = WebApiEndpointStruct.LogoutSessionEndpoint; 
+            string validateSessionEndpoint = WebApiEndpointStruct.ValidateSessionEndpoint;
+            string refreshSessionEndpoint = WebApiEndpointStruct.RefreshSessionEndpoint;
+            string connectionTestEndpoint = WebApiEndpointStruct.ConnectionTestEndpoint;
+            string protocolApi = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
+            string baseUrl =
+                protocolApi +
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrl+":"+
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrlPort +
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiPath+"/";
+            jellyfishBackendClient.Init(baseUrl,
+                loginSessionEndpoint,
+                logoutSessionEndpoint,
+                validateSessionEndpoint,
+                refreshSessionEndpoint,
+                connectionTestEndpoint);
+
+
+            services.AddSingleton<JellyfishWebApiRestClient>(jellyfishBackendClient);
+
+            var jellyfishSignalRClient = new SignalRClient();
+            string protocolSignalR = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
+            string url =
+                protocolSignalR+
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrl+":" + 
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrlPort +
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubEndpoint;
+            jellyfishSignalRClient.Initialize(url, async () =>
+            {
+                return applicationHandler.ApplicationConfig.AccountConfig.UserSession.Token;
+            }, 
+            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransportProtocol, 
+            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransferFormat);
+            services.AddSingleton<SignalRClient>();
             return services;
         }
         public static IServiceCollection AddPages(this IServiceCollection services)

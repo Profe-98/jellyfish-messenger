@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,23 @@ namespace JellyFish.ViewModel.SettingsSubPage
         {
             get => PropertyValues != null && PropertyValues.Count != 0;
         }
-        public ICommand SaveConfigCommand;
+        public ICommand SaveConfigCommand { get; set; }
+        public ICommand RestoreDefaultsConfigCommand { get; set; }
 
+        public virtual bool Validate()
+        {
+            int nok=0;
+            foreach(var item in PropertyValues)
+            {
+                if(item.Value != null)
+                {
+                    bool response = item.Value.Validate();
+                    if (!response)
+                        nok++;
+                }
+            }
+            return nok == 0;
+        }
         public void RefreshUi()
         {
             OnPropertyChanged(nameof(PropertyValues));
@@ -38,5 +54,6 @@ namespace JellyFish.ViewModel.SettingsSubPage
         {
             PageTitle = pageTitle;  
         }
+
     }
 }

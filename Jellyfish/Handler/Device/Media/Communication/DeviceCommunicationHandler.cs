@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using Communication = Microsoft.Maui.ApplicationModel.Communication;
 using JellyFish.Model;
 using System.Text.RegularExpressions;
+using JellyFish.Handler.Abstraction;
+using System.Runtime.CompilerServices;
 
 namespace JellyFish.Handler.Device.Media.Communication
 {
-    public class DeviceCommunicationHandler
+    public class DeviceCommunicationHandler : AbstractDeviceActionHandler<Permissions.LaunchApp>
     {
+
+        public DeviceCommunicationHandler(Action userRationalAction, Action userDeniedAction, [CallerMemberName] string caller = "") : base(userRationalAction, userDeniedAction, caller)
+        {
+        }
+
         public void DialingPhoneNumber(string number)
         {
             if (string.IsNullOrEmpty(number))
@@ -19,6 +26,17 @@ namespace JellyFish.Handler.Device.Media.Communication
                 return;
             Microsoft.Maui.ApplicationModel.Communication.PhoneDialer.Default.Open(number);
         }
+
+        public override void SetUserDeniedAction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetUserRationalAction()
+        {
+            throw new NotImplementedException();
+        }
+
         public static class PhoneNumber
         {
             public const string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";

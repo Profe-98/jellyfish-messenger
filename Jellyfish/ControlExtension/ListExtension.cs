@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -44,6 +45,43 @@ namespace JellyFish.ControlExtension
             }
 
             return -1;
+        }
+        public static void ScrollToEnd(this CollectionView collectionView, Type groupItemType = null)
+        {
+            var sv = collectionView;
+            if (sv == null) return;
+            bool isLoaded = sv.IsLoaded;
+            bool isVisbile = sv.IsVisible;
+            bool isFocued = sv.IsFocused;
+
+            if (sv.ItemsSource == null)
+                return;
+            var data = sv.ItemsSource.Cast<object>().ToList();
+            int count = data.Count;
+            if (count > 0 && groupItemType != null)
+            {
+                if (sv.IsGrouped)
+                {
+                    var subData = data.LastOrDefault();
+                    if (subData != null)
+                    {
+                        bool isMsgGrp = subData.GetType() == groupItemType;
+                        if (isMsgGrp)
+                        {
+                            var d = ((IEnumerable)subData).Cast<object>().ToList();
+                            if (d != null && d.Count > 0)
+                            {
+                                sv.ScrollTo(d.Last(), data.Last(), ScrollToPosition.End, false);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+
+                    sv.ScrollTo(count - 1, -1, ScrollToPosition.End, false);
+                }
+            }
         }
     }
 }

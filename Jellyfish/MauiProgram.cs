@@ -11,7 +11,6 @@ using JellyFish.Data.SqlLite.Schema;
 using JellyFish.ApplicationSpecific;
 using WebApiFunction.Data.Format.Json;
 using JellyFish.Handler.AppConfig;
-using JellyFish.Handler.Device.Permission;
 using Microsoft.Maui.LifecycleEvents;
 using Camera.MAUI;
 using Microsoft.Maui.Handlers;
@@ -25,8 +24,12 @@ namespace JellyFish
     {
         public static MauiApp CreateMauiApp()
         {
-            var appConfigHandler = ApplicationConfigHandlerSingleton.Get();
             var builder = MauiApp.CreateBuilder();
+
+
+            var appConfigHandler = ApplicationConfigHandlerSingleton.Get();
+            appConfigHandler.ApplicationConfig = appConfigHandler.Load();
+
             builder
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
@@ -112,6 +115,11 @@ namespace JellyFish
             //Das Problem ist das die Pages in die DI gepackt werden ohne das die Resources überhaupt verfügbar sind. Diese sind erst nach dem builder.Build() verfügbar.
 
 
+#if __ANDROID__//Fixxed bei einer CollectionView in der man Images auswählen kann folgenden Fehler: Canvas: trying to use a recycled bitmap
+        ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => PrependToMappingImageSource(handler, view));
+#endif
+
+
             builder.Services.AddSingleton<JsonHandler>();
             builder.Services.AddSingleton(appConfigHandler);
 
@@ -119,16 +127,9 @@ namespace JellyFish
             builder.Services.AddSqlLiteDatabase(Global.DatabasePath, Global.DatabaseFlags);
 
             builder.Services.AddSingleton<NavigationService>();
-            builder.Services.AddSingleton<PermissionHandler>();
-            builder.Services.AddDeviceHandlers();
+            builder.Services.AddDeviceHandlers(appConfigHandler);
             builder.Services.AddViewModels();
             builder.Services.AddPages();
-
-
-#if __ANDROID__//Fixxed bei einer CollectionView in der man Images auswählen kann folgenden Fehler: Canvas: trying to use a recycled bitmap
-        ImageHandler.Mapper.PrependToMapping(nameof(Microsoft.Maui.IImage.Source), (handler, view) => PrependToMappingImageSource(handler, view));
-#endif
-
             return builder.Build();
         }
 #if __ANDROID__//Fixxed bei einer CollectionView in der man Images auswählen kann folgenden Fehler: Canvas: trying to use a recycled bitmap

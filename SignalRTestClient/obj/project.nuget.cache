@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3CuB4QGelftXo6npCDxMBCc8ReSG6MdKWUfrb1fIQBpYF2elslJI/LnS3Pyq218B3PUk4/8DpAoM5JgQnhTdtw==",
+  "dgSpecHash": "/M8vMmO9pEunx3L1gHoVyE4PbwP++vu6mB5DHwP6/KBfh25aCr7UGX6sWR7FFDd1dpeoVF1NrBUYLXY16i28PQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mika\\Source\\Repos\\jellyfish-messenger\\SignalRTestClient\\SignalRTestClient.csproj",
+  "projectFilePath": "F:\\Helix\\Projekte\\jellyfish-messenger\\SignalRTestClient\\SignalRTestClient.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mika\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",

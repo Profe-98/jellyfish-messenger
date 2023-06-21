@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Reflection;
-using WebApiFunction.Application.Model.Database.MySql.Jellyfish;
 using WebApiFunction.Application.Model.DataTransferObject.Helix.Frontend.Transfer;
 using WebApiFunction.Controller;
 using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
@@ -20,26 +19,32 @@ using WebApiFunction.Ampq.Rabbitmq;
 using WebApiFunction.Configuration;
 using WebApiFunction.MicroService;
 using WebApiFunction.Security.Encryption;
-using WebApiFunction.Application.Model.Database.MySql.Dapper.Context;
 using Microsoft.AspNetCore.Authorization;
 using WebApiFunction.Filter;
+using WebApiFunction.Application.Controller.Modules;
+using Microsoft.Extensions.DependencyInjection;
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 
 namespace JellyFishBackend.Controller
 {
     [Authorize]
-    public class AuthentificationController : AbstractController<AuthModel,AuthModule>
+    public class AuthentificationController : AbstractController<AuthModel>
     {
 
         private readonly ILogger<AuthentificationController> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAuthHandler _authHandler;
 
-        public AuthentificationController(ILogger<AuthentificationController> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, MysqlDapperContext mysqlDapperContext) : base(logger, vulnerablityHandler, mailHandler, authHandler, databaseHandler, jsonApiHandler, queue, jsonHandler, cache, actionDescriptorCollectionProvider, env, configuration, rabbitMqHandler, appConfig, nodeManagerHandler, scopedEncryptionHandler, mysqlDapperContext)
+        public AuthentificationController(ILogger<AuthentificationController> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, IAbstractBackendModule<AuthModel> abstractBackendModule, IServiceProvider serviceProvider) : 
+            base(logger, vulnerablityHandler, mailHandler, authHandler, databaseHandler, jsonApiHandler, queue, jsonHandler, cache, actionDescriptorCollectionProvider, env, configuration, rabbitMqHandler, appConfig, nodeManagerHandler, scopedEncryptionHandler, abstractBackendModule, serviceProvider)
         {
 
             _webHostEnvironment = env;
             _logger = logger;
             _authHandler = authHandler;
+
+
+
         }
 
         [HttpGet("session/{token}")]
@@ -50,7 +55,8 @@ namespace JellyFishBackend.Controller
             AuthModel authModel = null;
             if (token != null)
             {
-                authModel = (AuthModel)await _authHandler.GetSession(token);
+                var tmp = await _authHandler.GetSession(token);
+                authModel = new AuthModel(tmp);
             }
             return authModel == null ? JsonApiErrorResult(new List<ApiErrorModel> {
                 new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Detail = "forbidden" }
@@ -62,46 +68,14 @@ namespace JellyFishBackend.Controller
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             AuthModel authModel = null;
-            bool jwtByAuthInit = false;
-            if (jwtByAuthInit)
+            if (authUserModel != null)
             {
-                if (!this.ModelState.IsValid)
+                if (this.ModelState.IsValid)
                 {
-
-                    string authHttpHeaderKey = HttpContext.Request.Headers.Keys.ToList().Find(x => x == "Authorization");
-                    if (authHttpHeaderKey == null)
+                    var tmp = await _authHandler.Login(HttpContext, authUserModel);
+                    if(tmp != null)
                     {
-                        return JsonApiErrorResult(new List<ApiErrorModel> {
-                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Detail = "bad request" }
-            }, HttpStatusCode.BadRequest, "an error occurred", "authHttpHeaderKey == null", methodInfo);
-                    }
-                    if (authHttpHeaderKey != null)
-                    {
-                        string token = null;
-                        string authStr = HttpContext.Request.Headers[authHttpHeaderKey];
-                        if (!String.IsNullOrEmpty(authStr))
-                        {
-                            string[] stringSplitter = authStr.Split(' ');
-                            if (stringSplitter.Length == 2)
-                            {
-                                token = stringSplitter[1];
-                            }
-                        }
-                        authModel = (!String.IsNullOrEmpty(token))
-                            ?
-                            (AuthModel)await _authHandler.Login(HttpContext, token)
-                            :
-                            null;
-                    }
-                }
-            }
-            else
-            {
-                if (authUserModel != null)
-                {
-                    if (this.ModelState.IsValid)
-                    {
-                        authModel = (AuthModel)await _authHandler.Login(HttpContext, authUserModel);
+                        authModel = new AuthModel(tmp);
                     }
                 }
             }
@@ -124,10 +98,10 @@ namespace JellyFishBackend.Controller
             }, HttpStatusCode.Forbidden, "an error occurred", "authModel == null", methodInfo);
             }
         }
-        [HttpGet("test")]
+        [AllowAnonymous]
+        [HttpGet("connection")]
         public async Task<ActionResult> Test()
         {
-            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             return Ok();
         }
         [HttpPost("logout/{token}")]
@@ -166,7 +140,8 @@ namespace JellyFishBackend.Controller
                     string token = HttpContext.GetRequestJWTFromHeader();
                     if (token != null)
                     {
-                        AuthModel authModel = (AuthModel)await _authHandler.Refresh(HttpContext, refresh_token, token);
+                        var tmp = await _authHandler.Refresh(HttpContext, refresh_token, token);
+                        AuthModel authModel = new AuthModel(tmp);
                         return Ok(authModel);
                     }
                 }
@@ -182,7 +157,7 @@ namespace JellyFishBackend.Controller
         public async Task<ActionResult> Validate([FromBody] AuthentificationTokenModel authentificationTokenModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
-            var response = await _authHandler.CheckLogin(HttpContext, authentificationTokenModel.Token, true);
+            var response = await _authHandler.CheckLogin(HttpContext, authentificationTokenModel.Token);
             if (response.IsAuthorizatiOk)
             {
                 return Ok();
@@ -190,6 +165,11 @@ namespace JellyFishBackend.Controller
             return JsonApiErrorResult(new List<ApiErrorModel> {
                 new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Detail = "forbidden" }
             }, HttpStatusCode.Forbidden, "an error occurred", "authHttpHeaderKey == null", methodInfo);
+        }
+
+        public override AbstractBackendModule<AuthModel> GetConcreteModule()
+        {
+            throw new NotImplementedException();
         }
     }
 }

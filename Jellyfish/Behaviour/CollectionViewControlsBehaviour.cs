@@ -26,6 +26,7 @@ using JellyFish.ControlExtension;
 using JellyFish.Behaviour;
 */
 using System.Collections.ObjectModel;
+using JellyFish.ControlExtension;
 
 namespace JellyFish.Behaviour
 {
@@ -47,49 +48,10 @@ namespace JellyFish.Behaviour
         private static void OnScrollToEndPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var sv = bindable as CollectionView;
-            if (sv == null) return;
-            var iss = sv.ItemsSource.GetEnumerator();
-            var childs = sv.GetVisualTreeDescendants();
-            if (childs != null)
-            {
-                var clv = childs.OfType<CollectionView>().FirstOrDefault();
-                if (clv != null)
-                {
-                    var isr = clv.ItemsSource;
-                }
-            }
             if ((bool)newValue)
             {
-                var i = sv.ItemsSource.GetEnumerator();
-                var data = sv.ItemsSource.Cast<object>().ToList();
-                int count = data.Count;
-                bool isLoaded = sv.IsLoaded;
-                bool isVisbile = sv.IsVisible;
-                bool isFocued = sv.IsFocused;
-                if (count > 0)
-                {
-                    if (sv.IsGrouped)
-                    {
-                        var subData = data.LastOrDefault();
-                        if (subData != null)
-                        {
-                            bool isMsgGrp = subData.GetType() == typeof(MessageGroup);
-                            if (isMsgGrp)
-                            {
-                                var d = (MessageGroup)subData;
-                                if (d != null && d.Count > 0)
-                                {
-                                    sv.ScrollTo(d.Count - 1, count - 1, ScrollToPosition.MakeVisible, false);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
 
-                        sv.ScrollTo(count - 1, -1, ScrollToPosition.End, false);
-                    }
-                }
+                sv.ScrollToEnd(typeof(MessageGroup));
             }
         }
     }

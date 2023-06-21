@@ -31,18 +31,18 @@ namespace JellyFish.Model
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<CameraMediaModel> _images;
-        public ObservableCollection<CameraMediaModel> Images
+        private CameraMediaModel _media;
+        public CameraMediaModel Media
         {
-            get { return _images; }
+            get { return _media; }
             set
             {
-                _images = value;
+                _media = value;
                 OnPropertyChanged();
             }
         }
-        private JellyFish.Model.Contact _contact;
-        public JellyFish.Model.Contact Contact
+        private User _contact;
+        public User Contact
         {
             get { return _contact; }
             set
@@ -64,7 +64,11 @@ namespace JellyFish.Model
         }
         public string LocationStr
         {
-            get { return _location.ToGpsString(); }
+            get 
+            {
+                string str = string.Format("Lat: {0}, Lon: {1}", _location.Latitude, _location.Longitude);
+                return str; 
+            }
         }
         public bool IsGpsMessage
         {
@@ -181,7 +185,7 @@ namespace JellyFish.Model
         }
         public bool IsImg
         {
-            get { return Images != null && Images.Count > 0; }
+            get { return _media != null; }
         }
         public bool IsContact
         {

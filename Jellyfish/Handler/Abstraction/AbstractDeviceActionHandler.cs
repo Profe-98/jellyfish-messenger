@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.ApplicationModel;
+﻿using JellyFish.Controls;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls.Compatibility;
 using System;
 using System.Collections;
@@ -81,79 +82,132 @@ namespace JellyFish.Handler.Abstraction
             }
             return hashtable;
         }
+        public abstract Task CheckAndRequestPermission();
+        protected abstract Task<bool> AreRequiredPermissionsGranted();
     }
-    public class AbstractDeviceActionHandler<PERM1, PERM2, PERM3, PERM4> : AbstractDeviceActionHandler
+    public abstract class AbstractDeviceActionHandler<PERM1, PERM2, PERM3, PERM4> : AbstractDeviceActionHandler
         where PERM1 : BasePermission, new()
         where PERM2 : BasePermission, new()
         where PERM3 : BasePermission, new()
         where PERM4 : BasePermission, new()
     {
-        protected Action UserGrantedAction { get; private set; }
-        protected Action UserDeniedAction { get; private set; }
-
-        public void SetUserGrantedAction(Action action)
-        {
-            UserGrantedAction = action;
-        }
-        public void SetUserDeniedAction(Action action)
-        {
-            UserDeniedAction = action;
-        }
-        public AbstractDeviceActionHandler([CallerMemberName] string caller = "")
+        public Action UserRationalAction { get; protected set; }
+        public Action UserDeniedAction { get; protected set; }
+        public AbstractDeviceActionHandler() : this(null, null)
         {
 
-            InitDeviceActor(null, null, caller);
         }
+
         public AbstractDeviceActionHandler(Action userGrantAction, Action userDeniedAction, [CallerMemberName] string caller = "")
         {
-            UserGrantedAction = userGrantAction;
+            UserRationalAction = userGrantAction;
             UserDeniedAction = userDeniedAction;
             InitDeviceActor(userGrantAction, userDeniedAction, caller);
         }
-        protected async void InitDeviceActor(Action successAction, Action userDeniedAction,string caller)
+        protected async Task<PermissionStatus> CheckAndRequestPermission<T>()
+            where T : BasePermission, new()
         {
-            var permState = await HasRequiredPermissions();
-            if (!permState)
+            PermissionStatus status = await Permissions.CheckStatusAsync<T>();
+
+            if (status == PermissionStatus.Granted)
+                return status;
+
+            if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
             {
-                var responseFromUser = PermissionStatus.Denied;
-                /*var responseFromUser = await GetPermissionFromDeviceUser<PERM1>()
-                | (typeof(PERM1) != typeof(PERM2) ? await GetPermissionFromDeviceUser<PERM2>() : PermissionStatus.Unknown)
-                | (typeof(PERM1) != typeof(PERM3) ? await GetPermissionFromDeviceUser<PERM3>() : PermissionStatus.Unknown)
-                | (typeof(PERM1) != typeof(PERM4) ? await GetPermissionFromDeviceUser<PERM4>() : PermissionStatus.Unknown);*/
-                System.Diagnostics.Debug.WriteLine("NET 6.0, Android 12 API:33: RequestAsync Methode von NET MAUI die mittels meiner Wrapper Methode GetPermissionFromDeviceUser getriggert wird, wird PermissionException obwohl die Permission ja angefragt werden soll....");
-                if (responseFromUser.HasFlag(PermissionStatus.Denied))
+                // Prompt the user to turn on in settings
+                // On iOS once a permission has been denied it may not be requested again from the application
+                if (UserDeniedAction != null)
+                    UserDeniedAction.Invoke();
+                return status;
+            }
+
+            if (Permissions.ShouldShowRationale<T>())
+            {
+                // Prompt the user with additional information as to why the permission is needed
+                NotificationHandler.ToastNotify("Permission: " + nameof(T) + " is needed");
+            }
+
+            status = await Permissions.RequestAsync<T>();
+
+            return status;
+        }
+        public override async Task<PermissionStatus[]> CheckAndRequestPermission()
+        {
+            PermissionStatus[] permissions = new PermissionStatus[4]
                 {
-                    if (userDeniedAction != null)
-                        userDeniedAction.Invoke();
-                }
-            }
-            else
-            {
-                if (successAction != null)
-                    successAction.Invoke();
-            }
+                    await CheckAndRequestPermission<PERM1>(),await CheckAndRequestPermission<PERM2>(),await CheckAndRequestPermission<PERM3>(),await CheckAndRequestPermission<PERM4>()
+                };
+            return permissions;
         }
-        protected async Task<bool> HasRequiredPermissions()
+        private void InitDeviceActor(Action successAction, Action userDeniedAction,string caller)
         {
-            return (await GetPermissionState<PERM1>()
-                | (typeof(PERM1) != typeof(PERM2) ? await GetPermissionState<PERM2>() : PermissionStatus.Unknown)
-                | (typeof(PERM1) != typeof(PERM3) ? await GetPermissionState<PERM3>() : PermissionStatus.Unknown)
-                | (typeof(PERM1) != typeof(PERM4) ? await GetPermissionState<PERM4>() : PermissionStatus.Unknown)) == PermissionStatus.Granted;
+            if(successAction == null || userDeniedAction == null) 
+            {
+                SetUserRationalAction();
+                SetUserDeniedAction();
+            }
+
         }
-    }
-    public class AbstractDeviceActionHandler<PERM1> : AbstractDeviceActionHandler<PERM1, PERM1, PERM1, PERM1> where PERM1 : BasePermission, new()
-    {
+
+        protected override async Task<bool> AreRequiredPermissionsGranted()
+        {
+            bool permissions = false;
+            var stateCheck = await CheckAndRequestPermission();
+            permissions = stateCheck.ToList().FindAll(x => x == PermissionStatus.Granted).Count() == stateCheck.Count();
+            return permissions;
+        }
+        public abstract void SetUserRationalAction();
+        public abstract void SetUserDeniedAction();
 
     }
-    public class AbstractDeviceActionHandler<PERM1, PERM2> : AbstractDeviceActionHandler<PERM1, PERM2, PERM1, PERM1> where PERM1 : BasePermission, new()
+
+    public abstract class AbstractDeviceActionHandler<PERM1> : AbstractDeviceActionHandler<PERM1, PERM1, PERM1, PERM1> where PERM1 : BasePermission, new()
+    {
+        protected AbstractDeviceActionHandler() : base() { }
+
+        protected AbstractDeviceActionHandler(Action userRationalAction, Action userDeniedAction, [CallerMemberName] string caller = "") : base(userRationalAction, userDeniedAction, caller)
+        {
+        }
+        protected new async Task<PermissionStatus> CheckAndRequestPermission()
+        {
+            return await CheckAndRequestPermission<PERM1>();
+        }
+    }
+    public abstract class AbstractDeviceActionHandler<PERM1, PERM2> : AbstractDeviceActionHandler<PERM1, PERM2, PERM1, PERM1> where PERM1 : BasePermission, new()
         where PERM2 : BasePermission, new()
     {
 
+        protected AbstractDeviceActionHandler() : base() { }
+
+        protected AbstractDeviceActionHandler(Action userRationalAction, Action userDeniedAction, [CallerMemberName] string caller = "") : base(userRationalAction, userDeniedAction, caller)
+        {
+        }
+        protected new async Task<PermissionStatus[]> CheckAndRequestPermission()
+        {
+            PermissionStatus[] permissions = new PermissionStatus[2]
+                {
+                    await CheckAndRequestPermission<PERM1>(),await CheckAndRequestPermission<PERM2>() 
+                };   
+            return permissions;
+        }
     }
-    public class AbstractDeviceActionHandler<PERM1, PERM2, PERM3> : AbstractDeviceActionHandler<PERM1, PERM2, PERM3, PERM1> where PERM1 : BasePermission, new()
+    public abstract class AbstractDeviceActionHandler<PERM1, PERM2, PERM3> : AbstractDeviceActionHandler<PERM1, PERM2, PERM3, PERM1> where PERM1 : BasePermission, new()
         where PERM2 : BasePermission, new()
         where PERM3 : BasePermission, new()
     {
 
+        protected AbstractDeviceActionHandler() : base() { }
+
+        protected AbstractDeviceActionHandler(Action userRationalAction, Action userDeniedAction, [CallerMemberName] string caller = "") : base(userRationalAction, userDeniedAction, caller)
+        {
+        }
+        protected new async Task<PermissionStatus[]> CheckAndRequestPermission()
+        {
+            PermissionStatus[] permissions = new PermissionStatus[3]
+                {
+                    await CheckAndRequestPermission<PERM1>(),await CheckAndRequestPermission<PERM2>(),await CheckAndRequestPermission<PERM3>()
+                };
+            return permissions;
+        }
     }
 }

@@ -44,11 +44,6 @@ namespace JellyFishBackend.SignalR.Hub
             //Entities: WebApiFunction.Application.Model.Database.MySql.Jellyfish
         }
 
-        public async Task Test()
-        {
-
-            await Clients.All.Test();//invokes to all client the method Test with non params
-        }
         /*public async Task SendMessage(string user, string message)
         {
 

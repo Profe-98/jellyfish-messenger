@@ -38,12 +38,11 @@ using WebApiFunction.Application.Model.DataTransferObject;
 using WebApiFunction.Application.Model;
 using WebApiFunction.Configuration;
 using WebApiFunction.Collections;
-using WebApiFunction.Controller;
 using WebApiFunction.Data;
 using WebApiFunction.Data.Format.Json;
 using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
 using WebApiFunction.Database;
-using WebApiFunction.Filter;
+using WebApiFunction.Web.AspNet.Filter;
 using WebApiFunction.Formatter;
 using WebApiFunction.LocalSystem.IO.File;
 using WebApiFunction.Log;
@@ -62,7 +61,7 @@ using WebApiFunction.Web.AspNet;
 using WebApiFunction.Web.Authentification;
 using WebApiFunction.Web.Http.Api.Abstractions.JsonApiV1;
 using WebApiFunction.Web.Http;
-using WebApiFunction.Healthcheck;
+using WebApiFunction.Web.AspNet.Healthcheck;
 using WebApiFunction.Application;
 using WebApiFunction.Web.Authentification.JWT;
 using WebApiFunction.Database.Dapper.Converter;
@@ -82,6 +81,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Hosting;
+using WebApiFunction.Web.AspNet.Controller;
 
 namespace JellyFishBackend
 {

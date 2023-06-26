@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Reflection;
 using WebApiFunction.Application.Model.DataTransferObject.Helix.Frontend.Transfer;
-using WebApiFunction.Controller;
 using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
 using WebApiFunction.Web.Authentification;
 using WebApiFunction.Application.Controller.Modules.Jellyfish;
@@ -20,7 +19,7 @@ using WebApiFunction.Configuration;
 using WebApiFunction.MicroService;
 using WebApiFunction.Security.Encryption;
 using Microsoft.AspNetCore.Authorization;
-using WebApiFunction.Filter;
+using WebApiFunction.Web.AspNet.Filter;
 using System.Data.Common;
 using WebApiFunction.Web.Authentification.JWT;
 using WebApiFunction.Application.Controller.Modules;
@@ -28,6 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using JellyFishBackend.SignalR.Hub;
 using Microsoft.AspNetCore.SignalR;
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
+using WebApiFunction.Web.AspNet.Controller;
 
 namespace JellyFishBackend.Controller
 {
@@ -67,20 +67,9 @@ namespace JellyFishBackend.Controller
             return base.Get();
         }
 
-        [AllowAnonymous]
-        [HttpPost("test")]
-        public async Task<ActionResult> Test()
+        public override ChatModule GetConcreteModule()
         {
-            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
-
-            var t = _messengerHub;
-            t.Clients.All.Test();//invokes to all connected client the method Test
-            return Ok();
-
-        }
-        public override MessageModule GetConcreteModule()
-        {
-            return ((MessageModule)_backendModule);
+            return ((ChatModule)_backendModule);
         }
 
     }

@@ -51,6 +51,41 @@
 							"response": []
 						},
 						{
+							"name": "User/Test (Module test)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "api_token",
+										"type": "text",
+										"value": "3c66e67e-79c3-11eb-b9d1-309c2364fdb6",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{rest_jwt_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{rest_api_url}}/user/test",
+									"host": [
+										"{{rest_api_url}}"
+									],
+									"path": [
+										"user",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "User/Password Reset Request",
 							"request": {
 								"method": "POST",
@@ -258,7 +293,7 @@
 					"name": "Auth",
 					"item": [
 						{
-							"name": "Auth/Login",
+							"name": "Auth/Login Client 1",
 							"event": [
 								{
 									"listen": "test",
@@ -311,6 +346,75 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"user\":\"root@root.de\",\r\n    \"password\":\"root\"\r\n}"
+								},
+								"url": {
+									"raw": "{{auth_endpoint}}/authentification/login/",
+									"host": [
+										"{{auth_endpoint}}"
+									],
+									"path": [
+										"authentification",
+										"login",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Auth/Login Client 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"HTTP: 200\",function() {\r",
+											"    let status = pm.response.status;\r",
+											"    if(status === \"OK\") {\r",
+											"        \r",
+											"        let responseJson = pm.response.json();\r",
+											"        let token = responseJson.token;\r",
+											"        let rtoken = responseJson.refresh_token;\r",
+											"        pm.environment.set(\"rest_jwt_token\",token);\r",
+											"        pm.environment.set(\"rest_jwt_refresh_token\",rtoken);\r",
+											"    }\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "api_user",
+										"value": "test",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "api_password",
+										"value": "test",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCIsInBhc3N3b3JkIjoidGVzdCJ9.EZebyve1DUVEh1Ni83rmQA-GCWt81SuRgXxCUbzpsKOV1vHUlOL4PuxaO0QPW16PQze5FwSbGUewqQRvLTqdLQ",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\":\"mika-roos@web.de\",\r\n    \"password\":\"mika1996\"\r\n}"
 								},
 								"url": {
 									"raw": "{{auth_endpoint}}/authentification/login/",
@@ -596,25 +700,152 @@
 							"response": []
 						}
 					]
-				}
-			]
-		},
-		{
-			"name": "SignalR",
-			"item": [
+				},
 				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "dfgdf",
-							"host": [
-								"dfgdf"
-							]
+					"name": "Message",
+					"item": [
+						{
+							"name": "Test SignalR Client.All.SendAsync",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{rest_api_url}}/message/test",
+									"host": [
+										"{{rest_api_url}}"
+									],
+									"path": [
+										"message",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Messages/Get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{auth_endpoint}}/message",
+									"host": [
+										"{{auth_endpoint}}"
+									],
+									"path": [
+										"message"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Messages/Not Acknowlege Messages",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{auth_endpoint}}/message/nack",
+									"host": [
+										"{{auth_endpoint}}"
+									],
+									"path": [
+										"message",
+										"nack"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Message/Create",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"type\": \"messagemodel\",\r\n        \"attributes\": {\r\n            \"chat_uuid\": \"d4368f8d-fd51-11ed-8f81-7085c294413b\",\r\n            \"message_owner\": \"d4368f8d-fd51-11ed-8f81-7085c294413b\",\r\n            \"text\": \"hi wollen wir freunde sein?\",\r\n            \"active\": true,\r\n            \"deleted\": false,\r\n            \"binary_content\":null\r\n        }\r\n    },\r\n    \"meta\": {\r\n        \"count\": 1\r\n    },\r\n    \"jsonapi\": {\r\n        \"version\": \"1.0\",\r\n        \"company\": \"HelixDBM GmbH\",\r\n        \"author\": \"Joel Mika Roos for HelixDBM GmbH\",\r\n        \"copyright\": \"HelixDBM GmbH\",\r\n        \"use\": \"Backend API for Helix DMBS Tool and the Official Helix DBM Website\",\r\n        \"rfc\": \"RFC 7159\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{auth_endpoint}}/message/",
+									"host": [
+										"{{auth_endpoint}}"
+									],
+									"path": [
+										"message",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Message/Acknowledge",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": [\r\n    {\r\n        \"id\":\"6da99d37-0fa7-11ee-a321-7085c294413b\",\r\n        \"type\": \"MessageAcknowledgeDTO\",\r\n        \"attributes\": {\r\n            \"chat_uuid\":\"d4368f8d-fd51-11ed-8f81-7085c294413b\",\r\n            \"message_uuid\":\"6da99d37-0fa7-11ee-a321-7085c294413b\"\r\n        }\r\n    },\r\n    {\r\n        \"id\":\"6e19e74a-0fa7-11ee-a321-7085c294413b\",\r\n        \"type\": \"MessageAcknowledgeDTO\",\r\n        \"attributes\": {\r\n            \"chat_uuid\":\"d4368f8d-fd51-11ed-8f81-7085c294413b\",\r\n            \"message_uuid\":\"6e19e74a-0fa7-11ee-a321-7085c294413b\"\r\n        }\r\n    }],\r\n    \"meta\": {\r\n        \"count\": 2\r\n    },\r\n    \"jsonapi\": {\r\n        \"version\": \"1.0\",\r\n        \"company\": \"HelixDBM GmbH\",\r\n        \"author\": \"Joel Mika Roos for HelixDBM GmbH\",\r\n        \"copyright\": \"HelixDBM GmbH\",\r\n        \"use\": \"Backend API for Helix DMBS Tool and the Official Helix DBM Website\",\r\n        \"rfc\": \"RFC 7159\"\r\n    }\r\n}"
+								},
+								"url": {
+									"raw": "{{auth_endpoint}}/message/ack",
+									"host": [
+										"{{auth_endpoint}}"
+									],
+									"path": [
+										"message",
+										"ack"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}

@@ -61,7 +61,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
         {
             get { return _isInit; }
         }
-        public async Task<AuthModel> Authentificate(string userName, string password, CancellationToken cancellationToken)
+        public virtual async Task<AuthModel> Authentificate(string userName, string password, CancellationToken cancellationToken)
         {
             if (!IsInit)
             {

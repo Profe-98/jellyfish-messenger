@@ -28,6 +28,7 @@ using JellyFishBackend.SignalR.Hub;
 using Microsoft.AspNetCore.SignalR;
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 using WebApiFunction.Web.AspNet.Controller;
+using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {

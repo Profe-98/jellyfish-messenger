@@ -224,6 +224,7 @@ namespace JellyFishBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
+
             var sp  = services.BuildServiceProvider();
             services.AddAuthentication("Base").
                 AddScheme<BasicAuthenticationOptions, AuthentificationHandler>("Base", null);

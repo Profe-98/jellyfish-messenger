@@ -1,4 +1,5 @@
 ﻿using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Backend.Communication.SignalR;
 using JellyFish.Handler.Backend.Communication.WebApi;
 using JellyFish.Service;
 using JellyFish.View;
@@ -10,6 +11,7 @@ namespace JellyFish
     {
         private CancellationTokenSource _webApiActionCancelationToken = new CancellationTokenSource();
         public App(
+            SignalRClient signalRClient,
             JellyfishWebApiRestClient jellyfishWebApiRestClient,
             ApplicationConfigHandler applicationConfigHandler,
             LoginPageViewModel loginPageViewModel,
@@ -19,18 +21,19 @@ namespace JellyFish
             InitializeComponent();
             Page viewPage = new NavigationPage(new LoginPage(loginPageViewModel));
             MainPage = viewPage;
-            Load(jellyfishWebApiRestClient, applicationConfigHandler, loginPageViewModel, mainPageViewModel, navigationService);
+            Load(signalRClient,jellyfishWebApiRestClient, applicationConfigHandler, loginPageViewModel, mainPageViewModel, navigationService);
 
         }
         public static Dictionary<string, ResourceDictionary> ResourceDictionary;
         public async void Load(
+            SignalRClient signalRClient,
             JellyfishWebApiRestClient jellyfishWebApiRestClient,
             ApplicationConfigHandler applicationConfigHandler,
             LoginPageViewModel loginPageViewModel,
             MainPageViewModel mainPageViewModel,
             NavigationService navigationService)
         {
-            bool loggedin = applicationConfigHandler.ApplicationConfig.AccountConfig.UserSession!=null;
+            bool loggedin = applicationConfigHandler.ApplicationConfig.AccountConfig.UserSession?.TokenExpires > DateTime.Now;
 
 
 
@@ -39,6 +42,7 @@ namespace JellyFish
             if (loggedin)
             {
                 await navigationService.PushAsync(new MainPage(mainPageViewModel));
+
             }
 
             ResourceDictionary = new Dictionary<string, ResourceDictionary>();

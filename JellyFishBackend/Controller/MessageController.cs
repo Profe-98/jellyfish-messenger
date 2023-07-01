@@ -32,6 +32,7 @@ using WebApiFunction.Web.AspNet.ModelBinder.JsonApiV1;
 using WebApiFunction.Web.AspNet.Controller;
 using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
 using InfluxDB.Client.Api.Domain;
+using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {

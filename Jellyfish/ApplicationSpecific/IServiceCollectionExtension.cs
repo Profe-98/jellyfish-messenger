@@ -66,6 +66,22 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<GpsHandler>(new GpsHandler(() => { }, () => { }));
             services.AddSingleton<ClipBoardHandler>(new ClipBoardHandler());
             services.AddSingleton<NetworkingHandler>(new NetworkingHandler(() => { }, () => { }));
+
+            var jellyfishSignalRClient = new SignalRClient();
+            string protocolSignalR = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
+            string url =
+                protocolSignalR +
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrl + ":" +
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrlPort +
+                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubEndpoint;
+            jellyfishSignalRClient.Initialize(url, async () =>
+            {
+                return applicationHandler.ApplicationConfig.AccountConfig.UserSession.Token;
+            },
+            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransportProtocol,
+            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransferFormat);
+            services.AddSingleton<SignalRClient>(jellyfishSignalRClient);
+
             var jellyfishBackendClient = new JellyfishWebApiRestClient();
             string loginSessionEndpoint= WebApiEndpointStruct.LoginSessionEndpoint;
             string logoutSessionEndpoint = WebApiEndpointStruct.LogoutSessionEndpoint; 
@@ -88,20 +104,6 @@ namespace JellyFish.ApplicationSpecific
 
             services.AddSingleton<JellyfishWebApiRestClient>(jellyfishBackendClient);
 
-            var jellyfishSignalRClient = new SignalRClient();
-            string protocolSignalR = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
-            string url =
-                protocolSignalR+
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrl+":" + 
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrlPort +
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubEndpoint;
-            jellyfishSignalRClient.Initialize(url, async () =>
-            {
-                return applicationHandler.ApplicationConfig.AccountConfig.UserSession.Token;
-            }, 
-            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransportProtocol, 
-            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransferFormat);
-            services.AddSingleton<SignalRClient>();
             return services;
         }
         public static IServiceCollection AddPages(this IServiceCollection services)

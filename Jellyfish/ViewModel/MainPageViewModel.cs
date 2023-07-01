@@ -147,7 +147,7 @@ namespace JellyFish.ViewModel
             CallsPageViewModel callsPageViewModel,
             DeviceContactHandler deviceContactHandler,
             ApplicationConfigHandler applicationConfigHandler,
-            SignalRClient signalRClient)
+            SignalRClient signalRClient) : base()
         {
             _applicationConfigHandler = applicationConfigHandler;
             _signalRClient = signalRClient; 
@@ -175,8 +175,16 @@ namespace JellyFish.ViewModel
                 new MenuItemModel { Title = "New Group", ExecCommand = CreateNewGroupCommand },
                 new MenuItemModel { Title = "Settings",ExecCommand = OpenSettingsPageCommand } };
             CalcHeigtByItems = MenuItems.Count * 45;
+            InitViewModel();
         }
-        
+
+        public override void InitViewModel()
+        {
+            base.InitViewModel();
+            _signalRClient.BuildConnection();   
+            _signalRClient.OpenConnection();
+        }
+
         private async void CreateNewChatAction()
         {
             string queueName = this.GetType().Name + "_UserSelectionNewChat";

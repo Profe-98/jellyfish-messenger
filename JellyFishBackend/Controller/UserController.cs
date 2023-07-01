@@ -30,6 +30,7 @@ using WebApiFunction.Web.AspNet.ModelBinder.JsonApiV1;
 using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
 using JellyFishBackend.SignalR.Hub;
 using Microsoft.AspNetCore.SignalR;
+using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {
@@ -361,6 +362,14 @@ namespace JellyFishBackend.Controller
                 }, HttpStatusCode.NotFound, "an error occurred", "targetUser == null", methodInfo).ToJsonApiObjectResultTaskResult();
 
             }
+            var userFriends = await this.GetConcreteModule().GetUserFriends(currentContextUserUuid);
+
+            if (userFriends != null && userFriends.Find(x => x.Uuid == currentContextUserUuid) != null)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Id = Guid.Empty, Detail = "you are already friends" }
+                }, HttpStatusCode.Forbidden, "an error occurred", "userFriends != null && userFriends.Find(x => x.Uuid == currentContextUserUuid) != null", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
             var openFriendshipRequests = await this.GetConcreteModule().GetUserOpenFriendshipRequests(userFriendshipRequestDTO.TargetUserUuid);
 
             if (openFriendshipRequests != null && openFriendshipRequests.Find(x => x.Uuid == currentContextUserUuid) != null)
@@ -428,6 +437,23 @@ namespace JellyFishBackend.Controller
             var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, data, 0);
             return Ok(responseModel);
         }
+        [Authorize(Policy = "User")]
+        [HttpGet("search")]
+        public async Task<ActionResult<ApiRootNodeModel>> SearchUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserSearchDTO>))] UserSearchDTO userSearchDTO)
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+            }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+
+            var data = await this.GetConcreteModule().SearchUser(userSearchDTO.SearchUser);
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, data, 0);
+            return responseModel;
+        }
         [Authorize(Policy ="User")]
         [HttpPost("friendship/request/accept")]
         public async Task<ActionResult<ApiRootNodeModel>> AcceptFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestAcceptDTO>))] UserFriendshipRequestAcceptDTO userFriendshipRequestAcceptDTO)
@@ -454,19 +480,27 @@ namespace JellyFishBackend.Controller
                 }, HttpStatusCode.NotFound, "an error occurred", "openFriendshipRequest == null ", methodInfo).ToJsonApiObjectResultTaskResult();
 
             }
-            foreach(var user in openFriendshipRequest)
+
+            var userFriends = await this.GetConcreteModule().GetUserFriends(currentContextUserUuid);
+
+
+            List<UserModel> result = new List<UserModel>();
+            foreach (var user in openFriendshipRequest)
             {
-                if(userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Contains(user.Uuid))
+                if(userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Contains(user.Uuid) && (userFriends == null || userFriends!=null&& userFriends.Find(x => x.Uuid == user.TargetUserUuid) == null))
                 {
                     if(!String.IsNullOrEmpty(user.SignalRConnectionId))
                     {
-                        _messengerHub.Clients.Client(user.SignalRConnectionId).AcceptFriendshipRequest();
+                        _messengerHub.Clients.Client(user.SignalRConnectionId).AcceptFriendshipRequest(user);
                     }
-                    var result = this.GetConcreteModule().AcceptFriendshipRequest(currentContextUserUuid,user.TargetUserUuid);
+                    var acceptFriendshipActionResult = this.GetConcreteModule().AcceptFriendshipRequest(currentContextUserUuid,user.TargetUserUuid);
+                    userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Remove(user.Uuid);
+                    result.Add(new UserModel(user));
                 }
             }
-            //bei CreateFriendshipRequest und Accept muss geprüft werden ob beide bereits Freunde sind
-            return ;
+
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, result, 0);
+            return responseModel;
         }
         [Authorize(Policy = "Administrator")]
         [HttpGet("test")]

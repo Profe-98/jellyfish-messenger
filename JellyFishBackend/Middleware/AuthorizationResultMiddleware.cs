@@ -18,7 +18,9 @@ namespace JellyFishBackend.Middleware
             if (authorizeResult.Forbidden)
             {
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                _logger.LogInformation("request-forbidden: session-id: {0}, {1}:{2}",context.Session.Id, context.Request.Method, context.Request.Path);
+                string requiredClaims = null;
+                authorizeResult.AuthorizationFailure?.FailureReasons?.ToList()?.ForEach(x => requiredClaims += x.Message);
+                _logger.LogInformation("request-forbidden: conn-id: {0}, {1}:{2}, {3}",context.Connection.Id, context.Request.Method, context.Request.Path,requiredClaims);
                 return;
             }
 

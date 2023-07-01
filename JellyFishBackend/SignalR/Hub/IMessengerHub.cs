@@ -1,5 +1,6 @@
 ﻿
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
+using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
 
 namespace JellyFishBackend.SignalR.Hub
 {
@@ -13,5 +14,6 @@ namespace JellyFishBackend.SignalR.Hub
     {
         public Task ReceiveMessage(List<MessageDTO> messages);
         public Task ReceiveFriendshipRequest(UserFriendshipRequestDTO request);
+        public Task AcceptFriendshipRequest(UserDTO userDTO);
     }
 }

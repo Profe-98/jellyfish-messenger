@@ -26,22 +26,27 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 using WebApiFunction.Application.Model.Database.MySQL;
 using WebApiFunction.Web.AspNet.Controller;
+using WebApiFunction.Web.AspNet.ModelBinder.JsonApiV1;
+using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
+using JellyFishBackend.SignalR.Hub;
+using Microsoft.AspNetCore.SignalR;
 
 namespace JellyFishBackend.Controller
 {
-    [Authorize(Policy = "Administrator")]
     public class UserController : AbstractController<UserModel>
     {
         private readonly IAuthHandler _auth;
         private readonly IConfiguration _configuration;
         private readonly IEncryptionHandler _encryptionHandler;
+        private readonly IHubContext<MessengerHub, IMessengerClient> _messengerHub;
 
-        public UserController(ILogger<CustomApiControllerBase<UserModel>> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, WebApiFunction.Application.Controller.Modules.IAbstractBackendModule<UserModel> abstractBackendModule, IServiceProvider serviceProvider) : 
+        public UserController(ILogger<CustomApiControllerBase<UserModel>> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, WebApiFunction.Application.Controller.Modules.IAbstractBackendModule<UserModel> abstractBackendModule, IServiceProvider serviceProvider, IHubContext<MessengerHub, IMessengerClient> messengerHub) : 
             base(logger, vulnerablityHandler, mailHandler, authHandler, databaseHandler, jsonApiHandler, queue, jsonHandler, cache, actionDescriptorCollectionProvider, env, configuration, rabbitMqHandler, appConfig, nodeManagerHandler, scopedEncryptionHandler, abstractBackendModule, serviceProvider)
         {
             _auth = authHandler;
             _configuration = configuration;
             _encryptionHandler = scopedEncryptionHandler;
+            _messengerHub = messengerHub;
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace JellyFishBackend.Controller
         /// <exception cref="HttpStatusException"></exception>
         [AllowAnonymous]
         [HttpPost("password/reset/request")]
-        public async Task<ActionResult> UserPasswordResetRequest([FromBody] PasswordResetRequestDataTransferModel passwordResetDataTransferModel)
+        public async Task<ActionResult> UserPasswordResetRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetRequestDataTransferModel>))] PasswordResetRequestDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -93,7 +98,7 @@ namespace JellyFishBackend.Controller
         }
         [AllowAnonymous]
         [HttpPost("password/reset/confirmation")]
-        public async Task<ActionResult> UserPasswordResetConfirmation([FromBody] PasswordResetConfirmationCodeDataTransferModel passwordResetDataTransferModel)
+        public async Task<ActionResult> UserPasswordResetConfirmation([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetConfirmationCodeDataTransferModel>))] PasswordResetConfirmationCodeDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -137,7 +142,7 @@ namespace JellyFishBackend.Controller
 
         [AllowAnonymous]
         [HttpPost("password/reset/{base64?}")]
-        public async Task<ActionResult> UserPasswordReset(string? base64, [FromBody] PasswordResetDataTransferModel passwordResetDataTransferModel)
+        public async Task<ActionResult> UserPasswordReset(string? base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetDataTransferModel>))] PasswordResetDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -199,7 +204,7 @@ namespace JellyFishBackend.Controller
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterFrontEndUser([FromBody] RegisterDataTransferModel registerModel)
+        public async Task<ActionResult> RegisterFrontEndUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<RegisterDataTransferModel>))] RegisterDataTransferModel registerModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
 
@@ -282,7 +287,7 @@ namespace JellyFishBackend.Controller
 
         [AllowAnonymous]
         [HttpPost("activation/{base64}")]
-        public async Task<ActionResult> Activation(string base64, [FromBody] UserActivationDataTransferModel userActivationDataTransferModel)
+        public async Task<ActionResult> Activation(string base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserActivationDataTransferModel>))] UserActivationDataTransferModel userActivationDataTransferModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             UserModel userModel = new UserModel();
@@ -329,6 +334,140 @@ namespace JellyFishBackend.Controller
             return JsonApiResult(new List<ApiDataModel> { new ApiDataModel { Id = userModel.Uuid, Attributes = userModel } }, HttpStatusCode.OK);
 
         }
+        [Authorize(Policy = "User")]
+        [HttpPost("friendship/request")]
+        public async Task<ActionResult<ApiRootNodeModel>> CreateFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestDTO>))] UserFriendshipRequestDTO userFriendshipRequestDTO)
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+                }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            if(userFriendshipRequestDTO.TargetUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+                }, HttpStatusCode.BadRequest, "an error occurred", "userFriendshipRequestDTO.TargetUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+
+            }
+            var targetUser = await this.GetConcreteModule().GetUser(userFriendshipRequestDTO.TargetUserUuid);
+            if(targetUser == null)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_RESOURCE_NOT_FOUND, Id = Guid.Empty, Detail = "resource not found" }
+                }, HttpStatusCode.NotFound, "an error occurred", "targetUser == null", methodInfo).ToJsonApiObjectResultTaskResult();
+
+            }
+            var openFriendshipRequests = await this.GetConcreteModule().GetUserOpenFriendshipRequests(userFriendshipRequestDTO.TargetUserUuid);
+
+            if (openFriendshipRequests != null && openFriendshipRequests.Find(x => x.Uuid == currentContextUserUuid) != null)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Id = Guid.Empty, Detail = "friendship request already created" }
+                }, HttpStatusCode.Forbidden, "an error occurred", "openFriendshipRequests != null && openFriendshipRequests.Find(x => x.Uuid == currentContextUserUuid) != null", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            var createdId = await this.GetConcreteModule().CreateFriendshipRequest(currentContextUserUuid, userFriendshipRequestDTO.TargetUserUuid, userFriendshipRequestDTO.TargetUserRequestMessage);
+            if(createdId == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Id = Guid.Empty, Detail = "creation not successfull, try it later again" }
+                }, HttpStatusCode.Forbidden, "an error occurred", "!success", methodInfo).ToJsonApiObjectResultTaskResult();
+
+            }
+            if(!String.IsNullOrEmpty(targetUser.SignalRConnectionId))
+            {
+                _messengerHub.Clients.Client(targetUser.SignalRConnectionId).ReceiveFriendshipRequest(userFriendshipRequestDTO);
+            }
+            var model = new UserFriendshipRequestModel { 
+                Uuid = createdId,
+                 TargetUserUuid = userFriendshipRequestDTO.TargetUserUuid,
+                 UserUuid = currentContextUserUuid,
+                 TargetUserRequestMessage = userFriendshipRequestDTO.TargetUserRequestMessage,
+            };
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, new List<UserFriendshipRequestModel> { model }, 0);
+            return Ok(responseModel);
+        }
+        [Authorize(Policy = "User")]
+        [HttpGet("friendship/request")]
+        public async Task<ActionResult<ApiRootNodeModel>> GetOpenFriendshipRequest()
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+            }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+
+            var data = await this.GetConcreteModule().GetUserOpenFriendshipRequests(currentContextUserUuid);
+            List<UserModel> result = new List<UserModel>();
+            foreach (var item in data)
+            {
+                result.Add(new UserModel(item));
+            }
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, result, 0);
+            return Ok(responseModel);
+        }
+        [Authorize(Policy = "User")]
+        [HttpGet("friends")]
+        public async Task<ActionResult<ApiRootNodeModel>> GetFriends()
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+            }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            var data = await this.GetConcreteModule().GetUserFriends(currentContextUserUuid);
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, data, 0);
+            return Ok(responseModel);
+        }
+        [Authorize(Policy ="User")]
+        [HttpPost("friendship/request/accept")]
+        public async Task<ActionResult<ApiRootNodeModel>> AcceptFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestAcceptDTO>))] UserFriendshipRequestAcceptDTO userFriendshipRequestAcceptDTO)
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+                }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            if(!userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Any())
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_RESOURCE_NOT_FOUND, Id = Guid.Empty, Detail = "resource not found" }
+                }, HttpStatusCode.NotFound, "an error occurred", "!userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Any()", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            var openFriendshipRequest = await this.GetConcreteModule().GetUserOpenFriendshipRequests(currentContextUserUuid);
+            if(openFriendshipRequest == null ) 
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_RESOURCE_NOT_FOUND, Id = Guid.Empty, Detail = "no open friendship requests found" }
+                }, HttpStatusCode.NotFound, "an error occurred", "openFriendshipRequest == null ", methodInfo).ToJsonApiObjectResultTaskResult();
+
+            }
+            foreach(var user in openFriendshipRequest)
+            {
+                if(userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Contains(user.Uuid))
+                {
+                    if(!String.IsNullOrEmpty(user.SignalRConnectionId))
+                    {
+                        _messengerHub.Clients.Client(user.SignalRConnectionId).AcceptFriendshipRequest();
+                    }
+                    var result = this.GetConcreteModule().AcceptFriendshipRequest(currentContextUserUuid,user.TargetUserUuid);
+                }
+            }
+            //bei CreateFriendshipRequest und Accept muss geprüft werden ob beide bereits Freunde sind
+            return ;
+        }
         [Authorize(Policy = "Administrator")]
         [HttpGet("test")]
         public async Task<ActionResult<List<UserModel>>> GetAllUsersDapperTest()
@@ -339,7 +478,7 @@ namespace JellyFishBackend.Controller
             return Ok(data.ToList());
         }
 
-        public override WebApiFunction.Application.Controller.Modules.AbstractBackendModule<UserModel> GetConcreteModule()
+        public override UserModule GetConcreteModule()
         {
             return ((UserModule)_backendModule);
         }

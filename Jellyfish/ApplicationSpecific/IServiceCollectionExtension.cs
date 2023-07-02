@@ -20,6 +20,13 @@ using JellyFish.Handler.Backend.Communication.WebApi;
 using JellyFish.Handler.Backend.Communication.SignalR;
 using Microsoft.Maui.Handlers;
 using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Data.InternalDataInterceptor.Abstraction;
+using JellyFish.Handler.Data.InternalDataInterceptor.Invoker;
+#if ANDROID
+using JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification.Android;
+#elif IOS
+using JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification.iOS;
+#endif
 
 namespace JellyFish.ApplicationSpecific
 {
@@ -67,20 +74,12 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<ClipBoardHandler>(new ClipBoardHandler());
             services.AddSingleton<NetworkingHandler>(new NetworkingHandler(() => { }, () => { }));
 
-            var jellyfishSignalRClient = new SignalRClient();
-            string protocolSignalR = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
-            string url =
-                protocolSignalR +
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrl + ":" +
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubBaseUrlPort +
-                applicationHandler.ApplicationConfig.NetworkConfig.SignalRHubEndpoint;
-            jellyfishSignalRClient.Initialize(url, async () =>
-            {
-                return applicationHandler.ApplicationConfig.AccountConfig.UserSession.Token;
-            },
-            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransportProtocol,
-            applicationHandler.ApplicationConfig.NetworkConfig.SignalRTransferFormat);
-            services.AddSingleton<SignalRClient>(jellyfishSignalRClient);
+            services.AddSingleton<ViewModelInvoker>();
+            services.AddSingleton<SqlLiteDatabaseHandlerInvoker>();
+            services.AddSingleton<NotificationInvoker>();
+            services.AddSingleton<JellyFish.Handler.Data.InternalDataInterceptor.MessageDataInterceptor>();
+            
+            services.AddSingleton<SignalRClient>();
 
             var jellyfishBackendClient = new JellyfishWebApiRestClient();
             string loginSessionEndpoint= WebApiEndpointStruct.LoginSessionEndpoint;

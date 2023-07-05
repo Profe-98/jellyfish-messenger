@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿//#define SAMPLE_DATA
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using JellyFish.ControlExtension;
 using JellyFish.Model;
@@ -142,6 +143,7 @@ namespace JellyFish.ViewModel
 
         public async Task<ObservableCollection<Chat>> LoadChats()
         {
+#if SAMPLE_DATA
             Task<ObservableCollection<Chat>> task = Task.Factory.StartNew(() =>
             {
                 ObservableCollection<Chat> chats = new ObservableCollection<Chat>();
@@ -184,8 +186,11 @@ namespace JellyFish.ViewModel
                 }
                 return chats;
             });
-
             return await task;
+#else
+            return new ObservableCollection<Chat>();
+#endif
+
         }
 
     }

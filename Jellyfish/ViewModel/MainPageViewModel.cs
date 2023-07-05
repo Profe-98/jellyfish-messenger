@@ -49,6 +49,7 @@ namespace JellyFish.ViewModel
             private set;
         }
 
+        public ICommand LoadViewCommand { get; private set; }
         public ICommand BindingContextChangedCommand { get; private set; }
         public ICommand SwipeLeftCommand { get; private set; }
         public ICommand SwipeRightCommand { get; private set; }
@@ -163,7 +164,7 @@ namespace JellyFish.ViewModel
 
             ExpandSettingsMenuIsExpandedCommand = new RelayCommand(ExpandSettingsMenuIsExpandedCommandAction);
             ExpandSearchIsExpandedCommand = new RelayCommand(ExpandSearchIsExpandedCommandAction);
-
+            LoadViewCommand = new RelayCommand(LoadViewCommandAction);
             BackButtonCommand = new RelayCommand(BackButtonAction);
             CreateNewGroupCommand = new RelayCommand(CreateNewGroupAction);
             OpenSettingsPageCommand = new RelayCommand(OpenSettingsPageAction);
@@ -177,12 +178,22 @@ namespace JellyFish.ViewModel
             CalcHeigtByItems = MenuItems.Count * 45;
             InitViewModel();
         }
+        public async void LoadViewCommandAction()
+        {
+
+            _signalRClient.BuildConnection();
+            _signalRClient.OpenConnection();
+        }
+
+        public override void SignalrReconnectedAction()
+        {
+            base.SignalrReconnectedAction();
+            NotificationHandler.ToastNotify("Reconnect to Jellyfish Servers...");
+        }
 
         public override void InitViewModel()
         {
             base.InitViewModel();
-            _signalRClient.BuildConnection();   
-            _signalRClient.OpenConnection();
         }
 
         private async void CreateNewChatAction()

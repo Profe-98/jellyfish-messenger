@@ -15,6 +15,7 @@ using Microsoft.Maui.Handlers;
 using JellyFish.Handler.Data.InternalDataInterceptor.Abstraction;
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker;
 using JellyFish.Handler.Data.InternalDataInterceptor;
+using JellyFish.ViewModel;
 #if ANDROID
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification.Android;
 #elif IOS
@@ -25,6 +26,7 @@ namespace JellyFish.Handler.Backend.Communication.SignalR
 {
     public class SignalRClient : AbstractSignalRClient, IMessengerClient
     {
+        public List<BaseViewModel> ViewModelsToCommunicate { get; set; }
         private readonly MessageDataInterceptor _messageDataInterceptor;
         /*private readonly ViewModelInvoker _viewModelInvoker;
         private readonly SqlLiteDatabaseHandlerInvoker _sqlLiteDatabaseHandlerInvoker;
@@ -54,11 +56,16 @@ namespace JellyFish.Handler.Backend.Communication.SignalR
             _messageDataInterceptor.Add(notificationInvoker);
             _messageDataInterceptor.Add(sqlLiteDatabaseHandlerInvoker);
             _messageDataInterceptor.Add(viewModelInvoker);
-
+            this.HubConnectionReconnectedEvent += new EventHandler<string>(SignalrClientReconnectedToBackendEvent);
 
             /*_notificationInvoker = notificationInvoker;
             _sqlLiteDatabaseHandlerInvoker = sqlLiteDatabaseHandlerInvoker;
             _viewModelInvoker = viewModelInvoker;*/
+        }
+
+        public void SignalrClientReconnectedToBackendEvent(object sender,string args)
+        {
+
         }
 
         public override void InitClientMethods()
@@ -71,17 +78,19 @@ namespace JellyFish.Handler.Backend.Communication.SignalR
 
         public Task AcceptFriendshipRequest(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            _messageDataInterceptor.ReceiveAcceptFriendRequest(userDTO);
+            return Task.CompletedTask;
         }
 
         public Task ReceiveFriendshipRequest(UserFriendshipRequestDTO request)
         {
-            throw new NotImplementedException();
+            _messageDataInterceptor.ReceiveFriendRequest(request);
+            return Task.CompletedTask;
         }
 
         public Task ReceiveMessage(List<MessageDTO> messages)
         {
-            _messageDataInterceptor.Invoke(messages);
+            _messageDataInterceptor.ReceiveMessage(messages.ToArray());
             return Task.CompletedTask;
         }
     }

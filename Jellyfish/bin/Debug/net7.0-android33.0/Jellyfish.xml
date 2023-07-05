@@ -164,11 +164,6 @@
             Action that remove a current friend 
             </summary>
         </member>
-        <member name="M:JellyFish.ViewModel.UserSelectionPageViewModel.LoadSampleData">
-            <summary>
-            Test function for sample data to test the ui rendering and so on
-            </summary>
-        </member>
         <member name="M:JellyFish.View.ChatsPage.RefreshChats">
             <summary>
             Fixes the CollectionView rerendering

@@ -22,5 +22,10 @@ namespace JellyFish.ViewModel
         {
 
         }
+
+        public async virtual void SignalrReconnectedAction()
+        {
+
+        }
     }
 }

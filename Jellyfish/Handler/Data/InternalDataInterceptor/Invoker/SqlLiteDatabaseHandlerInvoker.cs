@@ -4,18 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 
 namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
 {
-    public class SqlLiteDatabaseHandlerInvoker : IInternalDataInterceptorInvoker
+    public class SqlLiteDatabaseHandlerInvoker : IInternalDataInterceptorApplicationInvoker
     {
         public SqlLiteDatabaseHandlerInvoker() 
         {
 
         }
-        public Task Invoke(params object[] data)
+        public Task CreateFriendRequest(params UserFriendshipRequestDTO[] data)
         {
-            return Task.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveAcceptFriendRequest(UserDTO data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveFriendRequest(params UserFriendshipRequestDTO[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveMessage(params MessageDTO[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SendMessage(params MessageDTO[] data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

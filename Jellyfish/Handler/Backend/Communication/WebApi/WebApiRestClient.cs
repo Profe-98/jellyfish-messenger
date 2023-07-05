@@ -85,7 +85,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             {
                 throw new InvalidOperationException("please initialize the handler correctly via method: " + nameof(Init) + "");
             }
-            var resp = await Request<object, WebApiFunction.Application.Model.Database.MySQL.Jellyfish.UserModel>(WebApiEndpointStruct.RegisterActivationEndpoint+"/"+base64Token, Method.Post, cancellationToken, userActivationDataTransferModel, null, null, true);
+            var resp = await Request<WebApiFunction.Application.Model.Database.MySQL.Jellyfish.UserModel, object>(WebApiEndpointStruct.RegisterActivationEndpoint+"/"+base64Token, Method.Post, cancellationToken, userActivationDataTransferModel, null, null, true);
             if (resp != null)
             {
                 return resp;
@@ -98,7 +98,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             {
                 throw new InvalidOperationException("please initialize the handler correctly via method: " + nameof(Init) + "");
             }
-            var resp = await Request<object, RegisterDataTransferModel>(WebApiEndpointStruct.RegisterEndpoint, Method.Post, cancellationToken, registerDataTransferModel, null, null, true);
+            var resp = await Request<RegisterDataTransferModel, object>(WebApiEndpointStruct.RegisterEndpoint, Method.Post, cancellationToken, registerDataTransferModel, null, null, true);
             if (resp != null)
             {
                 return resp;
@@ -118,7 +118,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             {
                 throw new InvalidOperationException("please initialize the handler correctly via method: " + nameof(Init) + "");
             }
-            var resp = await Request<object, WebApiResponseModel>(WebApiEndpointStruct.UserPasswordCodeConfirmationEndpoint, Method.Post, cancellationToken, passwordResetRequestDataTransferModel, null, null, true);
+            var resp = await Request<WebApiResponseModel, object>(WebApiEndpointStruct.UserPasswordCodeConfirmationEndpoint, Method.Post, cancellationToken, passwordResetRequestDataTransferModel, null, null, true);
             if (resp != null)
             {
                 return resp;
@@ -138,7 +138,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             {
                 throw new InvalidOperationException("please initialize the handler correctly via method: " + nameof(Init) + "");
             }
-            var resp = await Request<object, WebApiResponseModel>(WebApiEndpointStruct.UserPasswordResetRequestEndpoint, Method.Post, cancellationToken, passwordResetRequestDataTransferModel, null, null, true);
+            var resp = await Request<WebApiResponseModel, object>(WebApiEndpointStruct.UserPasswordResetRequestEndpoint, Method.Post, cancellationToken, passwordResetRequestDataTransferModel, null, null, true);
             if (resp != null)
             {
                 return resp;
@@ -158,7 +158,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             {
                 throw new InvalidOperationException("please initialize the handler correctly via method: " + nameof(Init) + "");
             }
-            var resp = await Request<object, WebApiResponseModel>(WebApiEndpointStruct.UserPasswordResetEndpoint, Method.Post, cancellationToken, passwordResetDataTransferModel, null, null, true);
+            var resp = await Request<WebApiResponseModel,object>(WebApiEndpointStruct.UserPasswordResetEndpoint, Method.Post, cancellationToken, passwordResetDataTransferModel, null, null, true);
             if (resp != null)
             {
                 return resp;
@@ -184,7 +184,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
                 return null;
             }
             string refreshTokenUrl = BuildRefreshTokenUrl();
-            var resp = await Request<object, AuthModel>(RefreshSessionEndpoint, Method.Post, cancellationToken, null, null, null,true);
+            var resp = await Request<AuthModel, object>(RefreshSessionEndpoint, Method.Post, cancellationToken, null, null, null,true);
             if (resp != null)
             {
                 var d = resp.ApiResponseDeserialized;
@@ -325,7 +325,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
             while ((retries < MaxRequestRetries && !donttryagain) || ((response!=null&&!response.IsSuccessStatusCode) && !donttryagain));
             return response;
         }
-        public async Task<WebApiHttpRequestResponseModel<T>> Request<T2,T>(string url,RestSharp.Method method, CancellationToken cancellationToken, T2 bodyObject = default, List<KeyValuePair<string, string>> query = null, List<KeyValuePair<string, string>> headers = null,bool donttryagain = true)
+        public async Task<WebApiHttpRequestResponseModel<T>> Request<T,T2>(string url,RestSharp.Method method, CancellationToken cancellationToken, T2 bodyObject = default, List<KeyValuePair<string, string>> query = null, List<KeyValuePair<string, string>> headers = null,bool donttryagain = true)
         where T : class
             where T2 : class,new()
         {

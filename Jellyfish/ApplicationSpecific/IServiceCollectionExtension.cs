@@ -74,6 +74,26 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<ClipBoardHandler>(new ClipBoardHandler());
             services.AddSingleton<NetworkingHandler>(new NetworkingHandler(() => { }, () => { }));
 
+            var jellyfishBackendClient = new JellyfishWebApiRestClient();
+            string loginSessionEndpoint = WebApiEndpointStruct.LoginSessionEndpoint;
+            string logoutSessionEndpoint = WebApiEndpointStruct.LogoutSessionEndpoint;
+            string validateSessionEndpoint = WebApiEndpointStruct.ValidateSessionEndpoint;
+            string refreshSessionEndpoint = WebApiEndpointStruct.RefreshSessionEndpoint;
+            string connectionTestEndpoint = WebApiEndpointStruct.ConnectionTestEndpoint;
+            string protocolApi = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
+            string baseUrl =
+                protocolApi +
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrl + ":" +
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrlPort +
+                applicationHandler.ApplicationConfig.NetworkConfig.WebApiPath + "/";
+            jellyfishBackendClient.Init(baseUrl,
+                loginSessionEndpoint,
+                logoutSessionEndpoint,
+                validateSessionEndpoint,
+                refreshSessionEndpoint,
+                connectionTestEndpoint);
+            services.AddSingleton<JellyfishWebApiRestClient>(jellyfishBackendClient);
+
             services.AddSingleton<ViewModelInvoker>();
             services.AddSingleton<SqlLiteDatabaseHandlerInvoker>();
             services.AddSingleton<NotificationInvoker>();
@@ -81,27 +101,8 @@ namespace JellyFish.ApplicationSpecific
             
             services.AddSingleton<SignalRClient>();
 
-            var jellyfishBackendClient = new JellyfishWebApiRestClient();
-            string loginSessionEndpoint= WebApiEndpointStruct.LoginSessionEndpoint;
-            string logoutSessionEndpoint = WebApiEndpointStruct.LogoutSessionEndpoint; 
-            string validateSessionEndpoint = WebApiEndpointStruct.ValidateSessionEndpoint;
-            string refreshSessionEndpoint = WebApiEndpointStruct.RefreshSessionEndpoint;
-            string connectionTestEndpoint = WebApiEndpointStruct.ConnectionTestEndpoint;
-            string protocolApi = applicationHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
-            string baseUrl =
-                protocolApi +
-                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrl+":"+
-                applicationHandler.ApplicationConfig.NetworkConfig.WebApiBaseUrlPort +
-                applicationHandler.ApplicationConfig.NetworkConfig.WebApiPath+"/";
-            jellyfishBackendClient.Init(baseUrl,
-                loginSessionEndpoint,
-                logoutSessionEndpoint,
-                validateSessionEndpoint,
-                refreshSessionEndpoint,
-                connectionTestEndpoint);
 
 
-            services.AddSingleton<JellyfishWebApiRestClient>(jellyfishBackendClient);
 
             return services;
         }

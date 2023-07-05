@@ -9,15 +9,30 @@ using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 
 namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
 {
-    public class ViewModelInvoker : IInternalDataInterceptorInvoker
+    public class ViewModelInvoker : IInternalDataInterceptorApplicationInvoker
     {
         public ViewModelInvoker()
         {
             
         }
-        public Task Invoke(params object[] data)
+        public Task CreateFriendRequest(params UserFriendshipRequestDTO[] data)
         {
-            List<MessageDTO> messages = (List<MessageDTO>)data[0];
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveAcceptFriendRequest(UserDTO data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveFriendRequest(params UserFriendshipRequestDTO[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveMessage(params MessageDTO[] data)
+        {
+            List<MessageDTO> messages =  data.ToList();
             messages.ForEach(message =>
             {
                 MainThread.InvokeOnMainThreadAsync(() =>
@@ -27,6 +42,11 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
                 });
             });
             return Task.CompletedTask;
+        }
+
+        public Task SendMessage(params MessageDTO[] data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

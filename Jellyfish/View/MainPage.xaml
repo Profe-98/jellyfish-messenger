@@ -10,9 +10,13 @@
              xmlns:view="clr-namespace:JellyFish.View"
              xmlns:model="clr-namespace:JellyFish.Model"
              xmlns:local="clr-namespace:JellyFish" 
+                                
              NavigationPage.HasNavigationBar="False" NavigationPage.HasBackButton="False" 
                                  customcontrol:BlockBackButtonAction="{Binding BlockBackSwitch}" 
                                  BackButtonCommand="{Binding BackButtonCommand}">
+    <customcontrol:CustomContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding LoadViewCommand}"></toolkit:EventToCommandBehavior>
+    </customcontrol:CustomContentPage.Behaviors>
     
     <ContentPage.Resources>
         <converter:CounterBindingControlVisibilityBehavoir x:Key="CounterBindingControlVisibilityBehavoir"></converter:CounterBindingControlVisibilityBehavoir>

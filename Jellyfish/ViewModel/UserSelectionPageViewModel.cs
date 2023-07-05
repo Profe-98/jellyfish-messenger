@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿//#define SAMPLE_DATA
+
+using CommunityToolkit.Mvvm.Messaging;
 using JellyFish.Model;
 using JellyFish.Service;
 using System;
@@ -9,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 
 namespace JellyFish.ViewModel
 {
@@ -193,7 +196,9 @@ namespace JellyFish.ViewModel
             ResetSearchCommand = new RelayCommand(ResetSearchAction);
             SelectCommand = new RelayCommand<User>(SelectAction);
             ContinueCommand = new RelayCommand(ContinueAction);
+#if SAMPLE_DATA
             LoadSampleData();
+#endif
         }
         public void ContinueAction()
         {
@@ -304,7 +309,7 @@ namespace JellyFish.ViewModel
         {
 
         }
-
+#if SAMPLE_DATA
         /// <summary>
         /// Test function for sample data to test the ui rendering and so on
         /// </summary>
@@ -326,6 +331,7 @@ namespace JellyFish.ViewModel
                 UserSearchHitsCollection.Add(user);
             }
         }
+#endif
 
     }
 }

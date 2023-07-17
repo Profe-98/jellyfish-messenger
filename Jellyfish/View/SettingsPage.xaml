@@ -15,8 +15,12 @@
              xmlns:local="clr-namespace:JellyFish" 
              NavigationPage.HasNavigationBar="False" NavigationPage.HasBackButton="False"
              Title="SettingsPage">
+    <customcontrol:CustomContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding LoadedCommand}"></toolkit:EventToCommandBehavior>
+    </customcontrol:CustomContentPage.Behaviors>
     <ContentPage.Resources>
         <Color x:Key="LightBlue">#42B0FF</Color>
+        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"></toolkit:ByteArrayToImageSourceConverter>
         <converter:MessageStateColorConverter x:Key="MessageStateColorConverter"></converter:MessageStateColorConverter>
         <converter:DateTimeConvert x:Key="DateTimeConvert"></converter:DateTimeConvert>
         <converter:BoolInvertConverter x:Key="BoolInvertConverter"></converter:BoolInvertConverter>
@@ -43,11 +47,24 @@
                             Spacing="5"
                             Grid.Row="0"
                             Grid.Column="0">
+                            <Border
+                                StrokeThickness="1"
+                                Stroke="black"
+                                HeightRequest="50" 
+                                WidthRequest="50"
+                                IsVisible="{Binding HasProfilePicture}">
+                                <Image 
+                                Source="{Binding ProfilePicture,Converter={x:StaticResource ByteArrayToImageSourceConverter}}"></Image>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="25,25,25,25"></RoundRectangle>
+                                </Border.StrokeShape>
+                            </Border>
                             <toolkit:AvatarView
+                                IsVisible="{Binding HasProfilePicture,Converter={x:StaticResource BoolInvertConverter}}"
                                 HeightRequest="50" 
                                 WidthRequest="50"
                                 StrokeThickness="5"
-                                Text="M.R."
+                                Text="{Binding Firstletter}"
                                 FontAttributes="Bold"
                                 TextColor="{StaticResource Primary}"
                                 BackgroundColor="White"
@@ -159,23 +176,36 @@
 
                     </ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <toolkit:AvatarView 
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Center" 
+                <StackLayout
                     Grid.Row="0" 
                     Grid.RowSpan="5" 
-                    Grid.Column="0" 
-                    Margin="5,5,5,5" 
-                    HeightRequest="80"
-                    WidthRequest="80" 
-                    StrokeThickness="4"
-                    Text="M.R."
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource Primary}"
-                    BackgroundColor="White"
-                    BorderWidth="0" 
-                    CornerRadius="7">
-                </toolkit:AvatarView>
+                    Grid.Column="0" >
+                    <Border
+                                StrokeThickness="1"
+                                Stroke="black"
+                                HeightRequest="80" 
+                                WidthRequest="80"
+                                IsVisible="{Binding OwnProfile.HasProfilePicture}">
+                        <Image 
+                                Source="{Binding OwnProfile.ProfilePicture,Converter={x:StaticResource ByteArrayToImageSourceConverter}}"></Image>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="25,25,25,25"></RoundRectangle>
+                        </Border.StrokeShape>
+                    </Border>
+                    <toolkit:AvatarView
+                                IsVisible="{Binding OwnProfile.HasProfilePicture,Converter={x:StaticResource BoolInvertConverter}}"
+                                HeightRequest="80" 
+                                WidthRequest="80"
+                                StrokeThickness="5"
+                                Text="{Binding OwnProfile.Firstletter}"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource Primary}"
+                                BackgroundColor="White"
+                                BorderWidth="0" 
+                                CornerRadius="9">
+                    </toolkit:AvatarView>
+                </StackLayout>
+                
                 <VerticalStackLayout 
                     Grid.Row="0" 
                     Grid.RowSpan="5" 

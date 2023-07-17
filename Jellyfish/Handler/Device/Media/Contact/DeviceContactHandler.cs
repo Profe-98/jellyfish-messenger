@@ -38,7 +38,14 @@ namespace JellyFish.Handler.Device.Media.Contact
             }
             return list;
         }
-        public async Task OpenUserSelectionHandler(NavigationService navigationService, bool multiselection, string messageBusQueue)
+        private readonly NavigationService _navigationService;
+        private readonly UserSelectionPageViewModel _userSelectionPageViewModel;
+        public DeviceContactHandler(NavigationService navigationService,UserSelectionPageViewModel userSelectionPageViewModel)
+        {
+            _navigationService = navigationService;
+            _userSelectionPageViewModel = userSelectionPageViewModel;
+        }
+        public async Task OpenUserSelectionHandler(bool multiselection, string messageBusQueue)
         {
             try
             {
@@ -48,11 +55,11 @@ namespace JellyFish.Handler.Device.Media.Contact
                     NotificationHandler.ToastNotify("Abort: No permissions");
                     return;
                 }
-                var vm = new UserSelectionPageViewModel(navigationService, messageBusQueue);
-                vm.IsFriendMultiSelectionEnabled = multiselection;
-                var page = new UserSelectionPage(vm);
-                page.BindingContext = vm;
-                await navigationService.PushAsync(page);
+                _userSelectionPageViewModel.SetResponseQueue(messageBusQueue);
+                _userSelectionPageViewModel.IsFriendMultiSelectionEnabled = multiselection;
+                var page = new UserSelectionPage(_userSelectionPageViewModel);
+                page.BindingContext = _userSelectionPageViewModel;
+                await _navigationService.PushAsync(page);
             }
             catch (Exception ex)
             {

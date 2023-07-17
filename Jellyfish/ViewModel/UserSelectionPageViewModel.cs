@@ -1,6 +1,8 @@
 ﻿//#define SAMPLE_DATA
 
 using CommunityToolkit.Mvvm.Messaging;
+using JellyFish.Handler.AppConfig;
+using JellyFish.Handler.Backend.Communication.WebApi;
 using JellyFish.Model;
 using JellyFish.Service;
 using System;
@@ -11,16 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
 
 namespace JellyFish.ViewModel
 {
     public class UserSelectionPageViewModel : BaseViewModel
     {
+        private readonly JellyfishWebApiRestClient _jellyfishWebApiRestClient;
         public List<User> MultiSelectedUsers { get; set; }
-        public ObservableCollection<User> UserFriendsSelectionCollection { get; private set; }
+        public ObservableCollection<User> UserFriendsSelectionCollection { get; private set; } = new ObservableCollection<User>();
         public ObservableCollection<User> UserFriendsRemoveCollection { get; private set; } = new ObservableCollection<User>();
-        public ObservableCollection<User> UserSearchHitsCollection { get; private set; }
+        public ObservableCollection<User> UserSearchHitsCollection { get; private set; } = new ObservableCollection<User>();
 
         private User _selectedUserFriend;
         /// <summary>
@@ -76,13 +79,17 @@ namespace JellyFish.ViewModel
             }
             set
             {
+                if(this.IsSearchingOnline && !CancellationTokenOnlineSearch.IsCancellationRequested)
+                {
+                    CancellationTokenOnlineSearch.Cancel();   
+                }
                 _searchText = value;
                 OnPropertyChanged(nameof(SearchText));
                 OnPropertyChanged(nameof(IsSearchTextEntered));
                 OnPropertyChanged(nameof(IsSearchTextEnteredAndNoMultiSelect));
-                SearchingAction();
             }
         }
+        public CancellationTokenSource CancellationTokenOnlineSearch { get; set; } = new CancellationTokenSource();
         /// <summary>
         /// When a search text is entered
         /// </summary>
@@ -166,12 +173,13 @@ namespace JellyFish.ViewModel
         }
         public string SearchOnlineResultText { get; private set; }
         private readonly NavigationService _navigationService;
-        public ICommand SearchOnlineCommand { get; private set; }
+        private readonly ApplicationConfigHandler _applicationConfigHandler;
         public ICommand AddOnlineUserCommand { get; private set; }
         public ICommand RemoveFriendCommand { get; private set; }
         public ICommand SelectCommand { get; private set; }
         public ICommand ResetSearchCommand { get; private set; }
         public ICommand ContinueCommand { get; private set; }
+        public ICommand SearchUserCommand { get; private set; } 
         public string MessageBusQueue { get;private set; }
         private bool _isRemoveFriendButtonEnabled = false;
         public bool IsRemoveFriendButtonEnabled
@@ -186,11 +194,15 @@ namespace JellyFish.ViewModel
             }
         }
 
-        public UserSelectionPageViewModel(NavigationService navigationService,string messageBusQueue)
+        public UserSelectionPageViewModel(
+            NavigationService navigationService,
+            JellyfishWebApiRestClient jellyfishWebApiRestClient,
+            ApplicationConfigHandler applicationConfigHandler)
         {
-            MessageBusQueue = messageBusQueue;    
+            _jellyfishWebApiRestClient = jellyfishWebApiRestClient;
+            _applicationConfigHandler = applicationConfigHandler;
             _navigationService = navigationService;
-            SearchOnlineCommand = new RelayCommand(SearchingAction);
+            SearchUserCommand = new RelayCommand(SearchingAction);
             AddOnlineUserCommand = new RelayCommand<User>(AddOnlineUserAction);
             RemoveFriendCommand = new RelayCommand<User>(RemoveFriendAction);
             ResetSearchCommand = new RelayCommand(ResetSearchAction);
@@ -199,6 +211,11 @@ namespace JellyFish.ViewModel
 #if SAMPLE_DATA
             LoadSampleData();
 #endif
+        }
+        public void SetResponseQueue(string responseQueue)
+        {
+
+            MessageBusQueue = responseQueue;
         }
         public void ContinueAction()
         {
@@ -285,7 +302,24 @@ namespace JellyFish.ViewModel
             OnPropertyChanged(nameof(HasUserFriendsSelectionCollectionItems));
             IsSearchingOnline = true;
             //async code to backend with searchtext as filter to get the best result
+            if (UserSearchHitsCollection != null)
+                UserSearchHitsCollection.Clear();
+            var response = await _jellyfishWebApiRestClient.SearchUser(this.SearchText, CancellationToken.None);
+            if(response != null)
+            {
+                if(response.IsSuccess)
+                {
+                    foreach(var item in response.ApiResponseDeserialized.data)
+                    {
+                        var user = new User(item.attributes);
+                        if (user.UserUuid != _applicationConfigHandler.ApplicationConfig.AccountConfig.User.UserUuid)
+                        {
+                            this.UserSearchHitsCollection.Add(new User(item.attributes));
 
+                        }
+                    }
+                }
+            }
             IsSearchingOnline = false;
             stopwatch.Stop();
 
@@ -300,7 +334,7 @@ namespace JellyFish.ViewModel
         /// </summary>
         public async void AddOnlineUserAction(User user)
         {
-
+            var response = await _jellyfishWebApiRestClient.SendFriendshipRequest(user.UserUuid,CancellationToken.None); 
         }
         /// <summary>
         /// Action that remove a current friend 

@@ -22,17 +22,22 @@ using JellyFish.Handler.Device.Media.Contact;
 using CommunityToolkit.Mvvm.Messaging;
 using JellyFish.Controls;
 using JellyFish.Handler.Backend.Communication.SignalR;
+using SQLiteNetExtensionsAsync.Extensions;
+using JellyFish.Handler.Backend.Communication.WebApi;
 
 namespace JellyFish.ViewModel
 {
 
     public class MainPageViewModel : BaseViewModel
     {
+        private readonly JellyfishWebApiRestClient _jellyfishWebApiRestClient;
+        private readonly SettingsPageViewModel _settingsPageViewModel;
         private readonly ApplicationConfigHandler _applicationConfigHandler;
         private readonly NavigationService _navigationService;
         private readonly SignalRClient _signalRClient;
         private readonly IServiceProvider _serviceProvider;
         private readonly DeviceContactHandler _deviceContactHandler;
+        private readonly JellyfishSqlliteDatabaseHandler _jellyfishSqlliteDatabaseHandler;
         public ChatsPageViewModel ChatsPageViewModel
         {
             get;
@@ -138,10 +143,14 @@ namespace JellyFish.ViewModel
             private set;
         }
         public ObservableCollection<MenuItemModel> MenuItems { get;private set; }
+        public readonly string UserSelectionNewChatQueue = nameof(MainPageViewModel) + "_UserSelectionNewChat";
+        public readonly string UserSelectionNewGroupChatQueue = nameof(MainPageViewModel) + "_UserSelectionNewGroupChat";
 
         public MainPageViewModel(IServiceProvider serviceProvider,
+            SettingsPageViewModel settingsPageViewModel,
             VibrateHandler vibrateHandler,
-            SqlLiteDatabaseHandler<AbstractEntity> sqlLiteDatabaseHandler,
+            JellyfishWebApiRestClient jellyfishWebApiRestClient,
+            JellyfishSqlliteDatabaseHandler jellyfishSqlliteDatabaseHandler,
             NavigationService navigationService,
             ChatsPageViewModel chatsPageViewModel,
             StatusPageViewModel statusPageViewModel,
@@ -150,6 +159,9 @@ namespace JellyFish.ViewModel
             ApplicationConfigHandler applicationConfigHandler,
             SignalRClient signalRClient) : base()
         {
+            _settingsPageViewModel = settingsPageViewModel;
+            _jellyfishWebApiRestClient = jellyfishWebApiRestClient;
+            _jellyfishSqlliteDatabaseHandler = jellyfishSqlliteDatabaseHandler;
             _applicationConfigHandler = applicationConfigHandler;
             _signalRClient = signalRClient; 
             _deviceContactHandler = deviceContactHandler;
@@ -191,21 +203,27 @@ namespace JellyFish.ViewModel
             NotificationHandler.ToastNotify("Reconnect to Jellyfish Servers...");
         }
 
-        public override void InitViewModel()
+        public override async void InitViewModel()
         {
             base.InitViewModel();
-        }
 
-        private async void CreateNewChatAction()
-        {
-            string queueName = this.GetType().Name + "_UserSelectionNewChat";
-            await _deviceContactHandler.OpenUserSelectionHandler(_navigationService,false, queueName);
-            ExpandSettingsMenuIsExpandedCommand.Execute(null); 
             WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
             {
                 if (m.Message != null)
                 {
-                    if (m.Message == queueName)
+                    if (m.Message == UserSelectionNewChatQueue)
+                    {
+                        if (m.Args != null && m.Args.Length == 1)
+                        {
+                            UserSelectionPageViewModel response = (UserSelectionPageViewModel)m.Args[0];
+                            if (response != null)
+                            {
+                                //response.SelectedUserFriend
+                                //mit dem ausgewählten User einen neuen Chat starten
+                            }
+                        }
+                    }
+                    else if (m.Message == UserSelectionNewGroupChatQueue)
                     {
                         if (m.Args != null && m.Args.Length == 1)
                         {
@@ -220,36 +238,22 @@ namespace JellyFish.ViewModel
                 }
             });
         }
+
+        private async void CreateNewChatAction()
+        {
+            await _deviceContactHandler.OpenUserSelectionHandler(false, UserSelectionNewChatQueue);
+            ExpandSettingsMenuIsExpandedCommand.Execute(null); 
+            
+        }
         private async void CreateNewGroupAction()
         {
 
-            string queueName = this.GetType().Name + "_UserSelectionNewGroupChat";
-            await _deviceContactHandler.OpenUserSelectionHandler(_navigationService, true, queueName);
+            await _deviceContactHandler.OpenUserSelectionHandler(true, UserSelectionNewGroupChatQueue);
             ExpandSettingsMenuIsExpandedCommand.Execute(null);
-            WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
-            {
-                if (m.Message != null)
-                {
-                    if (m.Message == queueName)
-                    {
-                        if (m.Args != null && m.Args.Length == 1)
-                        {
-                            UserSelectionPageViewModel response = (UserSelectionPageViewModel)m.Args[0];
-                            if (response != null)
-                            {
-                                //response.MultiSelectedUsers;
-                                //response.MultiSelectedUsers und mit diesen ausgewählten Usern einen Gruppenchat starten
-                            }
-                        }
-                    }
-                }
-            });
         }
         private async void OpenSettingsPageAction()
         {
-            var appConfigService = _serviceProvider.GetService<ApplicationConfigHandler>(); 
-            var settingsPageVmFromDi = new SettingsPageViewModel(_navigationService, appConfigService);
-            SettingsPage settingsPage = new SettingsPage(settingsPageVmFromDi);
+            SettingsPage settingsPage = new SettingsPage(_settingsPageViewModel);
             await _navigationService.PushAsync(settingsPage);
             ExpandSettingsMenuIsExpandedCommand.Execute(null);
         }

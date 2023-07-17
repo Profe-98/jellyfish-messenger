@@ -12,5 +12,6 @@ namespace JellyFish.Data.AppConfig.ConcreteImplements
     {
 
         public bool SchemaCreated { get; set; }
+        public string DatabasePath { get; set; }
     }
 }

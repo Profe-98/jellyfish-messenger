@@ -12,6 +12,8 @@ namespace JellyFish.Handler.Data
     public class ExtendedJsonHandler : JsonHandler
     {
         public static JsonSerializerOptions DefaultSerializerOption= new() { 
+            
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             WriteIndented= true,
             Converters = {
                 new JsonStringEnumConverter()//enum Values als String

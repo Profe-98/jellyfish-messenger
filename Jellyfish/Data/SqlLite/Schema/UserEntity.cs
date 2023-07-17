@@ -14,6 +14,7 @@ namespace JellyFish.Data.SqlLite.Schema
         private string _nickName;
         private byte[] _profilePicture = null;
         private int _userId;
+        private Guid _useruUuid;
         private List<ChatEntity> _chats;
 
         [PrimaryKey, AutoIncrement]
@@ -21,6 +22,11 @@ namespace JellyFish.Data.SqlLite.Schema
         {
             get { return _userId; }
             set { _userId = value; }
+        }
+        public Guid UserUuid
+        {
+            get { return _useruUuid; }
+            set { _useruUuid = value; }
         }
 
         public string NickName
@@ -45,11 +51,11 @@ namespace JellyFish.Data.SqlLite.Schema
                 _profilePicture = value;
             }
         }
-        [ManyToMany(typeof(UserLinkChatEntity), CascadeOperations = CascadeOperation.CascadeRead)]
+        /*[ManyToMany(typeof(UserLinkChatEntity), CascadeOperations = CascadeOperation.CascadeRead)]
         public List<ChatEntity> Chats
         {
             get { return _chats; }
             set { _chats = value; }
-        }
+        }*/
     }
 }

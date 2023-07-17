@@ -13,6 +13,7 @@
              Title="UserSelectionPage">
     <customcontrol:CustomContentPage.Resources>
         <converter:BoolInvertConverter x:Key="BoolInvertConverter"></converter:BoolInvertConverter>
+        <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"></toolkit:ByteArrayToImageSourceConverter>
         <converter:CollectionSelectionModeWhenBindIsTrueConverter x:Key="CollectionSelectionModeWhenBindIsTrueConverter"></converter:CollectionSelectionModeWhenBindIsTrueConverter>
         <DataTemplate x:Key="UserFriendTemplate">
             <VerticalStackLayout >
@@ -149,12 +150,27 @@
                             Spacing="5"
                             Grid.Row="0"
                             Grid.Column="0">
-
+                            <StackLayout>
+                                
+                            </StackLayout>
+                            <Border
+                                StrokeThickness="1"
+                                Stroke="black"
+                                HeightRequest="50" 
+                                WidthRequest="50"
+                                IsVisible="{Binding HasProfilePicture}">
+                                <Image 
+                                Source="{Binding ProfilePicture,Converter={x:StaticResource ByteArrayToImageSourceConverter}}"></Image>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="25,25,25,25"></RoundRectangle>
+                                </Border.StrokeShape>
+                            </Border>
                             <toolkit:AvatarView
+                                IsVisible="{Binding HasProfilePicture,Converter={x:StaticResource BoolInvertConverter}}"
                                 HeightRequest="50" 
                                 WidthRequest="50"
                                 StrokeThickness="5"
-                                Text="M.R."
+                                Text="{Binding Firstletter}"
                                 FontAttributes="Bold"
                                 TextColor="{StaticResource Primary}"
                                 BackgroundColor="White"
@@ -174,6 +190,7 @@
                                 Grid.Row="0"
                                 Grid.Column="2">
                             <Button
+                                IsEnabled="{Binding HasOpenFriendshipRequest,Converter={StaticResource BoolInvertConverter}}"
                                 HeightRequest="35"
                                 HorizontalOptions="EndAndExpand"
                                 FontAttributes="Bold"
@@ -231,7 +248,12 @@
                 PlaceholderColor="Gray"
                 Text="{Binding SearchText,Mode=TwoWay}"
                 HorizontalOptions="Fill" 
-                HorizontalTextAlignment="Start"></Entry>
+               
+                HorizontalTextAlignment="Start">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearchUserCommand}"></toolkit:EventToCommandBehavior>
+                </Entry.Behaviors>
+            </Entry>
             <Button 
                 HeightRequest="40"
                 WidthRequest="40"
@@ -242,19 +264,13 @@
                 Command="{Binding ResetSearchCommand}"
                 IsEnabled="{Binding IsSearchTextEntered,Mode=TwoWay}"></Button> 
             <!-- Body -->
-            <FlexLayout
-                AlignContent="SpaceAround"
-                AlignItems="Start"
-                JustifyContent="SpaceAround"
-                Direction="Column"
-                Wrap="NoWrap"
-                Position="Absolute"
-                Padding="5"
+            <VerticalStackLayout
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
                 Grid.Row="1"
                 Grid.Column="0"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="3">
+
                 <!-- Offline/local searching -->
                 <VerticalStackLayout 
                     HorizontalOptions="Fill"
@@ -305,6 +321,7 @@
                     HeightRequest="300"
                     x:Name="UserFriendsCollection"
                     IsEnabled="True" 
+                        HorizontalOptions="Fill"
                     ItemsLayout="VerticalList"
                     ItemTemplate="{StaticResource UserFriendTemplate}" 
                     ItemsSource="{Binding UserFriendsSelectionCollection,Mode=TwoWay}" 
@@ -381,7 +398,7 @@
                         IsVisible="{Binding HasUserSearchHitsCollectionItems}"
                     />
                 </VerticalStackLayout>
-            </FlexLayout>
+            </VerticalStackLayout>
         </Grid>
         <VerticalStackLayout
             HorizontalOptions="Center"

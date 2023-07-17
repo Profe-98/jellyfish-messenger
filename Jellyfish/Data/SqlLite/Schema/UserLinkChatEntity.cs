@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace JellyFish.Data.SqlLite.Schema
 {
     [SQLite.Table("users_related_to_chats")]
-    public class UserLinkChatEntity
+    public class UserLinkChatEntity : AbstractEntity
     {
         private int _userId;
         private int _chatId;

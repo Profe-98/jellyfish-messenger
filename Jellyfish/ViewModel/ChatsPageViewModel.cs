@@ -14,6 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JellyFish.Controls;
+using JellyFish.Handler.Data;
+using SQLiteNetExtensionsAsync.Extensions;
+using JellyFish.Data.SqlLite.Schema;
 
 namespace JellyFish.ViewModel
 {
@@ -21,9 +24,10 @@ namespace JellyFish.ViewModel
     public class ChatsPageViewModel : BaseViewModel
     {
         private readonly NavigationService _navigationService;
+        private readonly JellyfishSqlliteDatabaseHandler _jellyfishSqlliteDatabaseHandler;
 
         private readonly IServiceProvider _serviceProvider;
-        private ObservableCollection<Chat> _chats;
+        private ObservableCollection<Chat> _chats = new ObservableCollection<Chat>();
         public ObservableCollection<Chat> Chats
         { get { return _chats; } }
         public string Test { get; set; } = "Mein Test Str ChatsPageViewModel";
@@ -79,10 +83,11 @@ namespace JellyFish.ViewModel
         public ICommand SwipeLeftCommand { get; private set; }
         public ICommand SwipeRightCommand { get; private set; }
 
-        public ChatsPageViewModel(IServiceProvider serviceProvider, NavigationService navigationService)
+        public ChatsPageViewModel(IServiceProvider serviceProvider, NavigationService navigationService, JellyfishSqlliteDatabaseHandler jellyfishSqlliteDatabaseHandler)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
+            _jellyfishSqlliteDatabaseHandler = jellyfishSqlliteDatabaseHandler;
             DeleteChatCommand = new RelayCommand<Chat>(DeleteChatAction);
             RefreshChatsViewCommand = new RelayCommand(RefreshChatsViewAction);
             SelectedChatChangedCommand = new RelayCommand(SelectedChatChangedAction);
@@ -90,12 +95,48 @@ namespace JellyFish.ViewModel
 
             Init();
         }
-        public async void Init()
+        public override async void InitViewModel()
         {
+            base.InitViewModel();
 
-            _chats = await LoadChats();
+
+            #region TEST_DATA
+            /*var insertUserResponse = await _jellyfishSqlliteDatabaseHandler.Insert<UserEntity>(new UserEntity { UserId = 1, NickName="Pablo" });
+            var insertChatResponse = await  _jellyfishSqlliteDatabaseHandler.Insert<ChatEntity>(new ChatEntity { ChatId = 1 });
+
+            var insertChatRelationToUserResponse = await _jellyfishSqlliteDatabaseHandler.Insert<UserLinkChatEntity>(new UserLinkChatEntity { ChatId = 1, UserId = 1 });
+
+            var insertMsgResponse = await  _jellyfishSqlliteDatabaseHandler.Insert<MessageEntity>(new MessageEntity { ChatId = 1, Text = "meine erste nachricht", UserId = 1, Readed=false, MessageId=1, MessageDateTime = DateTime.Now });*/
+            #endregion
+            var chats = await _jellyfishSqlliteDatabaseHandler.DatabaseHandle.GetAllWithChildrenAsync<ChatEntity>();
+            var users = await _jellyfishSqlliteDatabaseHandler.Select<UserEntity>();
+
+            foreach (var chat in chats)
+            {
+                var chatItemForVm = new Chat(chat);
+                chatItemForVm.Messages = new ObservableCollection<MessageGroup>();
+                if(chat.Messages != null)
+                {
+                    foreach (var msg in chat.Messages)
+                    {
+                        var compareModel = new MessageGroup(DateOnly.FromDateTime(msg.MessageDateTime));
+                        int containsDateIndex =  chatItemForVm.Messages.IndexOf(compareModel);
+                        if(containsDateIndex == -1)
+                        {
+                            chatItemForVm.Messages.Add(compareModel);
+                        }
+                        Message message = new Message(msg);
+                        chatItemForVm.Messages[containsDateIndex].Add(message);
+                    }
+                }
+                this.Chats.Add(chatItemForVm);
+            }
+
             OnPropertyChanged(nameof(AreChatsAvailable));
             OnPropertyChanged(nameof(Chats));
+        }
+        public async void Init()
+        {
         }
 
         public void SelectedChatChangedAction()

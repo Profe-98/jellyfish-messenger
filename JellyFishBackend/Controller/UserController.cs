@@ -31,6 +31,7 @@ using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
 using JellyFishBackend.SignalR.Hub;
 using Microsoft.AspNetCore.SignalR;
 using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish.DataTransferObject;
 
 namespace JellyFishBackend.Controller
 {
@@ -362,7 +363,13 @@ namespace JellyFishBackend.Controller
                 }, HttpStatusCode.NotFound, "an error occurred", "targetUser == null", methodInfo).ToJsonApiObjectResultTaskResult();
 
             }
-            var userFriends = await this.GetConcreteModule().GetUserFriends(currentContextUserUuid);
+            if (currentContextUserUuid == userFriendshipRequestDTO.TargetUserUuid)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                    new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Id = Guid.Empty, Detail = "you cant be your own friend" }
+                }, HttpStatusCode.Forbidden, "an error occurred", "currentContextUserUuid == userFriendshipRequestDTO.TargetUserUuid", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            var userFriends = await this.GetConcreteModule().GetUserFriends(userFriendshipRequestDTO.TargetUserUuid);
 
             if (userFriends != null && userFriends.Find(x => x.Uuid == currentContextUserUuid) != null)
             {
@@ -413,12 +420,28 @@ namespace JellyFishBackend.Controller
             }
 
             var data = await this.GetConcreteModule().GetUserOpenFriendshipRequests(currentContextUserUuid);
-            List<UserModel> result = new List<UserModel>();
-            foreach (var item in data)
+            List<ApiDataModel> apiDataModels= new List<ApiDataModel>();    
+            foreach(var item in data) 
             {
-                result.Add(new UserModel(item));
+                apiDataModels.Add(new ApiDataModel { Id=item.Uuid,Type = nameof(UserFriendshipUserModelDTO), Attributes = item, });
             }
-            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, result, 0);
+            var responseModel = new ApiRootNodeModel() { Data = apiDataModels, Jsonapi = ApiRootNodeModel.GetApiInformation(), Meta = new ApiMetaModel { Count = apiDataModels.Count } };
+            return Ok(responseModel);
+        }
+        [Authorize(Policy = "User")]
+        [HttpGet("profile")]
+        public async Task<ActionResult<ApiRootNodeModel>> GetProfile()
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+            }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+            var data = await this.GetConcreteModule().GetUser(currentContextUserUuid);
+            var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, new List<UserModel> { data }, 0);
             return Ok(responseModel);
         }
         [Authorize(Policy = "User")]
@@ -438,7 +461,7 @@ namespace JellyFishBackend.Controller
             return Ok(responseModel);
         }
         [Authorize(Policy = "User")]
-        [HttpGet("search")]
+        [HttpPost("search")]
         public async Task<ActionResult<ApiRootNodeModel>> SearchUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserSearchDTO>))] UserSearchDTO userSearchDTO)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -453,6 +476,24 @@ namespace JellyFishBackend.Controller
             var data = await this.GetConcreteModule().SearchUser(userSearchDTO.SearchUser);
             var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, data, 0);
             return responseModel;
+        }
+        [Authorize(Policy = "User")]
+        [HttpPost("picture")]
+        public async Task<ActionResult<ApiRootNodeModel>> UpdatePicture([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserUpdatePictureDTO>))] UserUpdatePictureDTO userDto)
+        {
+            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
+            var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
+            if (currentContextUserUuid == Guid.Empty)
+            {
+                return await JsonApiErrorResult(new List<ApiErrorModel> {
+                new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_BAD, Id = Guid.Empty, Detail = "resource not found" }
+            }, HttpStatusCode.BadRequest, "an error occurred", "currentContextUserUuid == Guid.Empty", methodInfo).ToJsonApiObjectResultTaskResult();
+            }
+
+            var byteArr = Convert.FromBase64String(userDto.Picture);
+            var response = await this.GetConcreteModule().UpdateProfilePicture(currentContextUserUuid, byteArr);
+
+            return null;
         }
         [Authorize(Policy ="User")]
         [HttpPost("friendship/request/accept")]

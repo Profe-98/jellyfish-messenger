@@ -28,6 +28,12 @@ namespace JellyFish.Data.SqlLite.Schema
             get { return _msgId; }
             set { _msgId = value; }
         }
+        private Guid _messageUuid;
+        public Guid MessageUuid
+        {
+            get { return _messageUuid; }
+            set { _messageUuid = value; }
+        }
 
         [ForeignKey(typeof(ChatEntity))]
         public int ChatId
@@ -43,20 +49,11 @@ namespace JellyFish.Data.SqlLite.Schema
             set { _userId = value; }
         }
 
-        [OneToOne()]
+        /*[OneToOne()]
         public UserEntity User
         {
             get { return _user; }
             set { _user = value; }
-        }
-
-        public DateTime MessageDateTime
-        {
-            get { return _messageDateTime; }
-            set
-            {
-                _messageDateTime = value;
-            }
         }
         [OneToOne()]
         public MessageLocationEntity Location
@@ -65,6 +62,15 @@ namespace JellyFish.Data.SqlLite.Schema
             set
             {
                 _location = value;
+            }
+        }*/
+
+        public DateTime MessageDateTime
+        {
+            get { return _messageDateTime; }
+            set
+            {
+                _messageDateTime = value;
             }
         }
         public bool Readed
@@ -89,7 +95,7 @@ namespace JellyFish.Data.SqlLite.Schema
             }
         }
 
-        [ManyToOne(CascadeOperations = CascadeOperation.CascadeRead)]
+        /*[ManyToOne(CascadeOperations = CascadeOperation.CascadeRead)]
         public ChatEntity Chat
         {
             get
@@ -100,6 +106,6 @@ namespace JellyFish.Data.SqlLite.Schema
             {
                 _chat= value;
             }
-        }
+        }*/
     }
 }

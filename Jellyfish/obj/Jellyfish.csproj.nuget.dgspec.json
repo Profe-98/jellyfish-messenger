@@ -613,6 +613,10 @@
               "target": "Package",
               "version": "[2.1.0, )"
             },
+            "SQLiteNetExtensions.Async": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "SQLitePCLRaw.bundle_green": {
               "target": "Package",
               "version": "[2.1.4, )"
@@ -804,6 +808,10 @@
               "version": "[110.2.0, )"
             },
             "SQLiteNetExtensions": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "SQLiteNetExtensions.Async": {
               "target": "Package",
               "version": "[2.1.0, )"
             },

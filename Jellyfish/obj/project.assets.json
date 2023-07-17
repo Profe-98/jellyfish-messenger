@@ -664,6 +664,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -3678,6 +3695,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -6682,6 +6716,23 @@
         },
         "runtime": {
           "lib/netstandard1.1/SQLiteNetExtensions.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
             "related": ".pdb"
           }
         }
@@ -9694,6 +9745,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -12702,6 +12770,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -15703,6 +15788,23 @@
         },
         "runtime": {
           "lib/netstandard1.1/SQLiteNetExtensions.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
             "related": ".pdb"
           }
         }
@@ -18778,6 +18880,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -20409,6 +20528,23 @@
         },
         "runtime": {
           "lib/netstandard1.1/SQLiteNetExtensions.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
             "related": ".pdb"
           }
         }
@@ -22070,6 +22206,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -23727,6 +23880,23 @@
           }
         }
       },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_green/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -25380,6 +25550,23 @@
         },
         "runtime": {
           "lib/netstandard1.1/SQLiteNetExtensions.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
             "related": ".pdb"
           }
         }
@@ -27043,6 +27230,23 @@
         },
         "runtime": {
           "lib/netstandard1.1/SQLiteNetExtensions.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "SQLiteNetExtensions.Async/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "SQLiteNetExtensions": "2.0.0",
+          "sqlite-net-pcl": "1.4.118"
+        },
+        "compile": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll": {
             "related": ".pdb"
           }
         }
@@ -29541,6 +29745,35 @@
         "lib/netstandard1.1/SQLiteNetExtensions.pdb",
         "sqlitenetextensions.2.1.0.nupkg.sha512",
         "sqlitenetextensions.nuspec",
+        "src/SQLiteNetExtensions/Attributes/CascadeOperation.cs",
+        "src/SQLiteNetExtensions/Attributes/ForeignKeyAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/ManyToManyAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/ManyToOneAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/OneToManyAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/OneToOneAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/RelationshipAttribute.cs",
+        "src/SQLiteNetExtensions/Attributes/TextBlobAttribute.cs",
+        "src/SQLiteNetExtensions/Exceptions/IncorrectRelationshipException.cs",
+        "src/SQLiteNetExtensions/Extensions/ReadOperations.cs",
+        "src/SQLiteNetExtensions/Extensions/ReflectionExtensions.cs",
+        "src/SQLiteNetExtensions/Extensions/TextBlob/ITextBlobSerializer.cs",
+        "src/SQLiteNetExtensions/Extensions/TextBlob/Serializers/JsonBlobSerializer.cs",
+        "src/SQLiteNetExtensions/Extensions/TextBlob/TextBlobOperations.cs",
+        "src/SQLiteNetExtensions/Extensions/WriteOperations.cs",
+        "src/SQLiteNetExtensions/Properties/AssemblyInfo.cs"
+      ]
+    },
+    "SQLiteNetExtensions.Async/2.1.0": {
+      "sha512": "jiIewsMh0Zfv1dB5Jp9eylckDOmVqNx5uPoFunfwAJApimL71bja7OxF55pFlz7TTiSm0rTkn3aWE6Gz89qUDw==",
+      "type": "package",
+      "path": "sqlitenetextensions.async/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard1.1/SQLiteNetExtensionsAsync.dll",
+        "lib/netstandard1.1/SQLiteNetExtensionsAsync.pdb",
+        "sqlitenetextensions.async.2.1.0.nupkg.sha512",
+        "sqlitenetextensions.async.nuspec",
         "src/SQLiteNetExtensions/Attributes/CascadeOperation.cs",
         "src/SQLiteNetExtensions/Attributes/ForeignKeyAttribute.cs",
         "src/SQLiteNetExtensions/Attributes/ManyToManyAttribute.cs",
@@ -34695,6 +34928,7 @@
       "Microsoft.Maui.Maps >= 7.0.81",
       "RestSharp >= 110.2.0",
       "SQLiteNetExtensions >= 2.1.0",
+      "SQLiteNetExtensions.Async >= 2.1.0",
       "SQLitePCLRaw.bundle_green >= 2.1.4",
       "SQLitePCLRaw.core >= 2.1.4",
       "SQLitePCLRaw.provider.dynamic_cdecl >= 2.1.4",
@@ -34734,6 +34968,7 @@
       "Microsoft.Maui.Maps >= 7.0.81",
       "RestSharp >= 110.2.0",
       "SQLiteNetExtensions >= 2.1.0",
+      "SQLiteNetExtensions.Async >= 2.1.0",
       "SQLitePCLRaw.bundle_green >= 2.1.4",
       "SQLitePCLRaw.core >= 2.1.4",
       "SQLitePCLRaw.provider.dynamic_cdecl >= 2.1.4",
@@ -34865,6 +35100,10 @@
             "version": "[110.2.0, )"
           },
           "SQLiteNetExtensions": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          },
+          "SQLiteNetExtensions.Async": {
             "target": "Package",
             "version": "[2.1.0, )"
           },
@@ -35059,6 +35298,10 @@
             "version": "[110.2.0, )"
           },
           "SQLiteNetExtensions": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          },
+          "SQLiteNetExtensions.Async": {
             "target": "Package",
             "version": "[2.1.0, )"
           },

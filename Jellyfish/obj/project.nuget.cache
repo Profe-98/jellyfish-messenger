@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "winDarFcwj5c8jj4o+le4QifIqdDzzcDtJJT3f5L7X4ClbnnAN+ThBW3WEdbpDrjCaBo+jJemtMKf8PRLqlzIg==",
+  "dgSpecHash": "cTssaSAfPtLbSGCwqUfnH7idaFPEewpi+ipXQZuJp6dT2Eb1LPrHso1rnN1R7k3Nmlhg/9EQcktiX08ytMnXXg==",
   "success": true,
   "projectFilePath": "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
   "expectedPackageFiles": [
@@ -67,6 +67,7 @@
     "C:\\Users\\Mika\\.nuget\\packages\\sqlite-net-base\\1.8.116\\sqlite-net-base.1.8.116.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\sqlite-net-pcl\\1.8.116\\sqlite-net-pcl.1.8.116.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\sqlitenetextensions\\2.1.0\\sqlitenetextensions.2.1.0.nupkg.sha512",
+    "C:\\Users\\Mika\\.nuget\\packages\\sqlitenetextensions.async\\2.1.0\\sqlitenetextensions.async.2.1.0.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\sqlitepclraw.bundle_green\\2.1.4\\sqlitepclraw.bundle_green.2.1.4.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\sqlitepclraw.core\\2.1.4\\sqlitepclraw.core.2.1.4.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3.android\\2.1.4\\sqlitepclraw.lib.e_sqlite3.android.2.1.4.nupkg.sha512",

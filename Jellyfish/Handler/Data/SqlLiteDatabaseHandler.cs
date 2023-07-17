@@ -13,6 +13,7 @@ using JellyFish.Data.SqlLite.Schema;
 using JellyFish.Extension;
 using JellyFish.Handler.Abstraction;
 using SQLite;
+using SQLiteNetExtensionsAsync.Extensions;
 
 namespace JellyFish.Handler.Data
 {
@@ -21,7 +22,7 @@ namespace JellyFish.Handler.Data
     public class SqlLiteDatabaseHandler<T> : AbstractDeviceActionHandler<Permissions.StorageRead, Permissions.StorageWrite>,IDisposable
         where T : AbstractEntity,new()
     {
-
+        public string DatabasePath { get;private set; }
         public override void SetUserDeniedAction()
         {
             UserDeniedAction = () => { };
@@ -43,6 +44,7 @@ namespace JellyFish.Handler.Data
         }
         public virtual async Task<bool> Init(string databasePath, SQLiteOpenFlags openFlags) {
 
+            DatabasePath = databasePath;    
             bool dbFileExists = File.Exists(databasePath);
             var response = OpenDatabase(databasePath, openFlags);
             if (!dbFileExists)

@@ -11,7 +11,7 @@ namespace JellyFish.Data.WebApi
         where T:class
     {
 
-        public WebApiResponseModel.RootObject<T> ApiResponseDeserialized { get; set; }
+        public WebApiModel.RootObject<T> ApiResponseDeserialized { get; set; }
         public RestResponse DefaultResponse { get; set; } = new RestResponse() { StatusCode = System.Net.HttpStatusCode.NotFound };
         public bool IsSuccess
         {

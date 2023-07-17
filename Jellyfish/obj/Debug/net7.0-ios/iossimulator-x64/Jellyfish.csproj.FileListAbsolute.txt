@@ -305,3 +305,4 @@ F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-ios\iossimulato
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-ios\iossimulator-x64\Jellyfish.pdb
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-ios\iossimulator-x64\Jellyfish.genruntimeconfig.cache
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-ios\iossimulator-x64\ref\Jellyfish.dll
+F:\Helix\Projekte\jellyfish-messenger\Jellyfish\bin\Debug\net7.0-ios\iossimulator-x64\SQLiteNetExtensionsAsync.dll

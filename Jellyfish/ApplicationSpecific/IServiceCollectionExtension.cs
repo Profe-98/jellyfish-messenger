@@ -22,6 +22,7 @@ using Microsoft.Maui.Handlers;
 using JellyFish.Handler.AppConfig;
 using JellyFish.Handler.Data.InternalDataInterceptor.Abstraction;
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker;
+using JellyFish.Handler.Device.Media;
 #if ANDROID
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification.Android;
 #elif IOS
@@ -39,10 +40,9 @@ namespace JellyFish.ApplicationSpecific
 #elif ANDROID
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 #endif
-            var initSqlLiteHandle = new SqlLiteDatabaseHandler<AbstractEntity>();//Abstrakten Typ angeben, da dieser BaseType aller konkreten DB-Entities ist und mittels des BaseTypes alle Typen innerhalb der Assembly gesucht werden
+            var initSqlLiteHandle = new JellyfishSqlliteDatabaseHandler();//Abstrakten Typ angeben, da dieser BaseType aller konkreten DB-Entities ist und mittels des BaseTypes alle Typen innerhalb der Assembly gesucht werden
             initSqlLiteHandle.Init(databasePath, flags);
-            var type = initSqlLiteHandle.GetType();
-            services.AddSingleton(type);
+            services.AddSingleton(initSqlLiteHandle);
             return services;
         }
         public static IServiceCollection AddViewModels(this IServiceCollection services)
@@ -58,14 +58,16 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<ProfilePageViewModel>();
             services.AddSingleton<CameraHandlerPageViewModel>();
             services.AddSingleton<RegisterContentPageViewModel>();
+            services.AddSingleton<SettingsPageViewModel>();
             return services;
         }
         public static IServiceCollection AddDeviceHandlers(this IServiceCollection services,ApplicationConfigHandler applicationHandler)
         {
+            services.AddSingleton<ApplicationResourcesHandler>();
             services.AddSingleton<FileHandler>(new FileHandler(() => { }, () => { }));
             services.AddSingleton<VibrateHandler>(new VibrateHandler(() => { }, () => { }));
             services.AddSingleton<CameraHandler>(new CameraHandler(() => { }, () => { }));
-            services.AddSingleton<DeviceContactHandler>(new DeviceContactHandler());
+            services.AddSingleton<DeviceContactHandler>();
             //services.AddSingleton<AbstractAudioPlayerHandler>();
             //services.AddSingleton<AbstractAudioRecorderHandler>();
             services.AddSingleton<DeviceCommunicationHandler>(new DeviceCommunicationHandler(() => { }, () => { }));
@@ -74,7 +76,7 @@ namespace JellyFish.ApplicationSpecific
             services.AddSingleton<ClipBoardHandler>(new ClipBoardHandler());
             services.AddSingleton<NetworkingHandler>(new NetworkingHandler(() => { }, () => { }));
 
-            var jellyfishBackendClient = new JellyfishWebApiRestClient();
+            var jellyfishBackendClient = new JellyfishWebApiRestClient(applicationHandler);
             string loginSessionEndpoint = WebApiEndpointStruct.LoginSessionEndpoint;
             string logoutSessionEndpoint = WebApiEndpointStruct.LogoutSessionEndpoint;
             string validateSessionEndpoint = WebApiEndpointStruct.ValidateSessionEndpoint;
@@ -106,6 +108,7 @@ namespace JellyFish.ApplicationSpecific
 
             return services;
         }
+
         public static IServiceCollection AddPages(this IServiceCollection services)
         {
 

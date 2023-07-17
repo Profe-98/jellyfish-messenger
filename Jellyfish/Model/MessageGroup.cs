@@ -32,5 +32,6 @@ namespace JellyFish.Model
             Date = date;
 
         }
+
     }
 }

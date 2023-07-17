@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using JellyFish.Data.SqlLite.Schema;
 using JellyFish.Handler.Device.Extension;
 using JellyFish.ViewModel;
 
@@ -194,6 +195,15 @@ namespace JellyFish.Model
         public bool HasText
         {
             get { return !string.IsNullOrWhiteSpace(this.Text); }
+        }
+
+        public Message()
+        {
+            
+        }
+        public Message(MessageEntity messageEntity)
+        {
+            
         }
 
     }

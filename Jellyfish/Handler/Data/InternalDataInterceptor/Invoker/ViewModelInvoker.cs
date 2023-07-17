@@ -11,6 +11,7 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
 {
     public class ViewModelInvoker : IInternalDataInterceptorApplicationInvoker
     {
+
         public ViewModelInvoker()
         {
             

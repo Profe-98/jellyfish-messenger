@@ -310,7 +310,7 @@ namespace JellyFish.ViewModel
             ExpandChatMenuIsExpanded = false;
             try
             {
-                await _deviceContactHandler.OpenUserSelectionHandler(_navigationService, false,MessageQueueSendContact);
+                await _deviceContactHandler.OpenUserSelectionHandler(false,MessageQueueSendContact);
                 ExpandAttachmentsIsExpanded = false;
 
             }

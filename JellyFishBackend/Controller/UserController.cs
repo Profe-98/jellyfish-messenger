@@ -59,7 +59,7 @@ namespace JellyFishBackend.Controller
         /// <exception cref="HttpStatusException"></exception>
         [AllowAnonymous]
         [HttpPost("password/reset/request")]
-        public async Task<ActionResult> UserPasswordResetRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetRequestDataTransferModel>))] PasswordResetRequestDataTransferModel passwordResetDataTransferModel)
+        public async Task<ObjectResult> UserPasswordResetRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetRequestDataTransferModel>))] PasswordResetRequestDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -100,7 +100,7 @@ namespace JellyFishBackend.Controller
         }
         [AllowAnonymous]
         [HttpPost("password/reset/confirmation")]
-        public async Task<ActionResult> UserPasswordResetConfirmation([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetConfirmationCodeDataTransferModel>))] PasswordResetConfirmationCodeDataTransferModel passwordResetDataTransferModel)
+        public async Task<ObjectResult> UserPasswordResetConfirmation([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetConfirmationCodeDataTransferModel>))] PasswordResetConfirmationCodeDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -144,7 +144,7 @@ namespace JellyFishBackend.Controller
 
         [AllowAnonymous]
         [HttpPost("password/reset/{base64?}")]
-        public async Task<ActionResult> UserPasswordReset(string? base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetDataTransferModel>))] PasswordResetDataTransferModel passwordResetDataTransferModel)
+        public async Task<ObjectResult> UserPasswordReset(string? base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<PasswordResetDataTransferModel>))] PasswordResetDataTransferModel passwordResetDataTransferModel)
         {
             //method body umschreiben
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -206,7 +206,7 @@ namespace JellyFishBackend.Controller
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterFrontEndUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<RegisterDataTransferModel>))] RegisterDataTransferModel registerModel)
+        public async Task<ObjectResult> RegisterFrontEndUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<RegisterDataTransferModel>))] RegisterDataTransferModel registerModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
 
@@ -289,7 +289,7 @@ namespace JellyFishBackend.Controller
 
         [AllowAnonymous]
         [HttpPost("activation/{base64}")]
-        public async Task<ActionResult> Activation(string base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserActivationDataTransferModel>))] UserActivationDataTransferModel userActivationDataTransferModel)
+        public async Task<ObjectResult> Activation(string base64, [FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserActivationDataTransferModel>))] UserActivationDataTransferModel userActivationDataTransferModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             UserModel userModel = new UserModel();
@@ -338,7 +338,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy = "User")]
         [HttpPost("friendship/request")]
-        public async Task<ActionResult<ApiRootNodeModel>> CreateFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestDTO>))] UserFriendshipRequestDTO userFriendshipRequestDTO)
+        public async Task<ObjectResult> CreateFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestDTO>))] UserFriendshipRequestDTO userFriendshipRequestDTO)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -408,7 +408,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy = "User")]
         [HttpGet("friendship/request")]
-        public async Task<ActionResult<ApiRootNodeModel>> GetOpenFriendshipRequest()
+        public async Task<ObjectResult> GetOpenFriendshipRequest()
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -430,7 +430,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy = "User")]
         [HttpGet("profile")]
-        public async Task<ActionResult<ApiRootNodeModel>> GetProfile()
+        public async Task<ObjectResult> GetProfile()
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -446,7 +446,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy = "User")]
         [HttpGet("friends")]
-        public async Task<ActionResult<ApiRootNodeModel>> GetFriends()
+        public async Task<ObjectResult> GetFriends()
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -462,7 +462,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy = "User")]
         [HttpPost("search")]
-        public async Task<ActionResult<ApiRootNodeModel>> SearchUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserSearchDTO>))] UserSearchDTO userSearchDTO)
+        public async Task<ObjectResult> SearchUser([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserSearchDTO>))] UserSearchDTO userSearchDTO)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -475,11 +475,11 @@ namespace JellyFishBackend.Controller
 
             var data = await this.GetConcreteModule().SearchUser(userSearchDTO.SearchUser);
             var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, data, 0);
-            return responseModel;
+            return new ObjectResult(responseModel);
         }
         [Authorize(Policy = "User")]
         [HttpPost("picture")]
-        public async Task<ActionResult<ApiRootNodeModel>> UpdatePicture([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserUpdatePictureDTO>))] UserUpdatePictureDTO userDto)
+        public async Task<ObjectResult> UpdatePicture([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserUpdatePictureDTO>))] UserUpdatePictureDTO userDto)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -497,7 +497,7 @@ namespace JellyFishBackend.Controller
         }
         [Authorize(Policy ="User")]
         [HttpPost("friendship/request/accept")]
-        public async Task<ActionResult<ApiRootNodeModel>> AcceptFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestAcceptDTO>))] UserFriendshipRequestAcceptDTO userFriendshipRequestAcceptDTO)
+        public async Task<ObjectResult> AcceptFriendshipRequest([FromBody][ModelBinder(typeof(ApiRootNodeModelModelBinder<UserFriendshipRequestAcceptDTO>))] UserFriendshipRequestAcceptDTO userFriendshipRequestAcceptDTO)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -541,17 +541,17 @@ namespace JellyFishBackend.Controller
             }
 
             var responseModel = await _jsonApiHandler.CreateApiRootNodeFromModel(this.GetArea().RouteValue, result, 0);
-            return responseModel;
+            return new ObjectResult(responseModel);
         }
-        [Authorize(Policy = "Administrator")]
+        /*[Authorize(Policy = "Administrator")]
         [HttpGet("test")]
-        public async Task<ActionResult<List<UserModel>>> GetAllUsersDapperTest()
+        public async Task<ObjectResult> GetAllUsersDapperTest()
         {
             var data = await ((UserModule)_backendModule).GetAllUsers();
             if (data == null || data.Count() == 0)
                 return NotFound();
             return Ok(data.ToList());
-        }
+        }*/
 
         public override UserModule GetConcreteModule()
         {

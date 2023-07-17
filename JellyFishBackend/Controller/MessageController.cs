@@ -60,7 +60,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public override async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public override async Task<ObjectResult> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -111,13 +111,13 @@ namespace JellyFishBackend.Controller
         }
 
         [NonAction]
-        public override Task<ActionResult<ApiRootNodeModel>> Get()
+        public override Task<ObjectResult> Get()
         {
             return base.Get();
         }
 
         [NonAction]
-        public override Task<ActionResult<ApiRootNodeModel>> Get(string id, int maxDepth = 0)
+        public override Task<ObjectResult> Get(string id, int maxDepth = 0)
         {
             return base.Get(id, maxDepth);
         }

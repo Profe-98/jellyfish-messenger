@@ -82,6 +82,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Hosting;
 using WebApiFunction.Web.AspNet.Controller;
+using WebApiFunction.Web.AspNet.Middleware;
 
 namespace JellyFishBackend
 {
@@ -200,7 +201,7 @@ namespace JellyFishBackend
             initialAppServiceConfigurationModel.SignalRHubConfigurationModel = initialSignalRConfigurationModel;
 
             #endregion Initial Configurations
-            Console.WriteLine("ContetnRootPath: "+ env.ContentRootPath + "");
+            Console.WriteLine("ContentRootPath: "+ env.ContentRootPath + "");
             string basePath = Path.Combine(env.ContentRootPath, "Config");
             string appsettingsFile = Path.Combine(basePath, "appsettings.json");
             var configurationBuilder = new ConfigurationBuilder().
@@ -223,6 +224,7 @@ namespace JellyFishBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
 
             var sp  = services.BuildServiceProvider();
@@ -288,6 +290,7 @@ namespace JellyFishBackend
             }
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseContextualResponseSerializer();
             ISingletonNodeDatabaseHandler databaseHandler = serviceProvider.GetService<ISingletonNodeDatabaseHandler>();
             INodeManagerHandler nodeManager = serviceProvider.GetService<INodeManagerHandler>();
             IAppconfig appConfig = serviceProvider.GetService<IAppconfig>();

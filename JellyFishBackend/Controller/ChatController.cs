@@ -52,7 +52,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public override Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public override Task<ObjectResult> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
         {
 
 
@@ -63,7 +63,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpGet]
-        public override Task<ActionResult<ApiRootNodeModel>> Get()
+        public override Task<ObjectResult> Get()
         {
             return base.Get();
         }

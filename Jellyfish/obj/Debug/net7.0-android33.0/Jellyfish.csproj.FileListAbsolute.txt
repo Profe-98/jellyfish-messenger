@@ -3676,6 +3676,8 @@ F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\sta
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\stamp\_GenerateJavaStubs.stamp
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\stamp\_GeneratePackageManagerJava.stamp
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\stamp\_ResolveLibraryProjectImports.stamp
+F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\SQLiteNetExtensionsAsync.dll
+F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\SQLiteNetExtensionsAsync.pdb
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\mscorlib.dll
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\System.Collections.Concurrent.dll
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\System.Data.Common.dll
@@ -3689,5 +3691,3 @@ F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\and
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\System.Runtime.Extensions.dll
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\System.Runtime.Serialization.Formatters.dll
 F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\System.Xml.dll
-F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\SQLiteNetExtensionsAsync.dll
-F:\Helix\Projekte\jellyfish-messenger\Jellyfish\obj\Debug\net7.0-android33.0\android\assets\SQLiteNetExtensionsAsync.pdb

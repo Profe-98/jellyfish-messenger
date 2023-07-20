@@ -82,7 +82,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Hosting;
 using WebApiFunction.Web.AspNet.Controller;
-using WebApiFunction.Web.AspNet.Middleware;
+using Microsoft.OpenApi.Models;
 
 namespace JellyFishBackend
 {
@@ -210,12 +210,15 @@ namespace JellyFishBackend
                 AddJsonFile(appsettingsFile).
                 
                 AddEnvironmentVariables();
-
+#if DEBUG
             var envVars = Environment.GetEnvironmentVariables();
+            Console.WriteLine("!!! Environment Vars output only in DEBUG Mode !!!");
             foreach (var envVar in envVars.Keys)
             {
                 Console.WriteLine("ENV: "+ envVar + ":" + envVars[envVar].ToString());
             }
+            Console.WriteLine("!!! Environment Vars output only in DEBUG Mode !!!");
+#endif
             var config = configurationBuilder.AddConfiguration(configuration).Build();
             Configuration = config;
         }
@@ -224,7 +227,7 @@ namespace JellyFishBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddRouting(x => { x.LowercaseUrls = true; });
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
 
             var sp  = services.BuildServiceProvider();
@@ -235,17 +238,37 @@ namespace JellyFishBackend
             {
                 //User Policy: Any user with the role root
                 options.AddPolicy("Root", policy =>
-                                  policy.RequireClaim("user_role", "root"));
+                                  policy.RequireClaim(BackendAPIDefinitionsProperties.Claim.ClaimTypeUserRole, "root"));
                 //User Policy: Any user with the role admin
                 options.AddPolicy("Administrator", policy =>
-                                  policy.RequireClaim("user_role", "admin"));
+                                  policy.RequireClaim(BackendAPIDefinitionsProperties.Claim.ClaimTypeUserRole, "admin"));
                 //User Policy: Any registered User that confirms his registration
                 options.AddPolicy("User", policy =>
-                                  policy.RequireClaim("user_role", "user"));
+                                  policy.RequireClaim(BackendAPIDefinitionsProperties.Claim.ClaimTypeUserRole, "user"));
             });
 
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    
+                    Version = "v1",
+                    Title = "Jellyfish API",
+                    Description = "API for the Jellyfish Mobile App",
+                    TermsOfService = new Uri("https://jellyfish.roos-it.net/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Mika Roos",
+                        Url = new Uri("https://jellyfish.roos-it.net/contact")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "GPL2",
+                        Url = new Uri("https://jellyfish.roos-it.net/license")
+                    }
+                });
+            });
 
         }
 
@@ -267,6 +290,7 @@ namespace JellyFishBackend
 
             //app.UseHttpsRedirection();
             //app.UseStaticFiles();
+            
             app.UseRouting();
             app.UseCors(AllowOrigin);//must used between UseRouting & UseEndpoints
             var appConfigService = serviceProvider.GetService<IAppconfig>();
@@ -279,18 +303,22 @@ namespace JellyFishBackend
             {
                 var swaggerOptions = new SwaggerOptions()
                 {
-
+                    
                 };
                 //beim Aufbauen der Swagger Doku aktuell enorm hohe RAM Auslastung.
                 //Sprich nach erstem HTTP Call auf Swagger Doku via Browser
                 app.UseSwagger(swaggerOptions);
                 //http://localhost:5030/swagger/v1/swagger.json
                 //http://localhost:5030/swagger/index.html
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+
+                });
             }
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseContextualResponseSerializer();
             ISingletonNodeDatabaseHandler databaseHandler = serviceProvider.GetService<ISingletonNodeDatabaseHandler>();
             INodeManagerHandler nodeManager = serviceProvider.GetService<INodeManagerHandler>();
             IAppconfig appConfig = serviceProvider.GetService<IAppconfig>();

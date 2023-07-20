@@ -32,6 +32,7 @@ using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {
+    [ApiExplorerSettings(IgnoreApi = false)]
     [Authorize()]
     public class ChatController : AbstractController<ChatModel>
     {
@@ -52,7 +53,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public override Task<ObjectResult> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public override Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
         {
 
 
@@ -63,11 +64,14 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpGet]
+        [ProducesResponseType(typeof(ApiRootNodeModel), 200)]
+        [ProducesResponseType(typeof(ApiRootNodeModel), 400)]
         public override Task<ObjectResult> Get()
         {
             return base.Get();
         }
 
+        [NonAction]
         public override ChatModule GetConcreteModule()
         {
             return ((ChatModule)_backendModule);

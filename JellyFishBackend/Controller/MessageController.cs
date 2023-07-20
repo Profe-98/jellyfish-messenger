@@ -36,8 +36,9 @@ using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {
+    [ApiExplorerSettings(IgnoreApi = false)]
     [Authorize()]
-    public class MessageController : AbstractController<MessageModel>
+    public class MessageController :AbstractController<MessageModel>
     {
         private readonly IAuthHandler _auth;
         private readonly IConfiguration _configuration;
@@ -46,7 +47,7 @@ namespace JellyFishBackend.Controller
         private readonly ChatModule _chatModule;
         private readonly IHubContext<MessengerHub, IMessengerClient> _messengerHub;
 
-        public MessageController(ILogger<CustomApiControllerBase<MessageModel>> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, IAbstractBackendModule<MessageModel> abstractBackendModule, IServiceProvider serviceProvider, IHubContext<MessengerHub, IMessengerClient> messengerHub, IAbstractBackendModule<UserModel> userModule, IAbstractBackendModule<ChatModel> chatModule) : 
+        public MessageController(ILogger<CustomApiControllerBase<MessageModel>> logger, IScopedVulnerablityHandler vulnerablityHandler, IMailHandler mailHandler, IAuthHandler authHandler, IScopedDatabaseHandler databaseHandler, IJsonApiDataHandler jsonApiHandler, ITaskSchedulerBackgroundServiceQueuer queue, IScopedJsonHandler jsonHandler, ICachingHandler cache, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider, IWebHostEnvironment env, IConfiguration configuration, IRabbitMqHandler rabbitMqHandler, IAppconfig appConfig, INodeManagerHandler nodeManagerHandler, IScopedEncryptionHandler scopedEncryptionHandler, IAbstractBackendModule<MessageModel> abstractBackendModule, IServiceProvider serviceProvider, IHubContext<MessengerHub, IMessengerClient> messengerHub, IAbstractBackendModule<UserModel> userModule, IAbstractBackendModule<ChatModel> chatModule, IAbstractBackendModule<UserModel> messageModule) :
             base(logger, vulnerablityHandler, mailHandler, authHandler, databaseHandler, jsonApiHandler, queue, jsonHandler, cache, actionDescriptorCollectionProvider, env, configuration, rabbitMqHandler, appConfig, nodeManagerHandler, scopedEncryptionHandler, abstractBackendModule, serviceProvider)
         {
             _messengerHub = messengerHub;
@@ -60,7 +61,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public override async Task<ObjectResult> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public override async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();
@@ -110,18 +111,6 @@ namespace JellyFishBackend.Controller
             return result;
         }
 
-        [NonAction]
-        public override Task<ObjectResult> Get()
-        {
-            return base.Get();
-        }
-
-        [NonAction]
-        public override Task<ObjectResult> Get(string id, int maxDepth = 0)
-        {
-            return base.Get(id, maxDepth);
-        }
-
         [Authorize]
         [HttpGet("nack")]
         public async Task<ActionResult<ApiRootNodeModel>> GetAllNotReceivedMessages()
@@ -141,6 +130,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost("ack")]
+
         public async Task<ActionResult<ApiRootNodeModel>> AcknowledgeMessage([ModelBinder(typeof(ApiRootNodeModelModelBinder<MessageAcknowledgeDTO>))] List<MessageAcknowledgeDTO> messages)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
@@ -201,25 +191,10 @@ namespace JellyFishBackend.Controller
             return await Task.FromResult(responseModel);
         }
 
-
-
-
-
-        /*[AllowAnonymous]
-        [HttpPost("test")]
-        public async Task<ActionResult> Test()
-        {
-            MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
-
-            var t = _messengerHub;
-            t.Clients.All.Test();//invokes to all connected client the method Test
-            return Ok();
-
-        }*/
+        [NonAction]
         public override MessageModule GetConcreteModule()
         {
             return ((MessageModule)_backendModule);
         }
-
     }
 }

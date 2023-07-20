@@ -27,6 +27,7 @@ using WebApiFunction.Web.AspNet.Controller;
 
 namespace JellyFishBackend.Controller
 {
+    [ApiExplorerSettings(IgnoreApi =false)]
     [Authorize]
     public class AuthentificationController : AbstractController<AuthModel>
     {
@@ -167,6 +168,7 @@ namespace JellyFishBackend.Controller
             }, HttpStatusCode.Forbidden, "an error occurred", "authHttpHeaderKey == null", methodInfo);
         }
 
+        [NonAction]
         public override AbstractBackendModule<AuthModel> GetConcreteModule()
         {
             throw new NotImplementedException();

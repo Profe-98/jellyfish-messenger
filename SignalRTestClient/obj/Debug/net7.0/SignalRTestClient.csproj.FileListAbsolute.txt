@@ -54,3 +54,11 @@ F:\Helix\SignalRTestClient\SignalRTestClient\SignalRTestClient\obj\Debug\net7.0\
 F:\Helix\SignalRTestClient\SignalRTestClient\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.pdb
 F:\Helix\SignalRTestClient\SignalRTestClient\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.genruntimeconfig.cache
 F:\Helix\SignalRTestClient\SignalRTestClient\SignalRTestClient\obj\Debug\net7.0\ref\SignalRTestClient.dll
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.csproj.AssemblyReference.cache
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.GeneratedMSBuildEditorConfig.editorconfig
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.AssemblyInfoInputs.cache
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.AssemblyInfo.cs
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.csproj.CoreCompileInputs.cache
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.dll
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\refint\SignalRTestClient.dll
+F:\Helix\Projekte\jellyfish-messenger\SignalRTestClient\obj\Debug\net7.0\SignalRTestClient.pdb

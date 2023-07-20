@@ -35,6 +35,7 @@ using WebApiFunction.Application.Model.Database.MySQL.Jellyfish.DataTransferObje
 
 namespace JellyFishBackend.Controller
 {
+    [ApiExplorerSettings(IgnoreApi = false)]
     public class UserController : AbstractController<UserModel>
     {
         private readonly IAuthHandler _auth;
@@ -553,6 +554,7 @@ namespace JellyFishBackend.Controller
             return Ok(data.ToList());
         }*/
 
+        [NonAction]
         public override UserModule GetConcreteModule()
         {
             return ((UserModule)_backendModule);

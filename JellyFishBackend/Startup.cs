@@ -271,6 +271,7 @@ namespace JellyFishBackend
                     }
                 });
                 options.OperationFilter<AddAuthorizationHeaderOperationFilter>();
+                options.OperationFilter<OpenApiIgnoreMethodParameterOperationFilter>();
                 options.DocumentFilter<SignalRDocumentationFilter>();
             });
 #endif

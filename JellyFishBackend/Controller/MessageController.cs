@@ -33,6 +33,7 @@ using WebApiFunction.Web.AspNet.Controller;
 using WebApiFunction.Application.Model.DataTransferObject.Jellyfish;
 using InfluxDB.Client.Api.Domain;
 using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
+using WebApiFunction.Web.AspNet.Swagger.Attribut;
 
 namespace JellyFishBackend.Controller
 {
@@ -67,7 +68,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public new async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public new async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, [OpenApiIgnoreMethodParameter] bool allowDuplicates = true)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();

@@ -36,7 +36,13 @@ using WebApiFunction.Application.WebSocket.SignalR.JellyFish;
 
 namespace JellyFishBackend.Controller
 {
+#if DEBUG
+
     [ApiExplorerSettings(IgnoreApi = false)]
+#else
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+#endif
     [Authorize()]
     public class MessageController :AbstractController<MessageModel>
     {
@@ -61,7 +67,7 @@ namespace JellyFishBackend.Controller
 
         [Authorize]
         [HttpPost]
-        public override async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
+        public new async Task<ActionResult<ApiRootNodeModel>> Create([FromBody] ApiRootNodeModel body, bool allowDuplicates = true)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;
             var currentContextUserUuid = this.HttpContext.User.GetUuidFromClaims();

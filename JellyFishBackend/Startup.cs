@@ -83,6 +83,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Hosting;
 using WebApiFunction.Web.AspNet.Controller;
 using Microsoft.OpenApi.Models;
+using WebApiFunction.Web.AspNet.Swagger.OperationFilter;
+using WebApiFunction.Web.AspNet.Swagger.SignalR;
 
 namespace JellyFishBackend
 {
@@ -246,7 +248,7 @@ namespace JellyFishBackend
                 options.AddPolicy("User", policy =>
                                   policy.RequireClaim(BackendAPIDefinitionsProperties.Claim.ClaimTypeUserRole, "user"));
             });
-
+#if DEBUG
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
@@ -268,7 +270,10 @@ namespace JellyFishBackend
                         Url = new Uri("https://jellyfish.roos-it.net/license")
                     }
                 });
+                options.OperationFilter<AddAuthorizationHeaderOperationFilter>();
+                options.DocumentFilter<SignalRDocumentationFilter>();
             });
+#endif
 
         }
 
@@ -299,24 +304,24 @@ namespace JellyFishBackend
                 app.UseWebSockets();
 
             }
-            if (env.IsDevelopment())
-            {
-                var swaggerOptions = new SwaggerOptions()
-                {
-                    
-                };
-                //beim Aufbauen der Swagger Doku aktuell enorm hohe RAM Auslastung.
-                //Sprich nach erstem HTTP Call auf Swagger Doku via Browser
-                app.UseSwagger(swaggerOptions);
-                //http://localhost:5030/swagger/v1/swagger.json
-                //http://localhost:5030/swagger/index.html
-                app.UseSwaggerUI(options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    options.RoutePrefix = string.Empty;
+#if DEBUG
 
-                });
-            }
+            var swaggerOptions = new SwaggerOptions()
+            {
+
+            };
+            //beim Aufbauen der Swagger Doku aktuell enorm hohe RAM Auslastung.
+            //Sprich nach erstem HTTP Call auf Swagger Doku via Browser
+            app.UseSwagger(swaggerOptions);
+            //http://localhost:5030/swagger/v1/swagger.json
+            //http://localhost:5030/swagger/index.html
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+
+            });
+#endif
             app.UseAuthentication();
             app.UseAuthorization();
             ISingletonNodeDatabaseHandler databaseHandler = serviceProvider.GetService<ISingletonNodeDatabaseHandler>();
@@ -325,6 +330,7 @@ namespace JellyFishBackend
 
             app.UseEndpoints(endpoints =>
             {
+
                 //endpoints.MapHub<MessengerHub>("/messenger");
                 if (appConfig.AppServiceConfiguration.SignalRHubConfigurationModel != null && appConfig.AppServiceConfiguration.SignalRHubConfigurationModel.UseLocalHub)
                     endpoints.RegisterSignalRHubs(serviceProvider);//signalr init before register backend for route register

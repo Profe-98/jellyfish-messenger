@@ -27,7 +27,13 @@ using WebApiFunction.Web.AspNet.Controller;
 
 namespace JellyFishBackend.Controller
 {
-    [ApiExplorerSettings(IgnoreApi =false)]
+#if DEBUG
+
+    [ApiExplorerSettings(IgnoreApi = false)]
+#else
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+#endif
     [Authorize]
     public class AuthentificationController : AbstractController<AuthModel>
     {

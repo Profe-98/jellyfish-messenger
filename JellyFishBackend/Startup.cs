@@ -1,90 +1,20 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using System.Linq;
-using System.Reflection;
-using System;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Linq.Expressions;
-using System.IO;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Net;
-using Microsoft.AspNetCore.Http;
-using WebApiFunction.Mail;
-using WebApiFunction.Data.Web.MIME;
-using WebApiFunction.Application.Controller.Modules;
-using WebApiFunction.Application.Model.Internal;
-using WebApiFunction.Cache.Distributed.RedisCache;
-using WebApiFunction.Ampq.Rabbitmq.Data;
-using WebApiFunction.Ampq.Rabbitmq;
-using WebApiFunction.Antivirus;
-using WebApiFunction.Antivirus.nClam;
-using WebApiFunction.Application.Model.DataTransferObject.Helix.Frontend.Transfer;
-using WebApiFunction.Application.Model.DataTransferObject;
-using WebApiFunction.Application.Model;
 using WebApiFunction.Configuration;
-using WebApiFunction.Collections;
-using WebApiFunction.Data;
-using WebApiFunction.Data.Format.Json;
-using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
 using WebApiFunction.Database;
-using WebApiFunction.Web.AspNet.Filter;
-using WebApiFunction.Formatter;
-using WebApiFunction.LocalSystem.IO.File;
 using WebApiFunction.Log;
-using WebApiFunction.Metric;
-using WebApiFunction.Metric.Influxdb;
 using WebApiFunction.MicroService;
-using WebApiFunction.Network;
-using WebApiFunction.Security;
-using WebApiFunction.Security.Encryption;
-using WebApiFunction.Threading;
-using WebApiFunction.Threading.Service;
-using WebApiFunction.Threading.Task;
-using WebApiFunction.Utility;
-using WebApiFunction.Web;
-using WebApiFunction.Web.AspNet;
 using WebApiFunction.Web.Authentification;
-using WebApiFunction.Web.Http.Api.Abstractions.JsonApiV1;
-using WebApiFunction.Web.Http;
-using WebApiFunction.Web.AspNet.Healthcheck;
-using WebApiFunction.Application;
-using WebApiFunction.Web.Authentification.JWT;
-using WebApiFunction.Database.Dapper.Converter;
-using Microsoft.AspNetCore.SignalR;
 using WebApiFunction.Web.Websocket.SignalR.HubService;
 using WebApiFunction.Startup;
 using WebApiApplicationServiceV2;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using JellyFishBackend.Middleware;
-using MailKit.Security;
-using MimeKit.Text;
-using MimeKit;
-using MailKit.Net.Smtp;
-using JellyFishBackend.SignalR.Hub;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Hosting;
 using WebApiFunction.Web.AspNet.Controller;
 using Microsoft.OpenApi.Models;
 using WebApiFunction.Web.AspNet.Swagger.OperationFilter;
 using WebApiFunction.Web.AspNet.Swagger.SignalR;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace JellyFishBackend
 {
@@ -92,7 +22,7 @@ namespace JellyFishBackend
     {
         readonly string AllowOrigin = "api-gateway";
         public IConfiguration Configuration { get; }
-        public static string[] DatabaseEntityNamespaces { get; } = new string[] { "WebApiFunction.Application.Model.Database.MySQL.Jellyfish", "WebApiFunction.Application.Model.Database.MySQL.Table", "WebApiFunction.Application.Model.Database.MySQL.View" };
+        public static string[] DatabaseEntityNamespaces { get; } = new string[] { "WebApiFunction.Application.Model.Database.MySQL.Jellyfish", "WebApiFunction.Application.Model.Database.MySQL.Table", "WebApiFunction.Application.Model.Database.MySQL.View", "WebApiFunction.Application.Model.Database.MySQL.Jellyfish.DataTransferObject" };
 
         public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
@@ -229,6 +159,21 @@ namespace JellyFishBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddW3CLogging(logging =>
+            {
+                // Log all W3C fields
+                logging.LoggingFields = W3CLoggingFields.All;
+
+                logging.AdditionalRequestHeaders.Add("x-forwarded-for");
+                logging.AdditionalRequestHeaders.Add("x-client-ssl-protocol");
+                logging.FileSizeLimit = 5 * 1024 * 1024;//
+                logging.RetainedFileCountLimit = 2;
+                string path = Path.Combine(Environment.CurrentDirectory, "logs");
+                logging.RetainedFileCountLimit += 1;
+                logging.FileName = "log-data";
+                logging.LogDirectory = path;
+                logging.FlushInterval = TimeSpan.FromSeconds(2);
+            });
             services.AddRouting(x => { x.LowercaseUrls = true; });
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
 
@@ -296,7 +241,8 @@ namespace JellyFishBackend
 
             //app.UseHttpsRedirection();
             //app.UseStaticFiles();
-            
+
+            app.UseW3CLogging();
             app.UseRouting();
             app.UseCors(AllowOrigin);//must used between UseRouting & UseEndpoints
             var appConfigService = serviceProvider.GetService<IAppconfig>();

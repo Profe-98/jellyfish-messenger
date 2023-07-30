@@ -48,8 +48,8 @@ namespace JellyFish.Data.AppConfig.ConcreteImplements
             SignalRHubBaseUrl = "10.100.0.200";
             SignalRHubEndpoint = "/messenger";
             SignalRHubBaseUrlPort = 5030;
-            SignalRTransferFormat = Microsoft.AspNetCore.Connections.TransferFormat.Text;
-            SignalRTransportProtocol = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+            //SignalRTransferFormat = Microsoft.AspNetCore.Connections.TransferFormat.Text;
+            //SignalRTransportProtocol = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
             base.SetDefaults();
         }
 

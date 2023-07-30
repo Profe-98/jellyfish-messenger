@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
@@ -15,9 +16,14 @@ namespace JellyFish.Data.WebApi
     {
         public class RootObject
         {
-            public object data { get; set; } 
+            public object? data { get; set; }
             public Meta? meta { get; set; }
             public Jsonapi? jsonapi { get; set; }
+            public Error[]? errors { get; set; }
+
+
+
+
         }
         public class RootObject<T> : RootObject
             where T : class
@@ -28,8 +34,30 @@ namespace JellyFish.Data.WebApi
         public class Meta
         {
             public int? count { get; set; }
+            public string? message { get; set; }
+            public string? debugmessage { get; set; }
+            public DebugObject? debugobject { get; set; }
         }
 
+        public class DebugObject
+        {
+        }
+
+        public class Error
+        {
+            public Links? links { get; set; }
+            public string? status { get; set; }
+            public int? code { get; set; }
+            public string? title { get; set; }
+            public string? detail { get; set; }
+            public ErrorSource? source { get; set; }
+        }
+        public class ErrorSource
+        {
+
+            public string? pointer { get; set; }
+            public string? parameter { get; set; }
+        }
         public class Jsonapi
         {
             public string? version { get; set; }
@@ -73,6 +101,10 @@ namespace JellyFish.Data.WebApi
         public class Links
         {
             public string? self { get; set; }
+            public string? last { get; set; }
+            public string? previous { get; set; }
+            public string? next { get; set; }
+            public Meta? Meta { get; set; }
         }
 
     }

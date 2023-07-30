@@ -386,7 +386,7 @@ namespace JellyFishBackend.Controller
             }
             var openFriendshipRequests = await this.GetConcreteModule().GetUserOpenFriendshipRequests(userFriendshipRequestDTO.TargetUserUuid);
 
-            if (openFriendshipRequests != null && openFriendshipRequests.Find(x => x.Uuid == currentContextUserUuid) != null)
+            if (openFriendshipRequests != null && openFriendshipRequests.Find(x => x.UserUuid == currentContextUserUuid) != null)
             {
                 return await JsonApiErrorResult(new List<ApiErrorModel> {
                     new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Id = Guid.Empty, Detail = "friendship request already created" }

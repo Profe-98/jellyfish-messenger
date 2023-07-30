@@ -312,9 +312,9 @@ namespace JellyFish.ViewModel
                     foreach(var item in response.ApiResponseDeserialized.data)
                     {
                         var user = new User(item.attributes);
-                        if (user.UserUuid != _applicationConfigHandler.ApplicationConfig.AccountConfig.User.UserUuid)
+                        this.UserSearchHitsCollection.Add(user);
+                        if (_applicationConfigHandler.ApplicationConfig.AccountConfig.User != null&& user.UserUuid != _applicationConfigHandler.ApplicationConfig.AccountConfig.User.UserUuid)
                         {
-                            this.UserSearchHitsCollection.Add(new User(item.attributes));
 
                         }
                     }
@@ -335,6 +335,10 @@ namespace JellyFish.ViewModel
         public async void AddOnlineUserAction(User user)
         {
             var response = await _jellyfishWebApiRestClient.SendFriendshipRequest(user.UserUuid,CancellationToken.None); 
+            if(!response.IsSuccess)
+            {
+
+            }
         }
         /// <summary>
         /// Action that remove a current friend 

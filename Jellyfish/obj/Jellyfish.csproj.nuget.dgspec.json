@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {}
+    "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {}
   },
   "projects": {
-    "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
+    "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
       "version": "1.4.0",
       "restore": {
-        "projectUniqueName": "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj",
+        "projectUniqueName": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj",
         "projectName": "Camera.MAUI",
-        "projectPath": "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj",
+        "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj",
         "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-        "outputPath": "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\obj\\",
+        "outputPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
@@ -493,14 +493,14 @@
         }
       }
     },
-    "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {
+    "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
+        "projectUniqueName": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
         "projectName": "Jellyfish",
-        "projectPath": "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
+        "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
         "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-        "outputPath": "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\obj\\",
+        "outputPath": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
@@ -524,16 +524,16 @@
           "net7.0-android33.0": {
             "targetAlias": "net7.0-android33.0",
             "projectReferences": {
-              "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
-                "projectPath": "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
+              "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
+                "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
               }
             }
           },
           "net7.0-ios16.1": {
             "targetAlias": "net7.0-ios",
             "projectReferences": {
-              "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
-                "projectPath": "F:\\Helix\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
+              "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
+                "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
               }
             }
           }

@@ -300,6 +300,7 @@
                         
                     </VerticalStackLayout>
                 </Border>
+                
             </VerticalStackLayout>
             <CollectionView 
                 Grid.Column="0"

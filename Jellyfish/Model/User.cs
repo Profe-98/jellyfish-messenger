@@ -141,7 +141,7 @@ namespace JellyFish.Model
         {
 
             this.NickName = userDTO.User;
-            this.ProfilePicture = userDTO.Picture != null ?Convert.FromBase64String(userDTO.Picture): null;
+           this.ProfilePicture = userDTO.Picture != null ?Convert.FromBase64String(userDTO.Picture): null;
             this.UserUuid = userDTO.Uuid;
         }
         public User(UserEntity userEntity)

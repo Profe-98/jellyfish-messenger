@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cTssaSAfPtLbSGCwqUfnH7idaFPEewpi+ipXQZuJp6dT2Eb1LPrHso1rnN1R7k3Nmlhg/9EQcktiX08ytMnXXg==",
+  "dgSpecHash": "jc4lQ6bcTQny3r+dZplo80DuaipAN1s08/Yae/kSdYRCdGjDYSl0X+2gRqijEwzxH1RKkSq+FZjiqYzuCuKu9g==",
   "success": true,
-  "projectFilePath": "F:\\Helix\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
+  "projectFilePath": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Jellyfish\\Jellyfish.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mika\\.nuget\\packages\\communitytoolkit.maui\\5.1.0\\communitytoolkit.maui.5.1.0.nupkg.sha512",
     "C:\\Users\\Mika\\.nuget\\packages\\communitytoolkit.maui.core\\5.1.0\\communitytoolkit.maui.core.5.1.0.nupkg.sha512",

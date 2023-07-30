@@ -346,6 +346,7 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
                         responseModelData.data = null;
                     }
                 }
+                responseModelData.errors = baseData.errors;
                 responseModelData.meta = baseData.meta;
                 responseModelData.jsonapi = baseData.jsonapi;
                 responseModel.ApiResponseDeserialized = responseModelData;

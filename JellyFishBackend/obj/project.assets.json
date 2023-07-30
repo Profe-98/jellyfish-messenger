@@ -7877,11 +7877,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Helix\\Projekte\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
+      "projectUniqueName": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
       "projectName": "JellyFishBackend",
-      "projectPath": "F:\\Helix\\Projekte\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
+      "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\JellyFishBackend.csproj",
       "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-      "outputPath": "F:\\Helix\\Projekte\\jellyfish-messenger\\JellyFishBackend\\obj\\",
+      "outputPath": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -7903,11 +7903,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "F:\\Helix\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj": {
-              "projectPath": "F:\\Helix\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj"
+            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj": {
+              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\WebApiApplicationServiceV2.csproj"
             },
-            "F:\\Helix\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\WebApiFunction.csproj": {
-              "projectPath": "F:\\Helix\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\WebApiFunction.csproj"
+            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\WebApiFunction.csproj": {
+              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\WebApiFunction.csproj"
             }
           }
         }

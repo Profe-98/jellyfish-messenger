@@ -1,0 +1,6 @@
+#Version: 1.0
+#Start-Date: 2023-07-31 11:27:12
+#Fields: date time c-ip cs-username s-computername s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status time-taken cs-version cs-host cs(User-Agent) cs(Cookie) cs(Referer) cs(x-client-ssl-protocol) cs(x-forwarded-for)
+2023-07-31 11:27:10 ::ffff:127.0.0.1 - 0X00405A00-PC ::ffff:127.0.0.1 5030 GET /index.html - 404 35.1096 HTTP/1.1 jellyfish-backend01:5030 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64;+rv:109.0)+Gecko/20100101+Firefox/115.0 - - - -
+2023-07-31 11:27:10 ::ffff:127.0.0.1 - 0X00405A00-PC ::ffff:127.0.0.1 5030 GET /favicon.ico - 404 2.2416 HTTP/1.1 jellyfish-backend01:5030 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64;+rv:109.0)+Gecko/20100101+Firefox/115.0 - http://jellyfish-backend01:5030/index.html - -
+2023-07-31 11:27:14 ::ffff:127.0.0.1 - 0X00405A00-PC ::ffff:127.0.0.1 5030 GET / - 404 3.7759 HTTP/1.1 jellyfish-backend01:5030 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64;+rv:109.0)+Gecko/20100101+Firefox/115.0 - - - -

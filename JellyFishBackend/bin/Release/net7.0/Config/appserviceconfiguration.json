@@ -1,5 +1,5 @@
 {
-  "root_dir": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend",
+  "root_dir": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0",
   "web_api_configuration": {
     "encoding": "UTF-8",
     "node_uuid": "49bf8a55-e8e3-11ed-bdf1-7085c294413b"
@@ -135,13 +135,13 @@
     "maximum_parallel_invocations_per_per_client": 1
   },
   "app_paths": {
-    "log\u002Blocal": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\log\\local",
-    "static": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\static",
-    "controller\u002Bfile\u002Battachments": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\controller\\file\\attachments",
-    "file\u002Buser\u002Bprofile": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\file\\user\\profile",
-    "file\u002Bnclam\u002Bquarantine": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\file\\nclam\\quarantine",
-    "file\u002Bnclam\u002Bcheck": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\file\\nclam\\check",
-    "mail\u002Battachment": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\mail\\attachment",
-    "mail\u002Blog": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\mail\\log"
+    "log\u002Blocal": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\log\\local",
+    "static": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\static",
+    "controller\u002Bfile\u002Battachments": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\controller\\file\\attachments",
+    "file\u002Buser\u002Bprofile": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\file\\user\\profile",
+    "file\u002Bnclam\u002Bquarantine": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\file\\nclam\\quarantine",
+    "file\u002Bnclam\u002Bcheck": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\file\\nclam\\check",
+    "mail\u002Battachment": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\mail\\attachment",
+    "mail\u002Blog": "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\JellyFishBackend\\bin\\Release\\net7.0\\mail\\log"
   }
 }

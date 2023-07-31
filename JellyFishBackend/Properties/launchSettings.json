@@ -1,13 +1,22 @@
 ﻿{
   "profiles": {
-    "WebApiAuthentificationService": {
+    "JellyFishBackendDevEnv": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://0.0.0.0:5030"
+      "applicationUrl": "http://jellyfish-backend01:5030"
+    },
+    "JellyFishBackendProdEnv": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://jellyfish-backend01:5030"
     }
   }
 }

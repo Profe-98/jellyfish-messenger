@@ -1,0 +1,13 @@
+hosts File Windows - dev sys
+
+# Added by Mika for DNS Resolution for launchsettings.json File for ASP Net Core Development
+127.0.0.1 jellyfish-backend01
+127.0.0.1 redis-cache01
+127.0.0.1 rabbitmq-ampq01
+127.0.0.1 clam-av01
+127.0.0.1 jellyfish-mysql01
+127.0.0.1 nodemanager-mysql01
+#End of section
+
+
+DNS Auflösung in Docker über die o.g. DNS Names innerhalb des Docker Environments

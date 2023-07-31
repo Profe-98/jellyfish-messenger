@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Deployment\Docker\" />
+    <Folder Include="Deployment\Docker\MySql\" />
   </ItemGroup>
 
 </Project>

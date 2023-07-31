@@ -1,0 +1,21 @@
+version: '1.0'  # Versionsnummer von Docker Compose
+
+services:  # Definiert die Container für die Services
+  webapp:  # Name des Service (kann angepasst werden)
+    image: my-aspnetcore-app:latest  # Docker Image für die ASP.NET Core App
+    ports:
+      - "80:80"  # Portweiterleitung vom Host zum Container
+    depends_on:
+      - database  # Abhängigkeit von der Datenbank-Service
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=database;Database=my_database;User=my_user;Password=my_password  # Verbindungszeichenfolge zur MySQL-Datenbank
+
+  database:  # Name des Service (kann angepasst werden)
+    image: mysql:latest  # Docker Image für MySQL
+    ports:
+      - "3306:3306"  # Portweiterleitung vom Host zum Container
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_root_password  # Root-Passwort für MySQL
+      - MYSQL_DATABASE=my_database  # Name der Datenbank
+      - MYSQL_USER=my_user  # Benutzername für die Datenbank
+      - MYSQL_PASSWORD=my_password  # Passwort für den Benutzer

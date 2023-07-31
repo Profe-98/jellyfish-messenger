@@ -1,0 +1,28 @@
+# Verwende das offizielle .NET SDK-Basisimage aus dem Docker Hub für das Build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+# Setze das Arbeitsverzeichnis im Container
+WORKDIR /app
+
+# Kopiere das Projekt-Datei und den Rest der App in den Container
+COPY . ./
+
+# Build der ASP.NET Core App
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
+
+# Verwende das offizielle ASP.NET Core Runtime-Basisimage aus dem Docker Hub für das Deployment
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+
+# Setze das Arbeitsverzeichnis im Container
+WORKDIR /app
+
+# Kopiere die veröffentlichten Dateien aus dem Build-Container in den Runtime-Container
+COPY --from=build /app/out ./
+ENV ASPNETCORE_ENVIRONMENT = Production
+ENV DOTNET_ENVIRONMENT = Production
+ENV ASPNETCORE_URLS = http://jellyfish-backend01:5030
+EXPOSE 5030
+
+# Starte die ASP.NET Core App im Container
+ENTRYPOINT ["dotnet", "JellyFishBackend.dll"]

@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiFunction\WebApiFunction.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Deployment\Docker\MySql\" />
-  </ItemGroup>
-
 </Project>

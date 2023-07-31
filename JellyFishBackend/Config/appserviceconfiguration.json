@@ -81,35 +81,35 @@
         "password": "test"
       },
       {
-        "host": "redis-cache01",
+        "host": "redis-cache02",
         "port": 7301,
         "timeout_s": 20,
         "user": "",
         "password": "test"
       },
       {
-        "host": "redis-cache01",
+        "host": "redis-cache03",
         "port": 7302,
         "timeout_s": 20,
         "user": "",
         "password": "test"
       },
       {
-        "host": "redis-cache01",
+        "host": "redis-cache04",
         "port": 7303,
         "timeout_s": 20,
         "user": "",
         "password": "test"
       },
       {
-        "host": "redis-cache01",
+        "host": "redis-cache05",
         "port": 7304,
         "timeout_s": 20,
         "user": "",
         "password": "test"
       },
       {
-        "host": "redis-cache01",
+        "host": "redis-cache06",
         "port": 7305,
         "timeout_s": 20,
         "user": "",

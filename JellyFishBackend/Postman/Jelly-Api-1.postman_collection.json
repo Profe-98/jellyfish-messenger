@@ -604,9 +604,8 @@
 									},
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCIsInBhc3N3b3JkIjoidGVzdCJ9.EZebyve1DUVEh1Ni83rmQA-GCWt81SuRgXxCUbzpsKOV1vHUlOL4PuxaO0QPW16PQze5FwSbGUewqQRvLTqdLQ",
-										"type": "text",
-										"disabled": true
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -909,6 +908,29 @@
 									"port": "5000",
 									"path": [
 										"49bf8a55-e8e3-11ed-bdf1-7085c294413b",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ApplicationService HealthEndpoint Controller",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{rest_jwt_token}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{rest_api_url}}/health",
+									"host": [
+										"{{rest_api_url}}"
+									],
+									"path": [
 										"health"
 									]
 								}

@@ -118,15 +118,26 @@ namespace JellyFish.ViewModel
             OnPropertyChanged(nameof(OwnProfile));
         }
 
-        private void AcceptFriendshipInviteAction(UserFriendshipRequest user)
+        private async void AcceptFriendshipInviteAction(UserFriendshipRequest user)
         {
 
+            var acceptUserFriendshipRequest = await _jellyfishWebApiRestClient.AcceptFriendshipRequests(user.RequestUuid, CancellationToken.None);
+            if(acceptUserFriendshipRequest.IsSuccess)
+            {
+                if(acceptUserFriendshipRequest.ApiResponseDeserialized.data!=null)
+                {
+                    var d = acceptUserFriendshipRequest.ApiResponseDeserialized.data.ToList();
+                    if(d.Find(x => x.attributes.Uuid == user.UserUuid) != null)
+                    {
 
-            UserFriendInvitesList.Remove(user);
+                        UserFriendInvitesList.Remove(user);
+                        OnPropertyChanged(nameof(UserFriendInvitesList));
+                        OnPropertyChanged(nameof(HasUserFriendInvites));
+                    }
+                }
+            }
 
 
-            OnPropertyChanged(nameof(UserFriendInvitesList));
-            OnPropertyChanged(nameof(HasUserFriendInvites));
         }
         private void OpenSubSettingPage(ICommand command)
         {

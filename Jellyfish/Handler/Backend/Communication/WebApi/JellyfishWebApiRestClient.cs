@@ -67,8 +67,10 @@ namespace JellyFish.Handler.Backend.Communication.WebApi
         public async Task<WebApiHttpRequestResponseModel<UserDTO>> AcceptFriendshipRequests(Guid requestUuid,CancellationToken cancellationToken)
         {
             var url = BuildUrl(JellyfishEndpoints.AcceptFriendshipRequestsEndpoint);
+            var appendHeaders = new List<KeyValuePair<string, string>>();
+            appendHeaders.Add(new KeyValuePair<string, string>("Authorization", "Bearer " + _applicationConfigHandler.ApplicationConfig.AccountConfig.UserSession.Token));
             var model = new WebApiModel.RootObject { data = new WebApiModel.Data<UserFriendshipRequestAcceptDTO> { type = nameof(UserFriendshipRequestAcceptDTO), attributes = new UserFriendshipRequestAcceptDTO { UserFriendshipRequestUuids = new List<Guid> { requestUuid } } }, meta = new WebApiModel.Meta { count = 1 } };
-            var result = await this.Request<UserDTO, object>(url: url, method: RestSharp.Method.Post, cancellationToken: cancellationToken, model, null, null, false);
+            var result = await this.Request<UserDTO, object>(url: url, method: RestSharp.Method.Post, cancellationToken: cancellationToken, model, null, appendHeaders, false);
 
             return result;
         }

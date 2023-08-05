@@ -11,6 +11,10 @@
              xmlns:customcontrol="clr-namespace:JellyFish.Controls"
              NavigationPage.HasNavigationBar="False" NavigationPage.HasBackButton="False"
              Title="UserSelectionPage">
+    <customcontrol:CustomContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded" Command="{Binding LoadFriendsCommand}">
+        </toolkit:EventToCommandBehavior>
+    </customcontrol:CustomContentPage.Behaviors>
     <customcontrol:CustomContentPage.Resources>
         <converter:BoolInvertConverter x:Key="BoolInvertConverter"></converter:BoolInvertConverter>
         <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"></toolkit:ByteArrayToImageSourceConverter>
@@ -50,11 +54,24 @@
                                     WidthRequest="10" 
                                     Fill="Green"></Ellipse>
                             </StackLayout>
+                            <Border
+                                StrokeThickness="1"
+                                Stroke="black"
+                                HeightRequest="50" 
+                                WidthRequest="50"
+                                IsVisible="{Binding HasProfilePicture}">
+                                <Image 
+                                Source="{Binding ProfilePicture,Converter={x:StaticResource ByteArrayToImageSourceConverter}}"></Image>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="25,25,25,25"></RoundRectangle>
+                                </Border.StrokeShape>
+                            </Border>
                             <toolkit:AvatarView
+                                IsVisible="{Binding HasProfilePicture,Converter={x:StaticResource BoolInvertConverter}}"
                                 HeightRequest="50" 
                                 WidthRequest="50"
                                 StrokeThickness="5"
-                                Text="M.R."
+                                Text="{Binding Firstletter}"
                                 FontAttributes="Bold"
                                 TextColor="{StaticResource Primary}"
                                 BackgroundColor="White"

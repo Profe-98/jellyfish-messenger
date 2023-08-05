@@ -180,6 +180,7 @@ namespace JellyFish.ViewModel
         public ICommand ResetSearchCommand { get; private set; }
         public ICommand ContinueCommand { get; private set; }
         public ICommand SearchUserCommand { get; private set; } 
+        public ICommand LoadFriendsCommand { get; private set; }    
         public string MessageBusQueue { get;private set; }
         private bool _isRemoveFriendButtonEnabled = false;
         public bool IsRemoveFriendButtonEnabled
@@ -208,9 +209,26 @@ namespace JellyFish.ViewModel
             ResetSearchCommand = new RelayCommand(ResetSearchAction);
             SelectCommand = new RelayCommand<User>(SelectAction);
             ContinueCommand = new RelayCommand(ContinueAction);
+            LoadFriendsCommand = new RelayCommand(LoadFriends);
 #if SAMPLE_DATA
             LoadSampleData();
 #endif
+
+        }
+        public async void LoadFriends()
+        {
+
+            var response = await _jellyfishWebApiRestClient.GetFriends(CancellationToken.None);
+
+            if (response.IsSuccess)
+            {
+                foreach(var item in response.ApiResponseDeserialized.data)
+                {
+
+                    UserFriendsSelectionCollection.Add(new User(item.attributes));
+                }
+            }
+            OnPropertyChanged(nameof(HasUserFriendsSelectionCollectionItems));
         }
         public void SetResponseQueue(string responseQueue)
         {
@@ -220,9 +238,9 @@ namespace JellyFish.ViewModel
         public void ContinueAction()
         {
             string queueName = MessageBusQueue;
-            WeakReferenceMessenger.Default.Send(new MessageBus.MessageModel(queueName, new object[] { this }));
 
             _navigationService.CloseCurrentPage();
+            WeakReferenceMessenger.Default.Send(new MessageBus.MessageModel(queueName, new object[] { this }));
         }
         public void SelectAction(User user)
         {

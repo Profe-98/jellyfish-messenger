@@ -535,13 +535,14 @@ namespace JellyFishBackend.Controller
             List<UserModel> result = new List<UserModel>();
             foreach (var user in openFriendshipRequest)
             {
-                if(userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Contains(user.Uuid) && (userFriends == null || userFriends!=null&& userFriends.Find(x => x.Uuid == user.TargetUserUuid) == null))
+                var requModel = userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Find(x=> x ==user.Uuid);
+                if (requModel != Guid.Empty)
                 {
                     if(!String.IsNullOrEmpty(user.SignalRConnectionId))
                     {
                         _messengerHub.Clients.Client(user.SignalRConnectionId).AcceptFriendshipRequest(user);
                     }
-                    var acceptFriendshipActionResult = this.GetConcreteModule().AcceptFriendshipRequest(currentContextUserUuid,user.TargetUserUuid);
+                    var acceptFriendshipActionResult = this.GetConcreteModule().AcceptFriendshipRequest(requModel, currentContextUserUuid,user.TargetUserUuid);
                     userFriendshipRequestAcceptDTO.UserFriendshipRequestUuids.Remove(user.Uuid);
                     result.Add(new UserModel(user));
                 }

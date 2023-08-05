@@ -207,7 +207,7 @@ namespace JellyFish.ViewModel
         {
             base.InitViewModel();
 
-            WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, (r, m) =>
+            WeakReferenceMessenger.Default.Register<MessageBus.MessageModel>(this, async(r, m) =>
             {
                 if (m.Message != null)
                 {
@@ -220,6 +220,34 @@ namespace JellyFish.ViewModel
                             {
                                 //response.SelectedUserFriend
                                 //mit dem ausgewählten User einen neuen Chat starten
+
+                                try
+                                {
+
+                                    var chat = new Chat() 
+                                    { 
+                                        Name = response.SelectedUserFriend.NickName, 
+                                        ChatMembers = new List<User> { response.SelectedUserFriend },
+                                        Messages = new ObservableCollection<MessageGroup>() 
+                                    };
+                                    
+
+
+
+
+
+                                    var vmFromDi = _serviceProvider.GetService<ChatPageViewModel>();
+                                    ChatPage chatPage = new ChatPage(vmFromDi);
+                                    var vm = chatPage.BindingContext as ChatPageViewModel;
+                                    vm.SetChat(chat);
+                                    await _navigationService.PushAsync(chatPage);
+                                    vm.FocusLastMessage = false;
+                                    vm.FocusLastMessage = true;
+                                }
+                                catch (Exception ex)
+                                {
+                                    NotificationHandler.DisplayAlert("exc", ex.Message + ":" + ex.Source, null, cancel: "cancel");
+                                }
                             }
                         }
                     }

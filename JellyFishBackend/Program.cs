@@ -40,13 +40,9 @@ namespace JellyFishBackend
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
-                    string basePath = Path.Combine(Environment.CurrentDirectory, "ssl");
-                    string _pfxFilePath = Path.Combine(basePath, "domain.pfx");
                     var envVarAspNetCoreUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
                     var envVarAspNetCoreSslPfxPassword = Environment.GetEnvironmentVariable("ASPNETCORE_SSL_PFX_PASSWORD");
                     var envVarAspNetCoreSslPfxPath = Environment.GetEnvironmentVariable("ASPNETCORE_SSL_PFX_PATH");
-                    FileInfo fileInfo = new FileInfo(envVarAspNetCoreSslPfxPath);
                     try
                     {
                         var transformToValidUriStr = envVarAspNetCoreUrls.Replace("+","tmphostname");

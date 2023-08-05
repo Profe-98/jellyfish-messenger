@@ -1,0 +1,53 @@
+version: '1.0'  # Versionsnummer von Docker Compose
+
+networks:
+  jelly-bridge-network:
+    driver: bridge
+services:  # Definiert die Container für die Services
+  web-backend:  # Name des Service (kann angepasst werden)
+    image: jellyfish-backend:latest  # Docker Image für die ASP.NET Core App
+    hostname: jellyfish-backend01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "5030:5030"  # Portweiterleitung vom Host zum Container
+    depends_on:
+      database:
+            condition: service_started
+      redis:
+            condition: service_started
+      rabbitmq:
+            condition: service_started
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Production
+     - DOTNET_ENVIRONMENT=Production
+     - ASPNETCORE_URLS=http://+:80
+  database:  
+    image: jellyfish-mysql:latest  
+    hostname: jellyfish-mysql01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "3306:3306"
+  redis:  
+    image: jellyfish-redis:latest  
+    hostname: redis-cache01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "6379:6379" 
+  clam-av:  
+    image: jellyfish-clam-av:latest  
+    hostname: clam-av01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "3310:3310"
+  rabbitmq:  
+    image: jellyfish-rabbitmq-ampq:latest  
+    hostname: rabbitmq-ampq01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "5672:5672" 
+      - "15672:15672" 

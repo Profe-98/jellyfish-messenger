@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using WebApiFunction.Web.AspNet.Swagger.OperationFilter;
 using WebApiFunction.Web.AspNet.Swagger.SignalR;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace JellyFishBackend
 {
@@ -39,7 +40,7 @@ namespace JellyFishBackend
 
             AntivirusConfigurationModel initialAntiVirusConfigurationModel = new AntivirusConfigurationModel();
             initialAntiVirusConfigurationModel.DeleteInfectedFilesPermantly =true;
-            initialAntiVirusConfigurationModel.Host = "localhost";
+            initialAntiVirusConfigurationModel.Host = "clam-av01";
             initialAntiVirusConfigurationModel.Port=3310;
 
             LogConfigurationModel initialLogConfigurationModel = new LogConfigurationModel();
@@ -69,7 +70,7 @@ namespace JellyFishBackend
             initialMailConfigurationModel.SmtpSettings.Timeout = 10000;
 
             DatabaseConfigurationModel initialDatabaseConfigurationModel = new DatabaseConfigurationModel();
-            initialDatabaseConfigurationModel.Host = "localhost";
+            initialDatabaseConfigurationModel.Host = "127.0.0.1";
             initialDatabaseConfigurationModel.Port = 3306;
             initialDatabaseConfigurationModel.Database = "jellyfish";
             initialDatabaseConfigurationModel.User = "jellyfish";
@@ -79,7 +80,7 @@ namespace JellyFishBackend
             initialDatabaseConfigurationModel.OldGuids = true;
 
             DatabaseConfigurationModel initialNodeManagerDatabaseConfigurationModel = new DatabaseConfigurationModel();
-            initialNodeManagerDatabaseConfigurationModel.Host = "localhost";
+            initialNodeManagerDatabaseConfigurationModel.Host = "127.0.0.1";
             initialNodeManagerDatabaseConfigurationModel.Port = 3306;
             initialNodeManagerDatabaseConfigurationModel.Database = "rest_api";
             initialNodeManagerDatabaseConfigurationModel.User = "rest";
@@ -89,7 +90,7 @@ namespace JellyFishBackend
             initialNodeManagerDatabaseConfigurationModel.OldGuids = true;
 
             AmpqConfigurationModel initialRabbitMqConfigurationModel = new AmpqConfigurationModel();
-            initialRabbitMqConfigurationModel.Host = "localhost";
+            initialRabbitMqConfigurationModel.Host = "rabbitmq-ampq01";
             initialRabbitMqConfigurationModel.Port = 5672;
             initialRabbitMqConfigurationModel.User = "jellyfish";
             initialRabbitMqConfigurationModel.Password = "admin1234";
@@ -107,12 +108,12 @@ namespace JellyFishBackend
 
             CacheConfigurationModel initialCacheConfigurationModel = new CacheConfigurationModel();
             initialCacheConfigurationModel.Hosts = new CacheHostConfigurationModel[] {
-                new CacheHostConfigurationModel{ Host="10.0.0.77",Port=7300,Timeout=20, User="",Password="test"},
-                new CacheHostConfigurationModel{Host="10.0.0.77",Port=7301,Timeout=20, User="",Password="test"},
-                new CacheHostConfigurationModel{Host="10.0.0.77",Port=7302,Timeout=20, User="",Password="test"},
-                new CacheHostConfigurationModel{Host="10.0.0.77",Port=7303,Timeout=20, User="",Password="test"},
-                new CacheHostConfigurationModel{Host="10.0.0.77",Port=7304,Timeout=20, User="",Password="test"},
-                new CacheHostConfigurationModel{Host="10.0.0.77",Port=7305,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{ Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
+                new CacheHostConfigurationModel{Host="redis-cache01",Port=6379,Timeout=20, User="",Password="test"},
             };
 
             WebApiConfigurationModel initialWebApiConfigurationModel = new WebApiConfigurationModel();
@@ -142,6 +143,7 @@ namespace JellyFishBackend
                 AddJsonFile(appsettingsFile).
                 
                 AddEnvironmentVariables();
+            var config = configurationBuilder.AddConfiguration(configuration).Build();
 #if DEBUG
             var envVars = Environment.GetEnvironmentVariables();
             Console.WriteLine("!!! Environment Vars output only in DEBUG Mode !!!");
@@ -150,9 +152,15 @@ namespace JellyFishBackend
                 Console.WriteLine("ENV: "+ envVar + ":" + envVars[envVar].ToString());
             }
             Console.WriteLine("!!! Environment Vars output only in DEBUG Mode !!!");
+            Console.WriteLine("!!! Config Vars output only in DEBUG Mode !!!");
+            foreach (var c in config.AsEnumerable().ToList())
+            {
+                Console.WriteLine("CONFIG: " + c.Key + ":" + c.Value);
+            }
+            Console.WriteLine("!!! Config Vars output only in DEBUG Mode !!!");
 #endif
-            var config = configurationBuilder.AddConfiguration(configuration).Build();
             Configuration = config;
+            Console.WriteLine("Init completed");
         }
 
 

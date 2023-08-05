@@ -1,3 +1,0 @@
-Das Dockerfile muss im Stammverzeichnis liegen, also da wo die .csproj vom Backendprojekt liegt, wenn das Image mittels "docker build" erzeugt wird.
-
-Script: build-docker-img.cmd

@@ -44,16 +44,6 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.SignalR.Client": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "MySql.Data": {
-              "target": "Package",
-              "version": "[8.0.32, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -65,11 +55,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }

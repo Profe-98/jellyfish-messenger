@@ -1,0 +1,44 @@
+Das Dockerfile muss in einem Ordner liegen wo folgende Pfade als Childs erreichbar sind:
+- jellyfish-messenger/JellyFishBackend/
+- generic-aspnet-webapi/WebApiApplicationServiceV2/
+- generic-aspnet-webapi/WebApiFunction/
+
+
+
+--- Root Folder
+|
+|
+|--- Dockerfile  <------------------
+|--- build-docker-img.cmd
+|--- docker-img-run.cmd
+|--- jellyfish-messenger
+|	|
+|	|
+|	|--- JellyFishBackend
+|		|
+|		|
+|		|--- JellyFishBackend.csproj
+|		|--- Program.cs
+|		|--- Folder/Files etc...
+|--- generic-aspnet-webapi	
+	|
+	|
+	|--- WebApiApplicationServiceV2
+	|	|
+	|	|
+	|	|--- WebApiApplicationServiceV2.csproj		
+	|	|--- Program.cs	
+	|	|--- Folder/Files etc...
+	|
+	|
+	|--- WebApiFunction		
+		|
+		|
+		|--- WebApiFunction.csproj		
+		|--- Class1.cs	
+		|--- Folder/Files etc...
+
+
+
+
+Script: build-docker-img.cmd

@@ -1,5 +1,0 @@
-#Version: 1.0
-#Start-Date: 2023-07-31 11:10:24
-#Fields: date time c-ip cs-username s-computername s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status time-taken cs-version cs-host cs(User-Agent) cs(Cookie) cs(Referer) cs(x-client-ssl-protocol) cs(x-forwarded-for)
-2023-07-31 11:10:23 10.100.0.200 - 0X00405A00-PC 10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 249.3544 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
-2023-07-31 11:10:30 10.100.0.200 - 0X00405A00-PC 10.100.0.200 5030 GET /jelly-api-1/health - 503 1056.0088 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -

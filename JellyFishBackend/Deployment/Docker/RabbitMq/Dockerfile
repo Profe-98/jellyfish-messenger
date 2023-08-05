@@ -9,6 +9,9 @@ ENV RABBITMQ_DEFAULT_USER=jellyfish
 ENV RABBITMQ_DEFAULT_PASS=admin1234
 ENV RABBITMQ_DEFAULT_VHOST=webapi
 
+EXPOSE 5672
+EXPOSE 15672
+
 # Optional: Führe zusätzliche Befehle während der Containererstellung aus
 # Beispiel: Wenn du Plugins installieren möchtest
 # RUN rabbitmq-plugins enable rabbitmq_management

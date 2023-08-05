@@ -17,6 +17,19 @@
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://jellyfish-backend01:5030"
+    },
+    "JellyFishBackendDevHTTPsEnv": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "useSSL": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://jellyfish-backend01:443",
+        "ASPNETCORE_SSL_PFX_PASSWORD": "dsf64dsaVSDKIJUgs6465!654e46dss9484\"$64834356!$$Afvg",
+        "ASPNETCORE_SSL_PFX_PATH": "./ssl/domain.pfx"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "https://jellyfish-backend01:443"
     }
   }
 }

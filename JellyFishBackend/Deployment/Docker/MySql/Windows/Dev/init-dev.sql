@@ -2473,3 +2473,5 @@ UNLOCK TABLES;
 
 GRANT ALL PRIVILEGES ON rest_api.* TO 'rest'@'%';
 GRANT ALL PRIVILEGES ON jellyfish.* TO 'jellyfish'@'%';
+GRANT ALL PRIVILEGES ON rest_api.* TO 'localadmin'@'%';
+GRANT ALL PRIVILEGES ON jellyfish.* TO 'localadmin'@'%';

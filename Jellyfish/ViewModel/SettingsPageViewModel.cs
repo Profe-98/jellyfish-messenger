@@ -50,7 +50,7 @@ namespace JellyFish.ViewModel
         public bool HasUserFriendInvites { get => UserFriendInvitesList != null && UserFriendInvitesList.Count != 0; }
 
         private readonly ApplicationConfigHandler _applicationConfigHandler;
-        private readonly JellyfishWebApiRestClient _jellyfishWebApiRestClient;
+        private readonly JellyFish.Handler.Data.InternalDataInterceptor.InternalDataInterceptorApplication _internalDataInterceptorApplication;
         private readonly NavigationService _navigationService;
         public ICommand OpenAccountPage { get; private set; }
         public ICommand LoadedCommand { get; private set; }
@@ -61,13 +61,13 @@ namespace JellyFish.ViewModel
         private Dictionary<ICommand, AbstractSettingsPageGenericViewModel> _commandsToViewsRelation = new Dictionary<ICommand, AbstractSettingsPageGenericViewModel>();
         public ObservableCollection<SettingsPageSettingItem> SettingsPageSettingItems { get; set; }
         public SettingsPageViewModel(
+            JellyFish.Handler.Data.InternalDataInterceptor.InternalDataInterceptorApplication internalDataInterceptorApplication,
             NavigationService navigationService,
             ApplicationConfigHandler applicationConfigHandler,
-            JellyfishWebApiRestClient jellyfishWebApiRestClient,
             ApplicationResourcesHandler applicationResourcesHandler)
         {
+            _internalDataInterceptorApplication = internalDataInterceptorApplication;
             _applicationConfigHandler = applicationConfigHandler;
-            _jellyfishWebApiRestClient = jellyfishWebApiRestClient;
             _navigationService = navigationService;
             LoadedCommand = new RelayCommand(LoadAction);
             OpenAccountPage = new RelayCommand<ICommand>(OpenSubSettingPage);
@@ -102,15 +102,13 @@ namespace JellyFish.ViewModel
             {
                 this.UserFriendInvitesList.Clear();
             }
-            var responseOwnProfile = await _jellyfishWebApiRestClient.GetOwnProfile(CancellationToken.None);
+            var responseOwnProfile = await _internalDataInterceptorApplication.GetOwnProfile(CancellationToken.None);
 
-            var getUserFriendshipRequest = await _jellyfishWebApiRestClient.GetFriendshipRequests(CancellationToken.None);
-            if (getUserFriendshipRequest.IsSuccess)
+            var getUserFriendshipRequest = await _internalDataInterceptorApplication.GetFriendshipRequests(CancellationToken.None);
+            foreach ( var userFriendship in getUserFriendshipRequest)
             {
-                foreach (var rq in getUserFriendshipRequest.ApiResponseDeserialized.data)
-                {
-                    this.UserFriendInvitesList.Add(new UserFriendshipRequest(rq.attributes));
-                }
+
+                this.UserFriendInvitesList.Add(new UserFriendshipRequest(userFriendship));
             }
 
             OnPropertyChanged(nameof(UserFriendInvitesList));
@@ -121,7 +119,7 @@ namespace JellyFish.ViewModel
         private async void AcceptFriendshipInviteAction(UserFriendshipRequest user)
         {
 
-            var acceptUserFriendshipRequest = await _jellyfishWebApiRestClient.AcceptFriendshipRequests(user.RequestUuid, CancellationToken.None);
+            var acceptUserFriendshipRequest = await _internalDataInterceptorApplication.AcceptFriendRequest(user.RequestUuid,CancellationToken.None);
             if(acceptUserFriendshipRequest.IsSuccess)
             {
                 if(acceptUserFriendshipRequest.ApiResponseDeserialized.data!=null)

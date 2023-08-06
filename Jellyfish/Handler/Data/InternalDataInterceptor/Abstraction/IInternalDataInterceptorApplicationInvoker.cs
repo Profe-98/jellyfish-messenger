@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish.DataTransferObject;
 
 namespace JellyFish.Handler.Data.InternalDataInterceptor.Abstraction
 {
@@ -13,6 +14,6 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Abstraction
         Task SendMessage(params MessageDTO[] data);
         Task CreateFriendRequest(params UserFriendshipRequestDTO[] data);
         Task ReceiveFriendRequest(params UserFriendshipRequestDTO[] data);
-        Task ReceiveAcceptFriendRequest(UserDTO data);
+        Task ReceiveAcceptFriendRequest(params UserDTO[] data);
     }
 }

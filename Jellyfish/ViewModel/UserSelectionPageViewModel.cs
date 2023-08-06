@@ -3,6 +3,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using JellyFish.Handler.AppConfig;
 using JellyFish.Handler.Backend.Communication.WebApi;
+using JellyFish.Handler.Data.InternalDataInterceptor;
 using JellyFish.Model;
 using JellyFish.Service;
 using System;
@@ -19,7 +20,6 @@ namespace JellyFish.ViewModel
 {
     public class UserSelectionPageViewModel : BaseViewModel
     {
-        private readonly JellyfishWebApiRestClient _jellyfishWebApiRestClient;
         public List<User> MultiSelectedUsers { get; set; }
         public ObservableCollection<User> UserFriendsSelectionCollection { get; private set; } = new ObservableCollection<User>();
         public ObservableCollection<User> UserFriendsRemoveCollection { get; private set; } = new ObservableCollection<User>();
@@ -174,6 +174,7 @@ namespace JellyFish.ViewModel
         public string SearchOnlineResultText { get; private set; }
         private readonly NavigationService _navigationService;
         private readonly ApplicationConfigHandler _applicationConfigHandler;
+        private readonly InternalDataInterceptorApplication _internalDataInterceptorApplication;
         public ICommand AddOnlineUserCommand { get; private set; }
         public ICommand RemoveFriendCommand { get; private set; }
         public ICommand SelectCommand { get; private set; }
@@ -195,12 +196,11 @@ namespace JellyFish.ViewModel
             }
         }
 
-        public UserSelectionPageViewModel(
+        public UserSelectionPageViewModel(InternalDataInterceptorApplication internalDataInterceptorApplication,
             NavigationService navigationService,
-            JellyfishWebApiRestClient jellyfishWebApiRestClient,
             ApplicationConfigHandler applicationConfigHandler)
         {
-            _jellyfishWebApiRestClient = jellyfishWebApiRestClient;
+            _internalDataInterceptorApplication = internalDataInterceptorApplication;
             _applicationConfigHandler = applicationConfigHandler;
             _navigationService = navigationService;
             SearchUserCommand = new RelayCommand(SearchingAction);
@@ -218,7 +218,7 @@ namespace JellyFish.ViewModel
         public async void LoadFriends()
         {
 
-            var response = await _jellyfishWebApiRestClient.GetFriends(CancellationToken.None);
+            var response = await _internalDataInterceptorApplication.GetFriends(CancellationToken.None);
 
             if (response.IsSuccess)
             {
@@ -322,7 +322,7 @@ namespace JellyFish.ViewModel
             //async code to backend with searchtext as filter to get the best result
             if (UserSearchHitsCollection != null)
                 UserSearchHitsCollection.Clear();
-            var response = await _jellyfishWebApiRestClient.SearchUser(this.SearchText, CancellationToken.None);
+            var response = await _internalDataInterceptorApplication.SearchUser(this.SearchText, CancellationToken.None);
             if(response != null)
             {
                 if(response.IsSuccess)
@@ -352,11 +352,7 @@ namespace JellyFish.ViewModel
         /// </summary>
         public async void AddOnlineUserAction(User user)
         {
-            var response = await _jellyfishWebApiRestClient.SendFriendshipRequest(user.UserUuid,CancellationToken.None); 
-            if(!response.IsSuccess)
-            {
-
-            }
+            var response = await _internalDataInterceptorApplication.CreateFriendRequest(new UserFriendshipRequestDTO[] { new UserFriendshipRequestDTO { TargetUserUuid = user.UserUuid } }); 
         }
         /// <summary>
         /// Action that remove a current friend 

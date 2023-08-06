@@ -27,17 +27,11 @@ namespace JellyFish.Handler.Backend.Communication.SignalR
     public class SignalRClient : AbstractSignalRClient, IMessengerClient
     {
         public List<BaseViewModel> ViewModelsToCommunicate { get; set; }
-        private readonly MessageDataInterceptor _messageDataInterceptor;
-        /*private readonly ViewModelInvoker _viewModelInvoker;
-        private readonly SqlLiteDatabaseHandlerInvoker _sqlLiteDatabaseHandlerInvoker;
-        private readonly NotificationInvoker _notificationInvoker;*/
+        private readonly JellyFish.Handler.Data.InternalDataInterceptor.InternalDataInterceptorApplication _messageDataInterceptor;
 
         public SignalRClient(
             ApplicationConfigHandler applicationConfigHandler,
-            MessageDataInterceptor messageDataInterceptor,
-            ViewModelInvoker viewModelInvoker,
-            SqlLiteDatabaseHandlerInvoker sqlLiteDatabaseHandlerInvoker,
-            NotificationInvoker notificationInvoker) : base()
+            JellyFish.Handler.Data.InternalDataInterceptor.InternalDataInterceptorApplication messageDataInterceptor) : base()
         {
             string protocolSignalR = applicationConfigHandler.ApplicationConfig.NetworkConfig.WebApiHttpClientTransportProtocol == JellyFish.Data.AppConfig.ConcreteImplements.NetworkConfig.HTTP_TRANSPORT_PROTOCOLS.HTTP ? "http://" : "https://";
             string url =
@@ -53,14 +47,8 @@ namespace JellyFish.Handler.Backend.Communication.SignalR
             applicationConfigHandler.ApplicationConfig.NetworkConfig.SignalRTransferFormat);
 
             _messageDataInterceptor = messageDataInterceptor;
-            _messageDataInterceptor.Add(notificationInvoker);
-            _messageDataInterceptor.Add(sqlLiteDatabaseHandlerInvoker);
-            _messageDataInterceptor.Add(viewModelInvoker);
             this.HubConnectionReconnectedEvent += new EventHandler<string>(SignalrClientReconnectedToBackendEvent);
 
-            /*_notificationInvoker = notificationInvoker;
-            _sqlLiteDatabaseHandlerInvoker = sqlLiteDatabaseHandlerInvoker;
-            _viewModelInvoker = viewModelInvoker;*/
         }
 
         public void SignalrClientReconnectedToBackendEvent(object sender,string args)

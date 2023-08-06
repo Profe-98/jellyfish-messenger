@@ -15,7 +15,7 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification
             throw new NotImplementedException();
         }
 
-        public Task ReceiveAcceptFriendRequest(UserDTO data)
+        public Task ReceiveAcceptFriendRequest(params UserDTO[] data)
         {
             throw new NotImplementedException();
         }

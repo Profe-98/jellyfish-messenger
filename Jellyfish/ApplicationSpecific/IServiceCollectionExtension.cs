@@ -23,6 +23,9 @@ using JellyFish.Handler.AppConfig;
 using JellyFish.Handler.Data.InternalDataInterceptor.Abstraction;
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker;
 using JellyFish.Handler.Device.Media;
+using CommunityToolkit.Maui;
+using JellyFish.Handler.Data.InternalDataInterceptor;
+using Microsoft.Extensions.DependencyInjection;
 #if ANDROID
 using JellyFish.Handler.Data.InternalDataInterceptor.Invoker.Notification.Android;
 #elif IOS
@@ -96,11 +99,18 @@ namespace JellyFish.ApplicationSpecific
                 connectionTestEndpoint);
             services.AddSingleton<JellyfishWebApiRestClient>(jellyfishBackendClient);
 
+            services.AddSingleton<JellyfishWebApiRestClientInvoker>();
             services.AddSingleton<ViewModelInvoker>();
             services.AddSingleton<SqlLiteDatabaseHandlerInvoker>();
             services.AddSingleton<NotificationInvoker>();
-            services.AddSingleton<JellyFish.Handler.Data.InternalDataInterceptor.MessageDataInterceptor>();
-            
+            services.AddSingleton<JellyFish.Handler.Data.InternalDataInterceptor.InternalDataInterceptorApplication>();
+
+            bool containsRelevantService = services.ToList().Find(x => x.ServiceType == typeof(InternalDataInterceptorApplication)) != null;
+            if (!containsRelevantService)
+            {
+                throw new ArgumentNullException(nameof(InternalDataInterceptorApplication) + " not found in DI or " + nameof(AddDeviceHandlers) + " is called before initialization of " + nameof(InternalDataInterceptorApplication) + "");
+            }
+            services.AddSingleton<InitDataInterceptorApplicationModel>();
             services.AddSingleton<SignalRClient>();
 
 

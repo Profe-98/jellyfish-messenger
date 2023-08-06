@@ -10,7 +10,7 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
 {
     public class SqlLiteDatabaseHandlerInvoker : IInternalDataInterceptorApplicationInvoker
     {
-        public SqlLiteDatabaseHandlerInvoker() 
+        public SqlLiteDatabaseHandlerInvoker(JellyfishSqlliteDatabaseHandler jellyfishSqlliteDatabaseHandler) 
         {
 
         }
@@ -19,7 +19,7 @@ namespace JellyFish.Handler.Data.InternalDataInterceptor.Invoker
             throw new NotImplementedException();
         }
 
-        public Task ReceiveAcceptFriendRequest(UserDTO data)
+        public Task ReceiveAcceptFriendRequest(params UserDTO[] data)
         {
             throw new NotImplementedException();
         }

@@ -1,21 +1,29 @@
-﻿using System;
+﻿using JellyFish.Data.WebApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiFunction.Application.Model.Database.MySQL.Jellyfish;
+using WebApiFunction.Application.Model.Database.MySQL.Jellyfish.DataTransferObject;
 
 namespace JellyFish.Handler.Data.InternalDataInterceptor.Abstraction
 {
     public interface IInternalDataInterceptorApplication
     {
         public List<IInternalDataInterceptorApplicationInvoker> Invoker { get; }
-        Task ReceiveMessage(params MessageDTO[] data);
-        Task SendMessage(params MessageDTO[] data);
-        Task CreateFriendRequest(params UserFriendshipRequestDTO[] data);
-        Task ReceiveFriendRequest(params UserFriendshipRequestDTO[] data);
-        Task ReceiveAcceptFriendRequest(UserDTO data);
+        public Task<InternalDataInterceptorApplicationInvokeResponseModel> ReceiveMessage(params MessageDTO[] data);
+        public Task<InternalDataInterceptorApplicationInvokeResponseModel> SendMessage(params MessageDTO[] data);
+        public Task<InternalDataInterceptorApplicationInvokeResponseModel> CreateFriendRequest(params UserFriendshipRequestDTO[] data);
+        public Task<InternalDataInterceptorApplicationInvokeResponseModel> ReceiveFriendRequest(params UserFriendshipRequestDTO[] data);
+        public Task<InternalDataInterceptorApplicationInvokeResponseModel> ReceiveAcceptFriendRequest(params UserDTO[] data);
+
+        public Task<UserDTO> GetOwnProfile(CancellationToken cancellationToken);
+        public Task<List<UserFriendshipUserModelDTO>> GetFriendshipRequests(CancellationToken cancellationToken);
+        public Task<WebApiHttpRequestResponseModel<UserDTO>> SearchUser(string searchUser,CancellationToken cancellationToken);
+        public Task<WebApiHttpRequestResponseModel<UserDTO>> AcceptFriendRequest(Guid requestUuid,CancellationToken cancellationToken);
         public void Add(IInternalDataInterceptorApplicationInvoker invoker);
         public void Remove(IInternalDataInterceptorApplicationInvoker invoker);
+        public IInternalDataInterceptorApplicationInvoker Get<T>() where T: IInternalDataInterceptorApplicationInvoker;
     }
 }

@@ -83,11 +83,10 @@ namespace JellyFish.ViewModel
         public ICommand SwipeLeftCommand { get; private set; }
         public ICommand SwipeRightCommand { get; private set; }
 
-        public ChatsPageViewModel(IServiceProvider serviceProvider, NavigationService navigationService, JellyfishSqlliteDatabaseHandler jellyfishSqlliteDatabaseHandler)
+        public ChatsPageViewModel(IServiceProvider serviceProvider, NavigationService navigationService)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
-            _jellyfishSqlliteDatabaseHandler = jellyfishSqlliteDatabaseHandler;
             DeleteChatCommand = new RelayCommand<Chat>(DeleteChatAction);
             RefreshChatsViewCommand = new RelayCommand(RefreshChatsViewAction);
             SelectedChatChangedCommand = new RelayCommand(SelectedChatChangedAction);

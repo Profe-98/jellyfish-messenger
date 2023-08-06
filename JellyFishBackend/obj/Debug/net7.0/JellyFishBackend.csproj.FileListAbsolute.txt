@@ -477,3 +477,5 @@ C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\obj\Debug\ne
 C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\obj\Debug\net7.0\JellyFishBackend.pdb
 C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\obj\Debug\net7.0\JellyFishBackend.genruntimeconfig.cache
 C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\obj\Debug\net7.0\ref\JellyFishBackend.dll
+C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\bin\Debug\net7.0\Postman\jelly-api-1 no SSL - DEV.postman_environment.json
+C:\Users\Mika\Desktop\Projekte\jellyfish-messenger\JellyFishBackend\bin\Debug\net7.0\Postman\jelly-api-1 SSL.postman_environment.json

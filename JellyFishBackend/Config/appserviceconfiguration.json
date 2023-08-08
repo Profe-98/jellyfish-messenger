@@ -25,7 +25,7 @@
   },
   "mail_configuration": {
     "imap_settings": {
-      "user": "mail@roos-it.net",
+      "user": "mail@mail.net",
       "password": "aChJz8nPf5dXZsa",
       "server": "imap.strato.de",
       "port": 993,
@@ -34,7 +34,7 @@
       "logger_file_name": "imap.log"
     },
     "smtp_settings": {
-      "user": "mail@roos-it.net",
+      "user": "mail@mail.net",
       "password": "aChJz8nPf5dXZsa",
       "server": "smtp.strato.de",
       "port": 465,

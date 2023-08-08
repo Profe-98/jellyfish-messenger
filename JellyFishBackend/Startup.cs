@@ -55,7 +55,7 @@ namespace JellyFishBackend
             initialMailConfigurationModel.EmailAttachmentPath ="";
             //IMAP
             initialMailConfigurationModel.ImapSettings =new MailConfigurationModel.MailSettingsModel();
-            initialMailConfigurationModel.ImapSettings.User = "mail@roos-it.net";
+            initialMailConfigurationModel.ImapSettings.User = "mail@mail.net";
             initialMailConfigurationModel.ImapSettings.Password = "aChJz8nPf5dXZsa";
             initialMailConfigurationModel.ImapSettings.Server = "imap.strato.de";
             initialMailConfigurationModel.ImapSettings.Port =993;
@@ -211,16 +211,16 @@ namespace JellyFishBackend
                     Version = "v1",
                     Title = "Jellyfish API",
                     Description = "API for the Jellyfish Mobile App",
-                    TermsOfService = new Uri("https://jellyfish.roos-it.net/terms"),
+                    TermsOfService = new Uri("https://jellyfish.mail.net/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "Mika Roos",
-                        Url = new Uri("https://jellyfish.roos-it.net/contact")
+                        Url = new Uri("https://jellyfish.mail.net/contact")
                     },
                     License = new OpenApiLicense
                     {
                         Name = "GPL2",
-                        Url = new Uri("https://jellyfish.roos-it.net/license")
+                        Url = new Uri("https://jellyfish.mail.net/license")
                     }
                 });
                 options.OperationFilter<AddAuthorizationHeaderOperationFilter>();

@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRTestClient", "SignalRTestClient\SignalRTestClient.csproj", "{96A38D3F-913D-4DD0-93E1-3A9F6B4E9065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Mobile.Jellyfish", "Application.Mobile.Jellyfish\Application.Mobile.Jellyfish.csproj", "{50894ABF-0BE6-4C44-BD6A-A001D2637C77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfish", "Jellyfish\Jellyfish.csproj", "{50894ABF-0BE6-4C44-BD6A-A001D2637C77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Web.Api.JellyFishBackend", "Application.Web.Api.JellyFishBackend\Application.Web.Api.JellyFishBackend.csproj", "{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JellyFishBackend", "JellyFishBackend\JellyFishBackend.csproj", "{6B53E5A8-948A-44B9-AB75-ABF51BC1C010}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiFunction", "..\generic-aspnet-webapi\WebApiFunction\WebApiFunction.csproj", "{2FDCA536-516A-4CB0-B920-DF35564EB90E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Shared.Kernel", "..\generic-aspnet-webapi\Application.Shared.Kernel\Application.Shared.Kernel.csproj", "{2FDCA536-516A-4CB0-B920-DF35564EB90E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Camera.MAUI", "..\Camera.MAUI\Camera.MAUI\Camera.MAUI.csproj", "{36DACAE1-74CF-4199-ADFE-B2637034AFD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiApplicationServiceV2", "..\generic-aspnet-webapi\WebApiApplicationServiceV2\WebApiApplicationServiceV2.csproj", "{B2658121-9D1A-424B-9BFF-34211D7AD209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Shared.Web.Api.Shared", "..\generic-aspnet-webapi\Application.Shared.Web.Api.Shared\Application.Shared.Web.Api.Shared.csproj", "{B2658121-9D1A-424B-9BFF-34211D7AD209}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{A07E5BBF-1BF5-465E-A1ED-3DF30C358AED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Web.Gateway", "..\generic-aspnet-webapi\Application.Web.Gateway\Application.Web.Gateway.csproj", "{C3510065-8FDE-43E2-8809-52107F5D3E9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{96A38D3F-913D-4DD0-93E1-3A9F6B4E9065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{96A38D3F-913D-4DD0-93E1-3A9F6B4E9065}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{96A38D3F-913D-4DD0-93E1-3A9F6B4E9065}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{96A38D3F-913D-4DD0-93E1-3A9F6B4E9065}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50894ABF-0BE6-4C44-BD6A-A001D2637C77}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -49,6 +45,10 @@ Global
 		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2658121-9D1A-424B-9BFF-34211D7AD209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3510065-8FDE-43E2-8809-52107F5D3E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3510065-8FDE-43E2-8809-52107F5D3E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3510065-8FDE-43E2-8809-52107F5D3E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3510065-8FDE-43E2-8809-52107F5D3E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

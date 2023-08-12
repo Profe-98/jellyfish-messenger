@@ -8,7 +8,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Linq;
 
-namespace WebApiFunction.Data.Format.Json
+namespace ApplicationSharedKernel.Data.Format.Json
 {
 
     public class JsonHandler : IScopedJsonHandler, ISingletonJsonHandler, IDisposable

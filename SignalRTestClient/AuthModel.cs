@@ -6,50 +6,50 @@ using System.Text.Json.Serialization;
 using System.Net;
 using System.ComponentModel.DataAnnotations;
 using MySql.Data.MySqlClient;
-using WebApiFunction.Converter;
-using WebApiFunction.Data.Web.MIME;
-using WebApiFunction.Application.Model.Internal;
+using ApplicationSharedKernel.Converter;
+using ApplicationSharedKernel.Data.Web.MIME;
+using ApplicationSharedKernel.Application.Model.Internal;
 
 
-using WebApiFunction.Cache.Distributed.RedisCache;
-using WebApiFunction.Ampq.Rabbitmq.Data;
-using WebApiFunction.Ampq.Rabbitmq;
-using WebApiFunction.Antivirus;
-using WebApiFunction.Antivirus.nClam;
-using WebApiFunction.Application.Model.DataTransferObject.Frontend.Transfer;
-using WebApiFunction.Application.Model.DataTransferObject;
-using WebApiFunction.Application.Model;
-using WebApiFunction.Configuration;
-using WebApiFunction.Collections;
-using WebApiFunction.Web.AspNet.Controller;
-using WebApiFunction.Data;
-using WebApiFunction.Data.Web;
-using WebApiFunction.Data.Format.Json;
-using WebApiFunction.Data.Web.Api.Abstractions.JsonApiV1;
-using WebApiFunction.Database;
-using WebApiFunction.Application.Model.Database.MySQL;
-using WebApiFunction.Application.Model.Database.MySQL.Data;
-using WebApiFunction.Web.AspNet.Filter;
-using WebApiFunction.Formatter;
-using WebApiFunction.LocalSystem.IO.File;
-using WebApiFunction.Log;
-using WebApiFunction.Metric;
-using WebApiFunction.Metric.Influxdb;
-using WebApiFunction.MicroService;
-using WebApiFunction.Network;
-using WebApiFunction.Security;
-using WebApiFunction.Security.Encryption;
-using WebApiFunction.Threading;
-using WebApiFunction.Threading.Service;
-using WebApiFunction.Threading.Task;
-using WebApiFunction.Utility;
-using WebApiFunction.Web;
-using WebApiFunction.Web.AspNet;
-using WebApiFunction.Web.Authentification;
-using WebApiFunction.Web.Http.Api.Abstractions.JsonApiV1;
-using WebApiFunction.Web.Http;
+using ApplicationSharedKernel.Cache.Distributed.RedisCache;
+using ApplicationSharedKernel.Ampq.Rabbitmq.Data;
+using ApplicationSharedKernel.Ampq.Rabbitmq;
+using ApplicationSharedKernel.Antivirus;
+using ApplicationSharedKernel.Antivirus.nClam;
+using ApplicationSharedKernel.Application.Model.DataTransferObject.Frontend.Transfer;
+using ApplicationSharedKernel.Application.Model.DataTransferObject;
+using ApplicationSharedKernel.Application.Model;
+using ApplicationSharedKernel.Configuration;
+using ApplicationSharedKernel.Collections;
+using ApplicationSharedKernel.Web.AspNet.Controller;
+using ApplicationSharedKernel.Data;
+using ApplicationSharedKernel.Data.Web;
+using ApplicationSharedKernel.Data.Format.Json;
+using ApplicationSharedKernel.Data.Web.Api.Abstractions.JsonApiV1;
+using ApplicationSharedKernel.Database;
+using ApplicationSharedKernel.Application.Model.Database.MySQL;
+using ApplicationSharedKernel.Application.Model.Database.MySQL.Data;
+using ApplicationSharedKernel.Web.AspNet.Filter;
+using ApplicationSharedKernel.Formatter;
+using ApplicationSharedKernel.LocalSystem.IO.File;
+using ApplicationSharedKernel.Log;
+using ApplicationSharedKernel.Metric;
+using ApplicationSharedKernel.Metric.Influxdb;
+using ApplicationSharedKernel.MicroService;
+using ApplicationSharedKernel.Network;
+using ApplicationSharedKernel.Security;
+using ApplicationSharedKernel.Security.Encryption;
+using ApplicationSharedKernel.Threading;
+using ApplicationSharedKernel.Threading.Service;
+using ApplicationSharedKernel.Threading.Task;
+using ApplicationSharedKernel.Utility;
+using ApplicationSharedKernel.Web;
+using ApplicationSharedKernel.Web.AspNet;
+using ApplicationSharedKernel.Web.Authentification;
+using ApplicationSharedKernel.Web.Http.Api.Abstractions.JsonApiV1;
+using ApplicationSharedKernel.Web.Http;
 
-namespace WebApiFunction.Application.Model.Database.MySql.Entity
+namespace ApplicationSharedKernel.Application.Model.Database.MySql.Entity
 {
     [Serializable]
     public class AuthModel : AbstractModel
@@ -129,7 +129,7 @@ namespace WebApiFunction.Application.Model.Database.MySql.Entity
         [DatabaseColumnPropertyAttribute("logout_datetime", MySqlDbType.DateTime)]
         public DateTime LogoutTime { get; set; }
 
-        [JsonConverter(typeof(WebApiFunction.Converter.JsonConverter.JsonBoolConverter))]
+        [JsonConverter(typeof(ApplicationSharedKernel.Converter.JsonConverter.JsonBoolConverter))]
         [JsonPropertyName("is_admin")]
         public bool IsAdmin { get; set; }
 

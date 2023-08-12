@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 
-namespace WebApiFunction.Data.Format.Json
+namespace ApplicationSharedKernel.Data.Format.Json
 {
     public interface IJsonHandler
     {

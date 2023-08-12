@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 
-using WebApiFunction.Data.Format.Json;
+using ApplicationSharedKernel.Data.Format.Json;
 
 public static class Program
 {

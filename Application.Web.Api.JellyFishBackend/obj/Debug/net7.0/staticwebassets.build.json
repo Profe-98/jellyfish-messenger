@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "ts8WtJs4OQ91SiJzb842ntYg9s3T1kSRyCrAz2UKMIA=",
+  "Source": "Application.Web.Api.JellyFishBackend",
+  "BasePath": "_content/Application.Web.Api.JellyFishBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\Application.Shared.Web.Api.Shared.csproj",
+      "Version": 2,
+      "Source": "Application.Shared.Web.Api.Shared",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

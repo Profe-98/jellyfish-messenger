@@ -1,0 +1,4 @@
+#Version: 1.0
+#Start-Date: 2023-08-13 12:02:50
+#Fields: date time c-ip cs-username s-computername s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status time-taken cs-version cs-host cs(User-Agent) cs(Cookie) cs(Referer) cs(x-client-ssl-protocol) cs(x-forwarded-for)
+2023-08-13 12:02:50 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login - 200 204.5932 HTTP/1.1 jellyfish-backend01:5030 PostmanRuntime/7.32.3 - - - -

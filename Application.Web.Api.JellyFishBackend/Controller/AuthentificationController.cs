@@ -66,8 +66,9 @@ namespace Application.Web.Api.JellyFishBackend.Controller
                 new ApiErrorModel{ Code = ApiErrorModel.ERROR_CODES.HTTP_REQU_FORBIDDEN, Detail = "forbidden" }
             }, HttpStatusCode.BadRequest, "an error occurred", "authModel == null", methodInfo) : Ok(authModel);
         }
-        [AllowAnonymous()]
+
         [HttpPost("login")]
+        [AllowAnonymous()]
         public async Task<ActionResult> Login([FromBody] UserDataTransferModel authUserModel)
         {
             MethodDescriptor methodInfo = _webHostEnvironment.IsDevelopment() ? new MethodDescriptor { c = this.GetType().Name, m = MethodBase.GetCurrentMethod().Name } : null;

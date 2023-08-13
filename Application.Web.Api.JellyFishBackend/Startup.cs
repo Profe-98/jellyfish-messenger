@@ -58,9 +58,9 @@ namespace Application.Web.Api.JellyFishBackend
             services.AddWebApi(Configuration, DatabaseEntityNamespaces);
 
             var sp  = services.BuildServiceProvider();
+
             services.AddAuthentication("Base").
                 AddScheme<BasicAuthenticationOptions, AuthentificationHandler>("Base", null);
-            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationResultMiddleware>();
             services.AddAuthorization(options =>
             {
                 //User Policy: Any user with the role root
@@ -73,6 +73,7 @@ namespace Application.Web.Api.JellyFishBackend
                 options.AddPolicy("User", policy =>
                                   policy.RequireClaim(BackendAPIDefinitionsProperties.Claim.ClaimTypeUserRole, "user"));
             });
+            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationResultMiddleware>();
 #if DEBUG
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>

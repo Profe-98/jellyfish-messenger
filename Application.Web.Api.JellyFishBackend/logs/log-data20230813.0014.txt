@@ -1,0 +1,12 @@
+#Version: 1.0
+#Start-Date: 2023-08-13 12:03:36
+#Fields: date time c-ip cs-username s-computername s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status time-taken cs-version cs-host cs(User-Agent) cs(Cookie) cs(Referer) cs(x-client-ssl-protocol) cs(x-forwarded-for)
+2023-08-13 12:03:35 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 264.4211 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:38 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 56.6841 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:45 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 57.5053 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:48 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 47.1533 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:48 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 75.7373 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:49 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 108.0255 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:49 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 49.697 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:50 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 54.6984 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -
+2023-08-13 12:03:51 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /jelly-api-1/authentification/login/ - 200 62.473 HTTP/1.1 10.100.0.200:5030 PostmanRuntime/7.32.3 - - - -

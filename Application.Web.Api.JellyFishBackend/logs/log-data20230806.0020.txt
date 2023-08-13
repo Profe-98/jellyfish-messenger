@@ -1,6 +1,0 @@
-#Version: 1.0
-#Start-Date: 2023-08-05 23:42:08
-#Fields: date time c-ip cs-username s-computername s-ip s-port cs-method cs-uri-stem cs-uri-query sc-status time-taken cs-version cs-host cs(User-Agent) cs(Cookie) cs(Referer) cs(x-client-ssl-protocol) cs(x-forwarded-for)
-2023-08-05 23:42:07 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 GET /jelly-api-1/authentification/connection - 200 100.685 HTTP/1.1 10.100.0.200:5030 RestSharp/110.2.0.0 - - - -
-2023-08-05 23:42:08 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 POST /messenger/negotiate ?negotiateVersion=1 200 171.6284 HTTP/1.1 10.100.0.200:5030 Microsoft+ASP.NET+Core - - - -
-2023-08-05 23:42:28 ::ffff:10.100.0.200 - 0X00405A00-PC ::ffff:10.100.0.200 5030 GET /jelly-api-1/user/friends - 200 486.6548 HTTP/1.1 10.100.0.200:5030 RestSharp/110.2.0.0 - - - -

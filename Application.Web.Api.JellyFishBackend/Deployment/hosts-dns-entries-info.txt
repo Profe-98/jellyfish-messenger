@@ -6,6 +6,7 @@ hosts File Windows - dev sys
 127.0.0.1 rabbitmq-ampq01
 127.0.0.1 clam-av01
 127.0.0.1 jellyfish-mysql01
+127.0.0.1 api-gw01-jellyfish-backend01
 #End of section
 
 

@@ -4,6 +4,26 @@ networks:
   jelly-bridge-network:
     driver: bridge
 services:  # Definiert die Container für die Services
+  api-gateway:  # Name des Service (kann angepasst werden)
+    image: jellyfish-api-gateway:latest  # Docker Image für die ASP.NET Core App
+    hostname: api-gw01-jellyfish-backend01
+    networks:
+      - jelly-bridge-network
+    ports:
+      - "443:443"  # Portweiterleitung vom Host zum Container
+    depends_on:
+      database:
+            condition: service_started
+      redis:
+            condition: service_started
+      rabbitmq:
+            condition: service_started
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Production
+     - DOTNET_ENVIRONMENT=Production
+     - ASPNETCORE_URLS=http://+:443
+     - ASPNETCORE_SSL_PFX_PASSWORD=dsf64dsaVSDKIJUgs6465!654e46dss9484\"$64834356!$$Afvg
+     - ASPNETCORE_SSL_PFX_PATH=./ssl/domain.pfx
   web-backend:  # Name des Service (kann angepasst werden)
     image: jellyfish-backend:latest  # Docker Image für die ASP.NET Core App
     hostname: jellyfish-backend01

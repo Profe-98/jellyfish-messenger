@@ -493,142 +493,6 @@
         }
       }
     },
-    "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj",
-        "projectName": "Application.Shared.Kernel",
-        "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj",
-        "packagesPath": "C:\\Users\\Mika\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Mika\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net7.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
-          "dependencies": {
-            "Dapper": {
-              "target": "Package",
-              "version": "[2.0.123, )"
-            },
-            "InfluxDB.Client": {
-              "target": "Package",
-              "version": "[4.9.0, )"
-            },
-            "MailKit": {
-              "target": "Package",
-              "version": "[4.0.0, )"
-            },
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.AspNetCore.SignalR.Client": {
-              "target": "Package",
-              "version": "[7.0.5, )"
-            },
-            "Microsoft.AspNetCore.SpaServices.Extensions": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "Microsoft.Extensions.Caching.StackExchangeRedis": {
-              "target": "Package",
-              "version": "[7.0.2, )"
-            },
-            "MimeKit": {
-              "target": "Package",
-              "version": "[4.0.0, )"
-            },
-            "MySql.Data": {
-              "target": "Package",
-              "version": "[8.0.32, )"
-            },
-            "RabbitMQ.Client": {
-              "target": "Package",
-              "version": "[6.4.0, )"
-            },
-            "Serilog": {
-              "target": "Package",
-              "version": "[2.12.0, )"
-            },
-            "Swashbuckle.AspNetCore.Swagger": {
-              "target": "Package",
-              "version": "[6.5.0, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerGen": {
-              "target": "Package",
-              "version": "[6.5.0, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerUI": {
-              "target": "Package",
-              "version": "[6.5.0, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[6.25.1, )"
-            },
-            "System.Net.Http": {
-              "target": "Package",
-              "version": "[4.3.4, )"
-            },
-            "nClam": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "C:\\Users\\Mika\\Desktop\\Projekte\\jellyfish-messenger\\Application.Mobile.Jellyfish\\Application.Mobile.Jellyfish.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -662,9 +526,6 @@
             "projectReferences": {
               "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
                 "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
-              },
-              "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj": {
-                "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj"
               }
             }
           },
@@ -673,9 +534,6 @@
             "projectReferences": {
               "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj": {
                 "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\Camera.MAUI\\Camera.MAUI\\Camera.MAUI.csproj"
-              },
-              "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj": {
-                "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj"
               }
             }
           }
@@ -887,6 +745,109 @@
         },
         "net7.0-ios16.1": {
           "targetAlias": "net7.0-ios",
+          "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
+            "CommunityToolkit.Maui.Markup": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "CommunityToolkit.Maui.MediaElement": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.1.0, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[7.0.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[7.0.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.Maui.Controls.Maps": {
+              "target": "Package",
+              "version": "[7.0.81, )"
+            },
+            "Microsoft.Maui.Graphics": {
+              "target": "Package",
+              "version": "[7.0.81, )",
+              "autoReferenced": true
+            },
+            "Microsoft.Maui.Maps": {
+              "target": "Package",
+              "version": "[7.0.81, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[110.2.0, )"
+            },
+            "SQLiteNetExtensions": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "SQLiteNetExtensions.Async": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "SQLitePCLRaw.bundle_green": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "SQLitePCLRaw.core": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "SQLitePCLRaw.provider.dynamic_cdecl": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "SQLitePCLRaw.provider.sqlite3": {
+              "target": "Package",
+              "version": "[2.1.4, )"
+            },
+            "SkiaSharp.Extended.UI.Maui": {
+              "target": "Package",
+              "version": "[2.0.0-preview.61, )"
+            },
+            "Xamarin.Essentials": {
+              "target": "Package",
+              "version": "[1.7.5, )"
+            },
+            "sqlite-net-base": {
+              "target": "Package",
+              "version": "[1.8.116, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.8.116, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -898,6 +859,23 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "frameworkReferences": {
+            "Microsoft.iOS": {
+              "privateAssets": "all"
+            },
+            "Microsoft.Maui.Controls": {
+              "privateAssets": "all"
+            },
+            "Microsoft.Maui.Core": {
+              "privateAssets": "all"
+            },
+            "Microsoft.Maui.Essentials": {
+              "privateAssets": "all"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       },

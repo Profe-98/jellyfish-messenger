@@ -214,7 +214,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Camera.MAUI\Camera.MAUI\Camera.MAUI.csproj" />
-    <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiFunction\Application.Shared.Kernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Application.Shared.Kernel">
+      <HintPath>..\..\generic-aspnet-webapi\Application.Shared.Kernel\bin\Debug\net7.0\Application.Shared.Kernel.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

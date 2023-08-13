@@ -16,4 +16,10 @@
   <ImportGroup Condition=" '$(TargetFramework)' == 'net7.0-android33.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)xamarin.build.download\0.11.3\buildTransitive\Xamarin.Build.Download.props" Condition="Exists('$(NuGetPackageRoot)xamarin.build.download\0.11.3\buildTransitive\Xamarin.Build.Download.props')" />
   </ImportGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0-android33.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\Mika\.nuget\packages\newtonsoft.json\9.0.1</PkgNewtonsoft_Json>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0-ios' AND '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\Mika\.nuget\packages\newtonsoft.json\9.0.1</PkgNewtonsoft_Json>
+  </PropertyGroup>
 </Project>

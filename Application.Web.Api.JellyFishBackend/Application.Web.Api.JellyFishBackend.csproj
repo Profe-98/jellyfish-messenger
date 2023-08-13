@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiApplicationServiceV2\Application.Shared.Web.Api.Shared.csproj" />
-    <ProjectReference Include="..\..\generic-aspnet-webapi\WebApiFunction\Application.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\generic-aspnet-webapi\Application.Shared.Kernel\Application.Shared.Kernel.csproj" />
+    <ProjectReference Include="..\..\generic-aspnet-webapi\Application.Shared.Web.Api.Shared\Application.Shared.Web.Api.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

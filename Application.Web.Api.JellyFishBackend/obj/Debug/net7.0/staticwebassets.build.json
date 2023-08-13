@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "ts8WtJs4OQ91SiJzb842ntYg9s3T1kSRyCrAz2UKMIA=",
+  "Hash": "f6A2/LsL2g/DBC8h9s6TjofmA4lJcdhF2DqQGldCEas=",
   "Source": "Application.Web.Api.JellyFishBackend",
   "BasePath": "_content/Application.Web.Api.JellyFishBackend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\Application.Shared.Web.Api.Shared.csproj",
+      "Identity": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\Application.Shared.Web.Api.Shared\\Application.Shared.Web.Api.Shared.csproj",
       "Version": 2,
       "Source": "Application.Shared.Web.Api.Shared",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",

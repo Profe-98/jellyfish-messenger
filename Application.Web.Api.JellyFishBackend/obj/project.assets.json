@@ -7853,13 +7853,13 @@
     },
     "Application.Shared.Kernel/1.0.0": {
       "type": "project",
-      "path": "../../generic-aspnet-webapi/WebApiFunction/Application.Shared.Kernel.csproj",
-      "msbuildProject": "../../generic-aspnet-webapi/WebApiFunction/Application.Shared.Kernel.csproj"
+      "path": "../../generic-aspnet-webapi/Application.Shared.Kernel/Application.Shared.Kernel.csproj",
+      "msbuildProject": "../../generic-aspnet-webapi/Application.Shared.Kernel/Application.Shared.Kernel.csproj"
     },
     "Application.Shared.Web.Api.Shared/1.0.0": {
       "type": "project",
-      "path": "../../generic-aspnet-webapi/WebApiApplicationServiceV2/Application.Shared.Web.Api.Shared.csproj",
-      "msbuildProject": "../../generic-aspnet-webapi/WebApiApplicationServiceV2/Application.Shared.Web.Api.Shared.csproj"
+      "path": "../../generic-aspnet-webapi/Application.Shared.Web.Api.Shared/Application.Shared.Web.Api.Shared.csproj",
+      "msbuildProject": "../../generic-aspnet-webapi/Application.Shared.Web.Api.Shared/Application.Shared.Web.Api.Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7903,11 +7903,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\Application.Shared.Web.Api.Shared.csproj": {
-              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiApplicationServiceV2\\Application.Shared.Web.Api.Shared.csproj"
+            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\Application.Shared.Kernel\\Application.Shared.Kernel.csproj": {
+              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\Application.Shared.Kernel\\Application.Shared.Kernel.csproj"
             },
-            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj": {
-              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\WebApiFunction\\Application.Shared.Kernel.csproj"
+            "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\Application.Shared.Web.Api.Shared\\Application.Shared.Web.Api.Shared.csproj": {
+              "projectPath": "C:\\Users\\Mika\\Desktop\\Projekte\\generic-aspnet-webapi\\Application.Shared.Web.Api.Shared\\Application.Shared.Web.Api.Shared.csproj"
             }
           }
         }

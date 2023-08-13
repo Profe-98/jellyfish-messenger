@@ -26,7 +26,7 @@ namespace Application.Web.Api.JellyFishBackend
     public class Startup : WebApiStartup
     {
         readonly string AllowOrigin = "api-gateway";
-        public static string[] DatabaseEntityNamespaces { get; } = new string[] { "Application.Shared.Kernel.Application.Model.Database.MySQL.Schema.Jellyfish.Table",
+        public override string[] DatabaseEntityNamespaces { get; } = new string[] { "Application.Shared.Kernel.Application.Model.Database.MySQL.Schema.Jellyfish.Table",
                             "Application.Shared.Kernel.Application.Model.Database.MySQL.Schema.ApiGateway.View",
                             "Application.Shared.Kernel.Application.Model.Database.MySQL.Schema.ApiGateway.Table",
                             "Application.Shared.Kernel.Application.Model.DataTransferObject.ConcreteImplementation.Jellyfish" };

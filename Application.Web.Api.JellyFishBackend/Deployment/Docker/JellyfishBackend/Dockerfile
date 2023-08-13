@@ -7,7 +7,7 @@ WORKDIR /src
 
 # Kopiere das Projekt-Datei und den Rest der App in den Container
 COPY ["jellyfish-messenger/Application.Web.Api.JellyFishBackend/.","jellyfish-messenger/Application.Web.Api.JellyFishBackend/"]
-COPY ["generic-aspnet-webapi/WebApiApplicationServiceV2/.","generic-aspnet-webapi/WebApiApplicationServiceV2/"]
+COPY ["generic-aspnet-webapi/Application.Shared.Web.Api.Shared/.","generic-aspnet-webapi/Application.Shared.Web.Api.Shared/"]
 COPY ["generic-aspnet-webapi/Application.Shared.Kernel/.","generic-aspnet-webapi/Application.Shared.Kernel/"]
 
 # Build der ASP.NET Core App
